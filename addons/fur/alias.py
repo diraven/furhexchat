@@ -68,7 +68,8 @@ def _handler(word: typing.List[str], word_eol: typing.List[str],
         if isinstance(message, dict):
             message = message.get(language.value.id) or message.get('')
         cmd_prefix = platform.value.prefix
-        cmd_postfix = f'-{language.value.postfix}' if language.value.postfix else ''
+        cmd_postfix = f'-{language.value.postfix}' if \
+            language.value.postfix else ''
         cmd = f'!{cmd_prefix}{command}{cmd_postfix}'
         send_message(context, message.format(
             cmd=cmd,

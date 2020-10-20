@@ -74,8 +74,11 @@ _active_case_id = ''
 
 
 # INIT
+# noinspection PyUnusedLocal
 @hook_command(name='c', description='/c <message_id>')
-def case_message_cmd(context: 'hexchat.Context', word_eol: typing.List[str], **kwargs):
+def case_message_cmd(
+        context: 'hexchat.Context', word_eol: typing.List[str], **kwargs,
+):
     try:
         args = word_eol[1]
         try:
@@ -89,6 +92,7 @@ def case_message_cmd(context: 'hexchat.Context', word_eol: typing.List[str], **k
     return hexchat.EAT_ALL
 
 
+# noinspection PyUnusedLocal
 @hook_print(event_name='Channel Message')
 def process_messages(author, message, **kwargs):
     active_case_id = get_active_case_id()
