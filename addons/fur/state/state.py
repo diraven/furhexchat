@@ -36,7 +36,7 @@ class State:
         if nick:
             try:
                 return next(
-                    c for c in self.cases if hexchat.nickcmp(c.nick, nick),
+                    c for c in self.cases if utils.nicks_match(c.nick, nick),
                 )
             except StopIteration:
                 pass

@@ -231,6 +231,10 @@ def send_message(context: 'hexchat.Context', message: str):
     context.command(f'MSG {context.get_info("channel")} {message}')
 
 
+def nicks_match(n1, n2) -> bool:
+    return hexchat.nickcmp(n1, n2, ) == 0
+
+
 # noinspection PyShadowingBuiltins
 def print(what: typing.Any, color: typing.Optional[Color] = Color.DEFAULT):
     hexchat.prnt('\n'.join(
@@ -257,14 +261,12 @@ def hook_print(
                 return
 
             # Process messages from given author only.
-            if len(word) > 0 and author and not hexchat.nickcmp(
-                word[0], author,
-            ):
-                return hexchat.EAT_NONE
+            if len(word) > 0 and author and not nicks_match(word[0], author):
+                return
 
             # Process messages starting from given prefix only.
             if prefix and len(word) > 1 and not word[1].startswith(prefix):
-                return hexchat.EAT_NONE
+                return
 
             # Run the handler itself.
             return func(
