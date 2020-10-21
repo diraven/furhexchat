@@ -98,8 +98,8 @@ class Case:
     def set_prop(self, name: str, value: any):
         original_value = getattr(self, name)
         if value is not None and value != original_value:
-            setattr(self, name, value)
             utils.print(
                 f'{utils.Color.WARNING.value}{self}.{name}: '
                 f'"{original_value}" -> "{value}"'
             )
+            setattr(self, name, value)
