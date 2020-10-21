@@ -117,22 +117,25 @@ _list_item_rexp = re.compile(
     match_message=re.compile(r'\d+ cases found')
 )
 def mecha_list(message: str, **kwargs):
-    state.clear()
-
     items = message.split(', ')
     if len(items) < 2:
         return
     items = items[1:]
+    nums = []
     for item in items:
         matches: typing.Dict = _list_item_rexp.match(item).groupdict()
+        nums.append(int(matches.get('num')))
         case = Case(
             cmdr=matches.get('cmdr'),
             num=int(matches.get('num')),
             platform_name=matches.get('platform'),
-            is_cr='is_cr' in matches,
+            is_cr='cr' in matches,
             is_active=not matches.get('inactive'),
         )
         state.put_case(case)
+    for case in state.cases[:]:
+        if case.num not in nums:
+            state.delete_case(case)
 
 
 @utils.hook_print(
