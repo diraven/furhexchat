@@ -23,7 +23,7 @@ class Case:
         self,
         cmdr: str,
 
-        is_active: typing.Optional[bool] = False,
+        is_active: typing.Optional[bool] = True,
         is_cr: typing.Optional[bool] = False,
 
         landmark: typing.Optional[str] = '',
