@@ -10,7 +10,9 @@ class State:
 
     def __str__(self) -> str:
         if self.cases:
-            return '\n'.join(case.format() for case in self.cases)
+            return '\n'.join(
+                case.format() for case in self.cases,
+            )
         return 'No cases.'
 
     def get_free_case_num(self):
@@ -19,6 +21,11 @@ class State:
     def clear(self):
         utils.print('Cleared all cases')
         self.cases = []
+
+    def sort(self):
+        self.cases.sort(
+            key=lambda x: (not x.is_active, x.num),
+        )
 
     def find_case(
         self,
@@ -59,6 +66,7 @@ class State:
                 case.num = self.get_free_case_num()
             self.cases.append(case)
             utils.print(f'New case: {case.format()}')
+        self.sort()
 
     def delete_case(self, num: int):
         stored_case = self.find_case(case_num=num)
@@ -67,6 +75,7 @@ class State:
             self.cases.remove(stored_case)
             return
         utils.print(f'Case not found: #{num}', utils.Color.DANGER)
+        self.sort()
 
 
 state = State()
