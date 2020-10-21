@@ -2,9 +2,8 @@ import collections
 import enum
 import typing
 
-import winsound
-
 import hexchat
+import winsound
 
 LanguageData = collections.namedtuple('LanguageData', ['id', 'postfix'])
 
@@ -243,10 +242,13 @@ def print(what: typing.Any, color: typing.Optional[Color] = Color.DEFAULT):
     ))
 
 
+# %C18%H<%H$4$3$1%H>%H%O$t$2
+# %C18%H<%H$3$1%H>%H%O$t$2
+
 def hook_print(
     *,
-    author: typing.Optional[str] = None,
-    prefix: typing.Optional[str] = None,
+    match_author: typing.Optional[typing.Union[str, typing.Pattern]] = None,
+    match_message: typing.Optional[typing.Union[str, typing.Pattern]] = None,
     events: typing.Iterable[Event] = (
         Event.CHANNEL_MESSAGE,
         Event.CHANNEL_MSG_HILIGHT,
@@ -260,13 +262,25 @@ def hook_print(
             if not word:
                 return
 
-            # Process messages from given author only.
-            if len(word) > 0 and author and not nicks_match(word[0], author):
-                return
+            if match_author and word:
+                if isinstance(match_author, str):
+                    if not nicks_match(word[0], match_author):
+                        return
+                else:
+                    if not match_author.match(word[0]):
+                        return
 
-            # Process messages starting from given prefix only.
-            if prefix and len(word) > 1 and not word[1].startswith(prefix):
-                return
+            # Match message.
+            matches = None
+            if match_message and len(word) > 1:
+                if isinstance(match_message, str):
+                    if not word[1].startswith(match_message):
+                        return
+                else:
+                    matches = match_message.match(word[1])
+                    if not matches:
+                        return
+                    matches = matches.groupdict()
 
             # Run the handler itself.
             return func(
@@ -275,6 +289,7 @@ def hook_print(
                     word[1].strip(),
                 ) if len(word) > 1 else None,
                 mode=word[2] if len(word) > 2 else None,
+                matches=matches,
                 data=userdata,
             )
 

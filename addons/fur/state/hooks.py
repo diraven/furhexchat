@@ -1,6 +1,7 @@
 """
 print:
-def hook(author: str, message: str, mode: str, data: typing.Any):
+def hook(author: str, message: str, matches: typing.Dict[str, str] mode:
+str, data: typing.Any):
     pass
 
 command:
@@ -15,22 +16,22 @@ from .case import Case
 from .state import state
 from .. import utils
 
-_ratmama_rexp = re.compile(
-    r'Incoming Client: (?P<cmdr>.+) - '
-    r'System: (?P<system>.+) - '
-    r'Platform: ''(?P<platform>.+) - '
-    'O2: (' r'?P<o2>.+) - '
-    r'Language: (?P<language>.+) \((?P<language_code>.*)\)',
-    flags=re.IGNORECASE,
-)
-
 
 @utils.hook_print(
-    # author='RatMama[BOT]',
-    prefix='Incoming Client',
+    match_author='RatMama[BOT]',
+    match_message=re.compile(
+        r'Incoming Client: (?P<cmdr>.+) - '
+        r'System: (?P<system>.+) - '
+        r'Platform: ''(?P<platform>.+) - '
+        'O2: (' r'?P<o2>.+) - '
+        r'Language: (?P<language>.+) \((?P<language_code>.*)\)',
+        flags=re.IGNORECASE,
+    ),
 )
-def mama_announcement(message: str, **kwargs):
-    matches: typing.Dict = _ratmama_rexp.match(message).groupdict()
+def mama_announcement(
+    matches: typing.Dict[str, str],
+    **kwargs,
+):
     case = Case(
         cmdr=matches.get('cmdr'),
         system=matches.get('system'),
@@ -41,25 +42,24 @@ def mama_announcement(message: str, **kwargs):
     state.put_case(case)
 
 
-_mecha_rexp = re.compile(
-    r'RATSIGNAL - '
-    r'CMDR (?P<cmdr>.+) - '
-    r'Reported System: (?P<system>.+) \((?P<landmark>.+)\) - '
-    r'Platform: (?P<platform>.+) - '
-    r'O2: (?P<o2>.+) '
-    r'Language: (?P<language>.+) \((?P<language_code>.+)\) '
-    r'\(Case #(?P<num>\d+)\) '
-    r'\((?P<platform_signal>.+)\)',
-    flags=re.IGNORECASE,
-)
-
-
 @utils.hook_print(
-    # author='MechaSqueak[BOT]',
-    prefix='RATSIGNAL',
+    match_author='MechaSqueak[BOT]',
+    match_message=re.compile(
+        r'RATSIGNAL - '
+        r'CMDR (?P<cmdr>.+) - '
+        r'Reported System: (?P<system>.+) \((?P<landmark>.+)\) - '
+        r'Platform: (?P<platform>.+) - '
+        r'O2: (?P<o2>.+) '
+        r'Language: (?P<language>.+) \((?P<language_code>.+)\) '
+        r'\(Case #(?P<num>\d+)\) '
+        r'\((?P<platform_signal>.+)\)',
+        flags=re.IGNORECASE,
+    ),
 )
-def mecha_announcement(message: str, **kwargs):
-    matches: typing.Dict = _mecha_rexp.match(message).groupdict()
+def mecha_announcement(
+    matches: typing.Dict[str, str],
+    **kwargs,
+):
     case = Case(
         cmdr=matches.get('cmdr'),
         system=matches.get('system'),
@@ -83,12 +83,10 @@ _list_item_rexp = re.compile(
 
 
 @utils.hook_print(
-    # author='MechaSqueak[BOT]',
+    match_author='MechaSqueak[BOT]',
+    match_message=re.compile(r'\d+ cases found')
 )
 def mecha_list(message: str, **kwargs):
-    if not ' '.join(message.split(' ')[1:]).startswith('cases found'):
-        return
-
     state.clear()
 
     items = message.split(', ')
@@ -114,8 +112,8 @@ _mecha_close = re.compile(
 
 
 @utils.hook_print(
-    prefix='Successfully closed case'
-    # author='MechaSqueak[BOT]',
+    match_author='MechaSqueak[BOT]',
+    match_message='Successfully closed case'
 )
 def mecha_close(message: str, **kwargs):
     matches: typing.Dict = _mecha_close.match(message).groupdict()
