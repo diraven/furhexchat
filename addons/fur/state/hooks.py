@@ -99,7 +99,7 @@ def mecha_list(message: str, **kwargs):
             cmdr=matches.get('cmdr'),
             num=int(matches.get('num')),
             platform_name=matches.get('platform'),
-            is_cr=matches.get('is_cr'),
+            is_cr='is_cr' in matches,
             is_active=not matches.get('inactive'),
         )
         state.put_case(case)
@@ -115,6 +115,25 @@ def delete_case(
     state.delete_case(num=int(matches['num']))
 
 
-@utils.hook_command(names=('state', 'status'))
-def hook(**kwargs):
-    utils.print(state)
+@utils.hook_print(
+    match_message=re.compile(r'^!cr (?P<num>\d+)')
+)
+def cr_case(
+    matches: typing.Dict[str, str],
+    **kwargs,
+):
+    case = state.find_case(num=int(matches['num']))
+    if case:
+        case.set_prop('is_cr', not case.is_cr)
+
+
+@utils.hook_print(
+    match_message=re.compile(r'^!active (?P<num>\d+)')
+)
+def activate_case(
+    matches: typing.Dict[str, str],
+    **kwargs,
+):
+    case = state.find_case(num=int(matches['num']))
+    if case:
+        case.set_prop('is_active', not case.is_active)

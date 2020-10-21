@@ -83,7 +83,7 @@ class Case:
                f'{utils.Color.DEFAULT.value})'
 
     def update(self, case: 'Case'):
-        for prop in (
+        for name in (
             'cmdr',
             'is_cr',
             'landmark',
@@ -93,11 +93,13 @@ class Case:
             'num',
             'system',
         ):
-            value = getattr(case, prop)
-            original_value = getattr(self, prop)
-            if value is not None and value != original_value:
-                setattr(self, prop, value)
-                utils.print(
-                    f'{utils.Color.WARNING.value}{self}.{prop}: '
-                    f'"{original_value}" -> "{value}"'
-                )
+            self.set_prop(name, getattr(case, name))
+
+    def set_prop(self, name: str, value: any):
+        original_value = getattr(self, name)
+        if value is not None and value != original_value:
+            setattr(self, name, value)
+            utils.print(
+                f'{utils.Color.WARNING.value}{self}.{name}: '
+                f'"{original_value}" -> "{value}"'
+            )

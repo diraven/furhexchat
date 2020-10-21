@@ -11,7 +11,13 @@ class State:
     def __str__(self) -> str:
         if self.cases:
             return 'Current status:\n' + '\n'.join(
-                case.format() for case in self.cases,
+                case.format() for case in sorted(
+                    self.cases, key=lambda x: (
+                        not x.is_active,
+                        x.is_cr,
+                        x.num,
+                    ),
+                ),
             )
         return 'No cases.'
 
@@ -22,22 +28,17 @@ class State:
         utils.print('Cleared all cases')
         self.cases = []
 
-    def sort(self):
-        self.cases.sort(
-            key=lambda x: (not x.is_active, x.num),
-        )
-
     def find_case(
         self,
         *,
-        case_num: typing.Optional[int] = None,
+        num: typing.Optional[int] = None,
         nick: typing.Optional[str] = None,
         cmdr: typing.Optional[str] = None,
     ) -> typing.Optional[Case]:
 
-        if case_num is not None:
+        if num is not None:
             try:
-                return next(c for c in self.cases if c.num == case_num)
+                return next(c for c in self.cases if c.num == num)
             except StopIteration:
                 pass
         if nick:
@@ -52,10 +53,13 @@ class State:
                 return next(c for c in self.cases if c.cmdr == cmdr)
             except StopIteration:
                 pass
+        utils.print(
+            f'Case not found: #{num} {cmdr} {nick}', utils.Color.DANGER,
+        )
 
     def put_case(self, case: Case):
         stored_case = self.find_case(
-            case_num=case.num,
+            num=case.num,
             nick=case.nick,
             cmdr=case.cmdr,
         )
@@ -66,16 +70,13 @@ class State:
                 case.num = self.get_free_case_num()
             self.cases.append(case)
             utils.print(f'New case: {case.format()}')
-        self.sort()
 
     def delete_case(self, num: int):
-        stored_case = self.find_case(case_num=num)
+        stored_case = self.find_case(num=num)
         if stored_case:
             utils.print(f'Deleted case: {stored_case}')
             self.cases.remove(stored_case)
             return
-        utils.print(f'Case not found: #{num}', utils.Color.DANGER)
-        self.sort()
 
 
 state = State()
