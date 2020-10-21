@@ -26,7 +26,7 @@ _ratmama_rexp = re.compile(
 
 
 @utils.hook_print(
-    author='RatMama[BOT]',
+    # author='RatMama[BOT]',
     prefix='Incoming Client',
 )
 def mama_announcement(message: str, **kwargs):
@@ -55,7 +55,7 @@ _mecha_rexp = re.compile(
 
 
 @utils.hook_print(
-    author='MechaSqueak[BOT]',
+    # author='MechaSqueak[BOT]',
     prefix='RATSIGNAL',
 )
 def mecha_announcement(message: str, **kwargs):
@@ -74,16 +74,16 @@ def mecha_announcement(message: str, **kwargs):
 
 _list_item_rexp = re.compile(
     r'(\[(?P<num>\d+)] '
-    r'(?P<cmdr>.*) '
-    r'\((?P<platform>(?:pc|xbox|playstation))\)) '
-    r'(?:\((?P<cr>CR)\))? '
+    r'(?P<cmdr>[^)]+) '
+    r'\((?P<platform>[^)]+)\)) ?'
+    r'(?:\((?P<cr>CR)\))? ?'
     r'(?:\((?P<inactive>Inactive)\))?',
     flags=re.IGNORECASE,
 )
 
 
 @utils.hook_print(
-    author='MechaSqueak[BOT]',
+    # author='MechaSqueak[BOT]',
 )
 def mecha_list(message: str, **kwargs):
     if not ' '.join(message.split(' ')[1:]).startswith('cases found'):
@@ -96,6 +96,7 @@ def mecha_list(message: str, **kwargs):
         return
     items = items[1:]
     for item in items:
+        print(f'"{item}"')
         matches: typing.Dict = _list_item_rexp.match(item).groupdict()
         case = Case(
             cmdr=matches.get('cmdr'),
