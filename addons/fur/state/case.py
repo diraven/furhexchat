@@ -78,8 +78,7 @@ class Case:
         if self.platform == utils.Platform.XBOX:
             color = utils.Color.GREEN
         return f'({color.value}{self.platform.name}' \
-               f'{utils.Color.DEFAULT.value})' \
-            if not self.is_active else None
+               f'{utils.Color.DEFAULT.value})'
 
     def update(self, case: 'Case'):
         for prop in (

@@ -26,7 +26,7 @@ _ratmama_rexp = re.compile(
 
 
 @utils.hook_print(
-    author=None,
+    author='RatMama[BOT]',
     prefix='Incoming Client',
 )
 def mama_announcement(message: str, **kwargs):
@@ -55,7 +55,7 @@ _mecha_rexp = re.compile(
 
 
 @utils.hook_print(
-    author=None,
+    author='MechaSqueak[BOT]',
     prefix='RATSIGNAL',
 )
 def mecha_announcement(message: str, **kwargs):
@@ -83,9 +83,14 @@ _list_item_rexp = re.compile(
 
 
 @utils.hook_print(
-    author=None,
+    author='MechaSqueak[BOT]',
 )
 def mecha_list(message: str, **kwargs):
+    if not ' '.join(message.split(' ')[1:]).startswith('cases found'):
+        return
+
+    state.clear()
+
     items = message.split(', ')
     if len(items) < 2:
         return

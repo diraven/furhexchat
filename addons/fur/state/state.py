@@ -17,6 +17,9 @@ class State:
     def get_free_case_num(self):
         return max(max([case.num for case in self.cases] + [0]), 100) + 1
 
+    def clear(self):
+        self.cases = []
+
     def find_case(
         self,
         *,
@@ -55,7 +58,7 @@ class State:
             if case.num is None:
                 case.num = self.get_free_case_num()
             self.cases.append(case)
-            utils.print(f'New case: {case}')
+            utils.print(f'New case: {case.format()}')
 
 
 state = State()
