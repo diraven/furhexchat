@@ -1,6 +1,5 @@
 import typing
 
-import hexchat
 from .case import Case
 from .. import utils
 
@@ -59,6 +58,14 @@ class State:
                 case.num = self.get_free_case_num()
             self.cases.append(case)
             utils.print(f'New case: {case.format()}')
+
+    def delete_case(self, num: int):
+        stored_case = self.find_case(case_num=num)
+        if stored_case:
+            utils.print(f'Cleared case: {stored_case}')
+            self.cases.remove(stored_case)
+            return
+        utils.print(f'Case not found: #{num}', utils.Color.DANGER)
 
 
 state = State()

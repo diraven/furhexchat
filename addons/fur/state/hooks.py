@@ -96,7 +96,6 @@ def mecha_list(message: str, **kwargs):
         return
     items = items[1:]
     for item in items:
-        print(f'"{item}"')
         matches: typing.Dict = _list_item_rexp.match(item).groupdict()
         case = Case(
             cmdr=matches.get('cmdr'),
@@ -108,6 +107,21 @@ def mecha_list(message: str, **kwargs):
         state.put_case(case)
 
 
-@utils.hook_command(names=('state',))
+_mecha_close = re.compile(
+    r'Successfully closed case #(?P<num>\d+).*',
+    flags=re.IGNORECASE,
+)
+
+
+@utils.hook_print(
+    prefix='Successfully closed case'
+    # author='MechaSqueak[BOT]',
+)
+def mecha_close(message: str, **kwargs):
+    matches: typing.Dict = _mecha_close.match(message).groupdict()
+    state.delete_case(num=int(matches['num']))
+
+
+@utils.hook_command(names=('state', 'status'))
 def hook(**kwargs):
     utils.print(state)
