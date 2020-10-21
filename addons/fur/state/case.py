@@ -40,6 +40,8 @@ class Case:
 
         self.landmark = utils.clean(landmark)
         self.language = language
+        if not nick:
+            nick = self.cmdr.replace(' ', '_')
         self.nick = utils.clean(nick)
         self.num = num
         self.platform = _platforms[platform_name.lower()]
@@ -53,7 +55,7 @@ class Case:
             color = utils.Color.LIGHT_GRAY
 
         return f'{color.value}' \
-               f'[#{self.num}:{self.cmdr}]' \
+               f'[ #{self.num} {self.nick or self.cmdr} ]' \
                f'{utils.Color.DEFAULT.value}'
 
     def format(self) -> str:

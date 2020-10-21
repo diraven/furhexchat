@@ -17,6 +17,7 @@ class State:
         return max(max([case.num for case in self.cases] + [0]), 100) + 1
 
     def clear(self):
+        utils.print('Cleared all cases')
         self.cases = []
 
     def find_case(
