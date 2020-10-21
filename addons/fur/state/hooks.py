@@ -105,18 +105,13 @@ def mecha_list(message: str, **kwargs):
         state.put_case(case)
 
 
-_mecha_close = re.compile(
-    r'Successfully closed case #(?P<num>\d+).*',
-    flags=re.IGNORECASE,
-)
-
-
 @utils.hook_print(
-    match_author='MechaSqueak[BOT]',
-    match_message='Successfully closed case'
+    match_message=re.compile(r'^!(?:close|clear|md) (?P<num>\d+)')
 )
-def mecha_close(message: str, **kwargs):
-    matches: typing.Dict = _mecha_close.match(message).groupdict()
+def delete_case(
+    matches: typing.Dict[str, str],
+    **kwargs,
+):
     state.delete_case(num=int(matches['num']))
 
 

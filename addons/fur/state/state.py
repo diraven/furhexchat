@@ -35,7 +35,7 @@ class State:
         cmdr: typing.Optional[str] = None,
     ) -> typing.Optional[Case]:
 
-        if case_num:
+        if case_num is not None:
             try:
                 return next(c for c in self.cases if c.num == case_num)
             except StopIteration:
@@ -71,7 +71,7 @@ class State:
     def delete_case(self, num: int):
         stored_case = self.find_case(case_num=num)
         if stored_case:
-            utils.print(f'Cleared case: {stored_case}')
+            utils.print(f'Deleted case: {stored_case}')
             self.cases.remove(stored_case)
             return
         utils.print(f'Case not found: #{num}', utils.Color.DANGER)
