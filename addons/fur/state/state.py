@@ -10,7 +10,7 @@ class State:
 
     def __str__(self) -> str:
         if self.cases:
-            return '\n'.join(
+            return 'Current status:\n' + '\n'.join(
                 case.format() for case in self.cases,
             )
         return 'No cases.'
