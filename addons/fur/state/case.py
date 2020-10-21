@@ -44,7 +44,7 @@ class Case:
             nick = self.cmdr.replace(' ', '_')
         self.nick = utils.clean(nick)
         self.num = num
-        self.platform = _platforms[platform_name.lower()]
+        self.platform = _platforms[utils.clean(platform_name).lower()]
         self.system = utils.clean(system)
 
     def __str__(self) -> str:
