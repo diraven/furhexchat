@@ -17,6 +17,36 @@ from .state import state
 from .. import utils
 
 
+# context
+#
+# The context object returned by the functions listed above has these methods:
+#
+# context.set()
+#
+# Changes the current context to be the one represented by this context object.
+#
+# context.prnt(string)
+#
+# Does the same as the prnt() function but in the given context.
+#
+# context.emit_print(event_name, *args)
+#
+# Does the same as the emit_print() function but in the given context.
+#
+# context.command(string)
+#
+# Does the same as the command() function but in the given context
+#
+# context.get_info(type)
+#
+# Does the same as the get_info() function but in the given context.
+#
+# context.get_list(type)
+#
+# Does the same as the get_list() function but in the given context.
+#
+
+
 @utils.hook_print(
     match_author='RatMama[BOT]',
     match_message=re.compile(

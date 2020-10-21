@@ -38,7 +38,7 @@ def _handler(word: typing.List[str], word_eol: typing.List[str],
         cmd_postfix = f'-{language.value.postfix}' if \
             language.value.postfix else ''
         cmd = f'!{cmd_prefix}{command}{cmd_postfix}'
-        utils.send_message(context, message.format(
+        utils.reply(message.format(
             cmd=cmd,
             word=word,
             word_eol=word_eol,

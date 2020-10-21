@@ -226,8 +226,14 @@ def beep():
     winsound.MessageBeep()
 
 
-def send_message(context: 'hexchat.Context', message: str):
-    context.command(f'MSG {context.get_info("channel")} {message}')
+def reply(message: str):
+    context = hexchat.get_context()
+    send_message(context.get_info("channel"), message)
+
+
+def send_message(target, message: str):
+    context = hexchat.get_context()
+    context.command(f'MSG {target} {message}')
 
 
 def nicks_match(n1, n2) -> bool:
