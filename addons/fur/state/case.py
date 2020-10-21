@@ -23,29 +23,29 @@ class Case:
         self,
         cmdr: str,
 
-        is_active: typing.Optional[bool] = True,
-        is_cr: typing.Optional[bool] = False,
+        is_active: typing.Optional[bool] = None,
+        is_cr: typing.Optional[bool] = None,
 
-        landmark: typing.Optional[str] = '',
-        language: typing.Optional[str] = '',
-        nick: typing.Optional[str] = '',
+        landmark: typing.Optional[str] = None,
+        language: typing.Optional[str] = None,
+        nick: typing.Optional[str] = None,
         num: typing.Optional[int] = None,
-        platform_name: typing.Optional[str] = '',
-        system: typing.Optional[str] = '',
+        platform_name: typing.Optional[str] = None,
+        system: typing.Optional[str] = None,
     ):
         self.cmdr = utils.clean(cmdr)
 
-        self.is_active = is_active
-        self.is_cr = is_cr
+        self.is_active = is_active or True
+        self.is_cr = is_cr or False
 
-        self.landmark = utils.clean(landmark)
-        self.language = language
+        self.landmark = utils.clean(landmark or '')
+        self.language = language or ''
         if not nick:
             nick = self.cmdr.replace(' ', '_')
-        self.nick = utils.clean(nick)
+        self.nick = utils.clean(nick or '')
         self.num = num
-        self.platform = _platforms[utils.clean(platform_name).lower()]
-        self.system = utils.clean(system)
+        self.platform = _platforms[utils.clean(platform_name or '').lower()]
+        self.system = utils.clean(system or '')
 
     def __str__(self) -> str:
         color = utils.Color.WARNING

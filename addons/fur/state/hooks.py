@@ -129,7 +129,7 @@ def mecha_list(message: str, **kwargs):
             cmdr=matches.get('cmdr'),
             num=int(matches.get('num')),
             platform_name=matches.get('platform'),
-            is_cr='cr' in matches,
+            is_cr=matches.get('cr', False),
             is_active=not matches.get('inactive'),
         )
         state.put_case(case)
