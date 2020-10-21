@@ -25,12 +25,11 @@ def _handler(word: typing.List[str], word_eol: typing.List[str],
 
     if len(word) < len(arguments) + 1:
         utils.print(
-            f'{utils.Color.DANGER.value}{alias} '
+            f'{utils.Color.ERROR.value}{alias} '
             f'{" ".join(a.upper() for a in arguments)}',
         )
         return hexchat.EAT_ALL
 
-    context = hexchat.get_context()
     for message in messages:
         if isinstance(message, dict):
             message = message.get(language.value.id) or message.get('')

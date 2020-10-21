@@ -50,24 +50,24 @@ class Case:
     def __str__(self) -> str:
         color = utils.Color.WARNING
         if self.is_cr:
-            color = utils.Color.DANGER
+            color = utils.Color.ERROR
         if not self.is_active:
             color = utils.Color.LIGHT_GRAY
 
-        return f'{color.value}' \
-               f'[ #{self.num} {self.nick or self.cmdr} ]' \
-               f'{utils.Color.DEFAULT.value}'
+        return f'{color.value}[ #{self.num} {self.nick or self.cmdr} ]'
 
-    def format(self) -> str:
-        return ' '.join(filter(lambda x: x is not None, [
-            str(self),
-            self.format_platform(),
-            self.format_is_cr(),
-            self.format_is_active(),
-        ]))
+    def print(self):
+        utils.print(
+            ' '.join(filter(lambda x: x is not None, [
+                self.format_platform(),
+                self.format_is_cr(),
+                self.format_is_active(),
+            ])),
+            str(self)
+        )
 
     def format_is_cr(self) -> str:
-        return f'({utils.Color.DANGER.value}CR{utils.Color.DEFAULT.value})' \
+        return f'({utils.Color.ERROR.value}CR{utils.Color.DEFAULT.value})' \
             if self.is_cr else None
 
     def format_is_active(self) -> str:
@@ -99,7 +99,7 @@ class Case:
         original_value = getattr(self, name)
         if value is not None and value != original_value:
             utils.print(
-                f'{utils.Color.WARNING.value}{self}.{name}: '
-                f'"{original_value}" -> "{value}"'
+                f'{name}: "{original_value}" -> "{value}"',
+                label=str(self),
             )
             setattr(self, name, value)

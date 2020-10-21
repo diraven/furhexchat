@@ -2,8 +2,9 @@ import collections
 import enum
 import typing
 
-import hexchat
 import winsound
+
+import hexchat
 
 LanguageData = collections.namedtuple('LanguageData', ['id', 'postfix'])
 
@@ -218,8 +219,27 @@ class Color(enum.Enum):
 
     INFO = NAVY
     SUCCESS = GREEN
-    DANGER = RED
     WARNING = YELLOW
+    ERROR = RED
+
+
+@enum.unique
+class Label(enum.Enum):
+    INFO = f'{Color.INFO.value}info{Color.DEFAULT.value}'
+    SUCCESS = f'{Color.SUCCESS.value}success{Color.DEFAULT.value}'
+    WARNING = f'{Color.WARNING.value}warning{Color.DEFAULT.value}'
+    ERROR = f'{Color.ERROR.value}error{Color.DEFAULT.value}'
+
+
+@enum.unique
+class Eat(enum.Enum):
+    ALL = hexchat.EAT_ALL
+    NONE = hexchat.EAT_NONE
+    PLUGIN = hexchat.EAT_PLUGIN
+    HEXCHAT = hexchat.EAT_HEXCHAT
+
+
+# class Format(enum.Enum):
 
 
 def beep():
@@ -241,11 +261,13 @@ def nicks_match(n1, n2) -> bool:
 
 
 # noinspection PyShadowingBuiltins
-def print(what: typing.Any, color: typing.Optional[Color] = Color.DEFAULT):
-    hexchat.prnt('\n'.join(
-        f'{Color.LIGHT_GREEN.value}> {color.value}{line}' for
-        line in str(what).splitlines(),
-    ))
+def print(what: typing.Any, label: str = Label.INFO.value):
+    for line in str(what).splitlines():
+        hexchat.emit_print(
+            Event.CHANNEL_MESSAGE.value,
+            f'{label} {Color.LIGHT_GREEN.value}>',
+            line,
+        )
 
 
 # %C18%H<%H$4$3$1%H>%H%O$t$2

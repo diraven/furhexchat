@@ -129,7 +129,8 @@ def get_prefs(name: str) -> t.Union[str, int]:
     pass
 
 
-def get_list(type: str) -> t.Union[ChannelList, DccList, UserList, IgnoreList, NotifyList]:
+def get_list(type: str) -> t.Union[
+    ChannelList, DccList, UserList, IgnoreList, NotifyList]:
     pass
 
 
@@ -150,7 +151,7 @@ class Context:
         pass
 
     def get_list(self, type: str) -> \
-            t.Union[ChannelList, DccList, UserList, IgnoreList, NotifyList]:
+        t.Union[ChannelList, DccList, UserList, IgnoreList, NotifyList]:
         pass
 
 
@@ -159,31 +160,37 @@ class HookHandler(int):
 
 
 def hook_command(name: str, callback: t.Callable, userdata: t.Any = None,
-                 priority: _Priority = PRI_NORM, help: str = None) -> HookHandler:
+                 priority: _Priority = PRI_NORM,
+                 help: str = None) -> HookHandler:
     pass
 
 
 def hook_print(name: str, callback: t.Callable, userdata: t.Any = None,
-               priority: _Priority = PRI_NORM, help: str = None) -> HookHandler:
+               priority: _Priority = PRI_NORM,
+               help: str = None) -> HookHandler:
     pass
 
 
 def hook_print_attrs(name: str, callback: t.Callable, userdata: t.Any = None,
-                     priority: _Priority = PRI_NORM, help: str = None) -> HookHandler:
+                     priority: _Priority = PRI_NORM,
+                     help: str = None) -> HookHandler:
     pass
 
 
 def hook_server(name: str, callback: t.Callable, userdata: t.Any = None,
-                priority: _Priority = PRI_NORM, help: str = None) -> HookHandler:
+                priority: _Priority = PRI_NORM,
+                help: str = None) -> HookHandler:
     pass
 
 
 def hook_server_attrs(name: str, callback: t.Callable, userdata: t.Any = None,
-                      priority: _Priority = PRI_NORM, help: str = None) -> HookHandler:
+                      priority: _Priority = PRI_NORM,
+                      help: str = None) -> HookHandler:
     pass
 
 
-def hook_timer(timeout: int, callback: t.Callable, userdata: t.Any = None) -> HookHandler:
+def hook_timer(timeout: int, callback: t.Callable,
+               userdata: t.Any = None) -> HookHandler:
     pass
 
 
