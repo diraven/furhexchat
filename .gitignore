@@ -7,3 +7,5 @@
 !.gitignore
 
 addons/**/.*
+
+__pycache__
