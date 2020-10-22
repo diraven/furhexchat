@@ -87,7 +87,7 @@ def put_case(
         return f'{format.case(case)} updated:\n{updates}'
 
     # Create new case.
-    if not num:
+    if num is None:
         num = _get_free_case_num()
     case_data = {
         'num': num,

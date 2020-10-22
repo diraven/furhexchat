@@ -112,7 +112,6 @@ def mecha_list(message: str, **kwargs):
             is_cr='(cr)' in item.lower(),
             is_active='(inactive)' not in item.lower(),
         )
-    print(list(map(lambda c: c['num'], api.get_state()['cases'])))
     for case_num in map(lambda c: c['num'], api.get_state()['cases']):
         if case_num not in nums:
             api.delete_case(case_num)
