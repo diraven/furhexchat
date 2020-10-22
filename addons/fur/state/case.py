@@ -87,7 +87,7 @@ class Case:
                f'{utils.Color.DEFAULT.value}'
 
     def format_language(self) -> str:
-        return f'{self.language}' if self.language else ''
+        return f'{self.language}' if self.language else 'en'
 
     def update(self, case: 'Case'):
         for name in (
