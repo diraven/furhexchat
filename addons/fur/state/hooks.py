@@ -137,7 +137,7 @@ def mecha_list(message: str, **kwargs):
 
 
 @utils.hook_print(
-    match_message=re.compile(r'^!(?:close|clear|md) (?P<num>\d+)')
+    match_message=re.compile(r'^!(?:close|clear|md|trash) (?P<num>\d+)')
 )
 def delete_case(
     matches: typing.Dict[str, str],
