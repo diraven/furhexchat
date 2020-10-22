@@ -1,0 +1,9 @@
+*
+.*
+
+!addons
+!addons/**
+!hexchat.pyi
+!.gitignore
+
+addons/**/.*
