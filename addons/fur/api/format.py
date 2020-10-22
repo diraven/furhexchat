@@ -5,7 +5,7 @@ from . import types
 
 def dict_updates(dict1: t.Dict, dict2: t.Dict) -> str:
     return '\n'.join([
-        f'{dict1[k]} -> {v}' for k, v in dict2.items() if dict1[k] != v
+        f'{k}: {dict1[k]} -> {v}' for k, v in dict2.items() if dict1[k] != v
     ])
 
 

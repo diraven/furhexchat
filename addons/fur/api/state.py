@@ -89,7 +89,7 @@ def put_case(
     if case:
         updates = format.dict_updates(case, case_data)
         _update_case(case, case_data)
-        return updates  # TODO: also display which case was updated
+        return f'{format.case(case)} updated:\n{updates}'
 
     # Create new case.
     if not num:
@@ -107,7 +107,7 @@ def put_case(
         'system': system or '',
     }
     _add_case(case_data)
-    return 'new case created: '  # TODO: Display new case
+    return f'{format.case(case)} created'
 
 
 def find_case(query: t.Union[int, str]) -> t.Optional[types.Case]:
