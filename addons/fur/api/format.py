@@ -37,14 +37,16 @@ def case(obj: types.Case) -> str:
 
 def case_detail(obj: types.Case) -> str:
     cr = f' {types.Color.Red}CR{types.Color.DEFAULT}' if obj['is_cr'] else ''
-    active = f' {types.Color.LIGHT_GRAY}INACTIVE{types.Color.DEFAULT}' \
+    active = f' {types.Color.LIGHT_GRAY.value}' \
+             f'INACTIVE' \
+             f'{types.Color.DEFAULT.value}' \
         if not obj['is_active'] else ''
     return f'{case(obj)}{cr}{active}'
 
 
 def state(obj: types.State) -> str:
     return 'Current State:\n' + '\n'.join(
-        map(lambda x: case(x), sorted(obj['cases'], key=lambda x: (
+        map(lambda x: case_detail(x), sorted(obj['cases'], key=lambda x: (
             not x['is_active'],
             x['is_cr'],
             x['num'],
