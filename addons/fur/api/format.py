@@ -25,14 +25,14 @@ def case(obj: types.Case) -> str:
     if not obj['is_active']:
         color = types.Color.LIGHT_GRAY
 
-    return f'{types.Color.DEFAULT.value}' \
+    return f'{types.Color.DEFAULT.value}[' \
            f'{obj["language"]}' \
            f'|' \
            f'{platform(obj["platform"])}' \
            f'|' \
            f'{color.value}' \
            f'{obj["nick"] or obj["cmdr"]}#{obj["num"]}' \
-           f'{types.Color.DEFAULT.value}'
+           f'{types.Color.DEFAULT.value}]'
 
 
 def case_detail(obj: types.Case) -> str:
