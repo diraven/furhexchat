@@ -105,9 +105,7 @@ def mecha_announcement(
 _list_item_rexp = re.compile(
     r'(\[(?P<num>\d+)] '
     r'(?P<cmdr>[^)]+) '
-    r'\((?P<platform>[^)]+)\)) ?'
-    r'(?:\((?P<cr>CR)\))? ?'
-    r'(?:\((?P<inactive>Inactive)\))?',
+    r'\((?P<platform>[^)]+)\)) ?',
     flags=re.IGNORECASE,
 )
 
@@ -129,13 +127,13 @@ def mecha_list(message: str, **kwargs):
             cmdr=matches.get('cmdr'),
             num=int(matches.get('num')),
             platform_name=matches.get('platform'),
-            is_cr=matches.get('cr', False),
-            is_active=not matches.get('inactive'),
+            is_cr='(cr)' in item.lower(),
+            is_active='(inactive)' not in item.lower(),
         )
         state.put_case(case)
     for case in state.cases[:]:
         if case.num not in nums:
-            state.delete_case(case)
+            state.delete_case(case.num)
 
 
 @utils.hook_print(

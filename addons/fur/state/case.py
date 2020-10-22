@@ -35,8 +35,8 @@ class Case:
     ):
         self.cmdr = utils.clean(cmdr)
 
-        self.is_active = is_active or True
-        self.is_cr = is_cr or False
+        self.is_active = is_active if is_active is not None else True
+        self.is_cr = is_cr if is_cr is not None else False
 
         self.landmark = utils.clean(landmark or '')
         self.language = language or ''
@@ -48,7 +48,7 @@ class Case:
         self.system = utils.clean(system or '')
 
     def __str__(self) -> str:
-        color = utils.Color.WARNING
+        color = utils.Color.SUCCESS
         if self.is_cr:
             color = utils.Color.ERROR
         if not self.is_active:
