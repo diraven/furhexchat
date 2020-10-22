@@ -70,7 +70,9 @@ def hook_command(
     def factory(func: t.Callable):
         # noinspection PyUnusedLocal
         def wrapper(word, word_eol, provided_userdata):
-            return func(args=word[1:], data=provided_userdata)
+            result = func(args=word[1:], data=provided_userdata)
+            if result is not None:
+                return result.value
 
         for name in names:
             hexchat.hook_command(

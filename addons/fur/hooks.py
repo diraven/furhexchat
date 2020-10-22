@@ -121,8 +121,8 @@ def mecha_list(message: str, **kwargs):
 @api.hook_print(
     match_message=re.compile(r'^!(?:close|clear|md|trash) (?P<query>.+)')
 )
-def delete_case(matches: typing.Dict[str, str], **kwargs):
-    query = matches['query'].strip()
+def delete_case(message: str, **kwargs):
+    query = message.split()[1]
     case = api.find_case(query)
     if not case:
         api.print(f'Case not found: {query}')
@@ -134,8 +134,8 @@ def delete_case(matches: typing.Dict[str, str], **kwargs):
 @api.hook_print(
     match_message=re.compile(r'^!cr (?P<query>.+)')
 )
-def cr_case(matches: typing.Dict[str, str], **kwargs):
-    query = matches['query'].strip()
+def cr_case(message: str, **kwargs):
+    query = message.split()[1]
     case = api.find_case(query)
     if not case:
         api.print(f'Case not found: {query}')
@@ -147,11 +147,8 @@ def cr_case(matches: typing.Dict[str, str], **kwargs):
 @api.hook_print(
     match_message=re.compile(r'^!active (?P<num>\d+)')
 )
-def activate_case(
-    matches: typing.Dict[str, str],
-    **kwargs,
-):
-    query = matches['query'].strip()
+def activate_case(message: str, **kwargs):
+    query = message.split()[1]
     case = api.find_case(query)
     if not case:
         api.print(f'Case not found: {query}')
