@@ -54,7 +54,11 @@ class Case:
         if not self.is_active:
             color = utils.Color.LIGHT_GRAY
 
-        return f'{color.value}[ #{self.num} {self.nick or self.cmdr} ]'
+        return f'{utils.Color.DEFAULT.value}{self.format_language()}' \
+               f'{utils.Color.DEFAULT.value}|' \
+               f'{self.format_platform()}' \
+               f'{utils.Color.DEFAULT.value}|' \
+               f'{color.value}{self.nick or self.cmdr}|#{self.num}'
 
     def print(self):
         utils.print(
@@ -67,11 +71,11 @@ class Case:
         )
 
     def format_is_cr(self) -> str:
-        return f'({utils.Color.ERROR.value}CR{utils.Color.DEFAULT.value})' \
+        return f'{utils.Color.ERROR.value}CR{utils.Color.DEFAULT.value}' \
             if self.is_cr else None
 
     def format_is_active(self) -> str:
-        return '(INACTIVE)' if not self.is_active else None
+        return 'INACTIVE' if not self.is_active else None
 
     def format_platform(self) -> str:
         color = utils.Color.LIGHT_GRAY
@@ -79,8 +83,11 @@ class Case:
             color = utils.Color.ROYAL_BLUE
         if self.platform == utils.Platform.XBOX:
             color = utils.Color.GREEN
-        return f'({color.value}{self.platform.name}' \
-               f'{utils.Color.DEFAULT.value})'
+        return f'{color.value}{self.platform.name}' \
+               f'{utils.Color.DEFAULT.value}'
+
+    def format_language(self) -> str:
+        return f'{self.language}' if self.language else ''
 
     def update(self, case: 'Case'):
         for name in (
