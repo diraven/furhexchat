@@ -1,10 +1,17 @@
 import collections
 import enum
-import typing
-
-import winsound
+import typing as t
 
 import hexchat
+
+Alias = collections.namedtuple('Alias', [
+    'name',
+    'command',
+    'arguments',
+    'preamble',
+    'translated',
+    'platformed',
+])
 
 LanguageData = collections.namedtuple('LanguageData', ['id', 'postfix'])
 
@@ -239,117 +246,30 @@ class Eat(enum.Enum):
     HEXCHAT = hexchat.EAT_HEXCHAT
 
 
-# class Format(enum.Enum):
+class Rat(t.TypedDict):
+    case_num: int
+    cmdr: str
+    nick: str
+    fr: t.Optional[bool]
+    wr: t.Optional[bool]
+    bc: t.Optional[bool]
+    fuel: t.Optional[bool]
 
 
-def beep():
-    winsound.MessageBeep()
+class Case(t.TypedDict):
+    num: int
+    cmdr: str
+    is_active: bool
+    is_cr: bool
+
+    nick: str
+    language: str
+    platform: Platform
+
+    system: str
+    landmark: str
 
 
-def reply(message: str):
-    context = hexchat.get_context()
-    send_message(context.get_info("channel"), message)
-
-
-def send_message(target, message: str):
-    context = hexchat.get_context()
-    context.command(f'MSG {target} {message}')
-
-
-def nicks_match(n1, n2) -> bool:
-    return hexchat.nickcmp(n1, n2, ) == 0
-
-
-# noinspection PyShadowingBuiltins
-def print(what: typing.Any, label: str = Label.INFO.value):
-    for line in str(what).splitlines():
-        hexchat.emit_print(
-            Event.CHANNEL_MESSAGE.value,
-            f'{label} {Color.LIGHT_GREEN.value}>',
-            line,
-        )
-
-
-# %C18%H<%H$4$3$1%H>%H%O$t$2
-# %C18%H<%H$3$1%H>%H%O$t$2
-
-def hook_print(
-    *,
-    match_author: typing.Optional[typing.Union[str, typing.Pattern]] = None,
-    match_message: typing.Optional[typing.Union[str, typing.Pattern]] = None,
-    events: typing.Iterable[Event] = (
-        Event.CHANNEL_MESSAGE,
-        Event.CHANNEL_MSG_HILIGHT,
-        Event.NOTICE,
-        Event.PRIVATE_MESSAGE_TO_DIALOG,
-    ),
-):
-    def factory(func: typing.Callable):
-        def wrapper(word: typing.List[str], word_eol, userdata: typing.Any):
-            # Make sure message data is provided.
-            if not word:
-                return
-
-            if match_author and word:
-                if isinstance(match_author, str):
-                    if not nicks_match(word[0], match_author):
-                        return
-                else:
-                    if not match_author.match(word[0]):
-                        return
-
-            # Match message.
-            matches = None
-            if match_message and len(word) > 1:
-                if isinstance(match_message, str):
-                    if not word[1].startswith(match_message):
-                        return
-                else:
-                    matches = match_message.match(word[1])
-                    if not matches:
-                        return
-                    matches = matches.groupdict()
-
-            # Run the handler itself.
-            return func(
-                author=word[0],
-                message=hexchat.strip(
-                    word[1].strip(),
-                ) if len(word) > 1 else None,
-                mode=word[2] if len(word) > 2 else None,
-                matches=matches,
-                data=userdata,
-            )
-
-        # Register hooks with hexchat.
-        for event in events:
-            hexchat.hook_print(event.value, wrapper)
-        return wrapper
-
-    return factory
-
-
-def hook_command(
-    *,
-    names: typing.Iterable[str],
-    description: typing.Optional[str] = None,
-    userdata: typing.Optional[typing.Any] = None,
-):
-    def factory(func: typing.Callable):
-        def wrapper(word, word_eol, provided_userdata):
-            return func(args=word[1:], data=provided_userdata)
-
-        for name in names:
-            hexchat.hook_command(
-                name=name,
-                callback=wrapper,
-                userdata=userdata,
-                help=description,
-            )
-        return wrapper
-
-    return factory
-
-
-def clean(text: str) -> str:
-    return hexchat.strip(text.strip())
+class State(t.TypedDict):
+    cases: t.List[Case]
+    rats: t.List[Rat]

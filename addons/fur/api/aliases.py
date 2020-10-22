@@ -1,21 +1,11 @@
-import collections
-import typing
+import typing as t
 
 import hexchat
-from .. import utils
-
-Alias = collections.namedtuple('Alias', [
-    'name',
-    'command',
-    'arguments',
-    'preamble',
-    'translated',
-    'platformed',
-])
+from . import types, utils
 
 
-def _handler(word: typing.List[str], word_eol: typing.List[str],
-             userdata: typing.Dict):
+def _handler(word: t.List[str], word_eol: t.List[str],
+             userdata: t.Dict):
     alias = userdata['alias']
     command = userdata['command']
     arguments = userdata['arguments']
@@ -24,8 +14,8 @@ def _handler(word: typing.List[str], word_eol: typing.List[str],
     platform = userdata['platform']
 
     if len(word) < len(arguments) + 1:
-        utils.print(
-            f'{utils.Color.ERROR.value}{alias} '
+        print(
+            f'{types.Color.ERROR.value}{alias} '
             f'{" ".join(a.upper() for a in arguments)}',
         )
         return hexchat.EAT_ALL
@@ -49,8 +39,8 @@ def _handler(word: typing.List[str], word_eol: typing.List[str],
 def register_alias(
     *,
     name: str,
-    messages: typing.List[typing.Union[str, typing.Dict[str, str]]] = None,
-    arguments: typing.List[str] = None,
+    messages: t.List[t.Union[str, t.Dict[str, str]]] = None,
+    arguments: t.List[str] = None,
     command: str = '',
     translated=False,
     platformed=False,
@@ -61,8 +51,8 @@ def register_alias(
     if messages is None and command:
         messages = ['{cmd} {word_eol[1]}']
 
-    languages = utils.Language if translated else utils.NoLanguage
-    platforms = utils.Platform if platformed else utils.NoPlatform
+    languages = types.Language if translated else types.NoLanguage
+    platforms = types.Platform if platformed else types.NoPlatform
 
     for platform in platforms:
         for language in languages:

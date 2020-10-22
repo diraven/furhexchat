@@ -1,4 +1,4 @@
-from .alias import register_alias
+from .api import register_alias
 
 register_alias(
     name='prep', command='prep', translated=True,
