@@ -151,7 +151,7 @@ class Context:
         pass
 
     def get_list(self, type: str) -> \
-        t.Union[ChannelList, DccList, UserList, IgnoreList, NotifyList]:
+            t.Union[ChannelList, DccList, UserList, IgnoreList, NotifyList]:
         pass
 
 
@@ -219,11 +219,4 @@ def list_pluginpref() -> t.List[str]:
 
 
 def get_context() -> Context:
-    pass
-
-
-def find_context(
-    server=t.Optional[str],
-    channel=t.Optional[str],
-) -> t.Optional[Context]:
     pass

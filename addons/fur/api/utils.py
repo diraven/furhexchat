@@ -1,13 +1,7 @@
 import typing as t
 
-import winsound
-
 import hexchat
 from . import types
-
-
-def beep():
-    winsound.MessageBeep()
 
 
 def reply(message: str):

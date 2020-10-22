@@ -1,6 +1,7 @@
 from . import api
 from .aliases import *
 from .commands import *
+from .hooks import *
 
 # Sync cases with bot on plugin reload.
 fr_ctx: 'api.hexchat.Context' = api.hexchat.find_context(channel='#fuelrats')

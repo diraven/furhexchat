@@ -45,8 +45,8 @@ def case_detail(obj: types.Case) -> str:
 def state(obj: types.State) -> str:
     return 'Current State:\n' + '\n'.join(
         map(lambda x: case(x), sorted(obj['cases'], key=lambda x: (
-            not x.is_active,
-            x.is_cr,
-            x.num,
+            not x['is_active'],
+            x['is_cr'],
+            x['num'],
         )))
     )

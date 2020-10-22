@@ -13,7 +13,6 @@ _state: types.State = {
 
 def _add_case(case: types.Case) -> types.Case:
     global _state
-    _state: types.State
 
     _state['cases'].append(case)
     return case
@@ -24,9 +23,8 @@ def _update_case(case: types.Case, data: t.Dict) -> types.Case:
     return case
 
 
-def _delete_case(case) -> types.Case:
+def _delete_case(case: types.Case) -> types.Case:
     global _state
-    _state: types.State
 
     _state['cases'].remove(case)
     return case
@@ -34,7 +32,6 @@ def _delete_case(case) -> types.Case:
 
 def _get_free_case_num() -> int:
     global _state
-    _state: types.State
 
     return max(max([c['num'] for c in _state['cases']] + [0]), 100) + 1
 
@@ -44,7 +41,6 @@ def _get_free_case_num() -> int:
 
 def clear() -> str:
     global _state
-    _state: types.State
 
     _state['cases'] = []
     _state['rats'] = []
@@ -66,7 +62,6 @@ def put_case(
     system: str = None,
 ):
     global _state
-    _state: types.State
 
     case_data = {
         'num': num,
@@ -93,7 +88,7 @@ def put_case(
 
     # Create new case.
     if not num:
-        num = _get_free_case_num
+        num = _get_free_case_num()
     case_data = {
         'num': num,
         'cmdr': cmdr,
@@ -106,13 +101,12 @@ def put_case(
         'landmark': landmark or '',
         'system': system or '',
     }
-    _add_case(case_data)
+    case = _add_case(case_data)
     return f'{format.case(case)} created'
 
 
 def find_case(query: t.Union[int, str]) -> t.Optional[types.Case]:
     global _state
-    _state: types.State
 
     # Immediately return if query is empty.
     if query is None or query == '':
@@ -136,11 +130,9 @@ def find_case(query: t.Union[int, str]) -> t.Optional[types.Case]:
     if isinstance(query, str):
         # case nick
         try:
-            return next(
-                c for c in _state['cases'] if utils.nicks_match(
-                    c['nick'], query,
-                ),
-            )
+            return next(c for c in _state['cases'] if utils.nicks_match(
+                c['nick'], query,
+            ))
         except StopIteration:
             pass
 
@@ -177,13 +169,12 @@ def find_case(query: t.Union[int, str]) -> t.Optional[types.Case]:
 
 def delete_case(num: int):
     global _state
-    _state: types.State
 
-    _delete_case(num)
+    case = find_case(num)
+    _delete_case(case)
 
 
 def get_state() -> types.State:
     global _state
-    _state: types.State
 
     return _state
