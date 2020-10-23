@@ -203,7 +203,9 @@ class Case:
     def put_rat(self, **kwargs):
         # Strip all formatting from input.
         kwargs = {
-            k: utils.strip(v) for k, v in kwargs.items() if v
+            k: utils.strip(v) for k, v in kwargs.items() if v and isinstance(
+                v, str,
+            )
         }
 
         # Try to find and update existing rat.
@@ -291,7 +293,9 @@ class State:
     def put_case(self, **kwargs):
         # Strip all formatting from input.
         kwargs = {
-            k: utils.strip(v) for k, v in kwargs.items() if v
+            k: utils.strip(v) for k, v in kwargs.items() if v and isinstance(
+                v, str,
+            )
         }
 
         # Try to find and update existing case.
