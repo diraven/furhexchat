@@ -235,14 +235,14 @@ class State:
         self._leads = {}
 
         for case in self.cases:
-            self._leads[case.cmdr.lower()] = case
-            self._leads[case.nick.lower()] = case
+            self._leads[case.cmdr] = case
+            self._leads[case.nick] = case
             self._leads[f'#{case.num}'] = case
             self._leads[f'case{case.num}'] = case
             self._leads[f'case {case.num}'] = case
             for rat in case.rats:
-                self._leads[rat.cmdr.lower()] = case
-                self._leads[rat.nick.lower()] = case
+                self._leads[rat.cmdr] = case
+                self._leads[rat.nick] = case
 
         # Remove None and empty keys from the dict.
         bad_keys = [k for k in self._leads if k is None or k == '']
@@ -342,7 +342,7 @@ class State:
         try:
             case = next(
                 case for lead, case in self._leads.items(
-                ) if lead in msg.lower()
+                ) if lead.lower() in msg.lower()
             )
             context.print(f'#{case.num}', msg)
             return case

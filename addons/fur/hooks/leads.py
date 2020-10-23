@@ -11,18 +11,18 @@ def handler(author: str, message: str, **kwargs):
             f'{api.types.Color.DEFAULT.value} {case}'
         )
 
-        calls = {}
-        for call in [
-            'fr',
-            'prep',
-            'pos',
-            'wr',
-            'bc',
-            'fuel',
-        ]:
-            if f'{call}+' in message.lower():
-                calls[call] = True
-            if f'{call}-' in message.lower():
-                calls[call] = False
-
-        rat = case.put_rat(nick=author, **calls)
+        rat = case.find_rat(author)
+        if rat:
+            calls = {}
+            for call in [
+                'fr',
+                'prep',
+                'pos',
+                'wr',
+                'bc',
+                'fuel',
+            ]:
+                if f'{call}+' in message.lower():
+                    calls[call] = True
+                if f'{call}-' in message.lower():
+                    calls[call] = False
