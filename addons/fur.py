@@ -7,5 +7,5 @@ from os.path import dirname
 
 sys.path.append(dirname(__file__))
 
-# noinspection PyUnresolvedReferences,PyPackageRequirements
+# noinspection PyUnresolvedReferences,PyPackageRequirements,PyPep8
 import fur

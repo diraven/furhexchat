@@ -97,7 +97,7 @@ def mecha_list(message: str, **kwargs):
             is_cr='(cr)' in item.lower(),
             is_active='(inactive)' not in item.lower(),
         )
-    for case_num in map(lambda c: c['num'], api.get_state()['cases']):
+    for case_num in map(lambda c: c['num'], api.get()['cases']):
         if case_num not in nums:
             api.delete_case(case_num)
 
@@ -146,5 +146,8 @@ def activate_case(matches: typing.Dict[str, str], **kwargs):
 def leads(author: str, message: str, **kwargs):
     case = api.check_leads(f'{author} {message}')
     if case:
-        api.print(f'{api.types.Color.LIGHT_GREEN}>'
-                  f'{api.types.Color.DEFAULT} {api.format.case(case)}')
+        api.print(
+            f'{api.types.Color.LIGHT_GREEN.value}>'
+            f'{api.types.Color.DEFAULT.value} {api.fmt.case(case)}'
+        )
+        api.add_quote(case, f'<{author}> {message}')

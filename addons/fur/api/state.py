@@ -1,29 +1,44 @@
 import typing as t
 
 import hexchat
-from . import utils, types, format, gui
+from . import utils, types, fmt, gui
+
 
 # -----------------------------------------------------------------------------
-# Helper functions.
+# Internals.
+
+def _make_empty_state() -> types.State:
+    return {'cases': [], 'leads': {}}
 
 
-_state: types.State = {
-    'cases': [],
-    'leads': {},
-}
+_state: types.State = _make_empty_state()
+
+
+def _state_updated():
+    gui.render_dashboard()
+    _rebuild_leads()
+
+
+def _clear_state() -> types.State:
+    global _state
+
+    _state = _make_empty_state()
+
+    _state_updated()
+    return _state
 
 
 def _add_case(case: types.Case) -> types.Case:
     global _state
 
     _state['cases'].append(case)
-    _on_state_updated()
+    _state_updated()
     return case
 
 
 def _update_case(case: types.Case, data: t.Dict) -> types.Case:
     case.update(data)
-    _on_state_updated()
+    _state_updated()
     return case
 
 
@@ -31,7 +46,7 @@ def _delete_case(case: types.Case) -> types.Case:
     global _state
 
     _state['cases'].remove(case)
-    _on_state_updated()
+    _state_updated()
     return case
 
 
@@ -61,26 +76,15 @@ def _rebuild_leads():
     list(map(lambda x: _state['leads'].pop(x), bad_keys))
 
 
-def _on_state_updated():
-    gui.render()
-    _rebuild_leads()
-
-
 # -----------------------------------------------------------------------------
 # Public API.
 
-def clear_state() -> str:
-    global _state
-
-    _state['cases'] = []
-    _state['jump_calls'] = []
-
-    gui.render()
-    _rebuild_leads()
+def clear() -> str:
+    _clear_state()
     return 'state cleared'
 
 
-def get_state() -> types.State:
+def get() -> types.State:
     global _state
 
     return _state
@@ -135,9 +139,9 @@ def put_case(
     # Try to find and update existing case.
     case = find_case(num) or find_case(cmdr) or find_case(nick)
     if case:
-        updates = format.dict_updates(case, case_data)
+        updates = fmt.dict_updates(case, case_data)
         _update_case(case, case_data)
-        return f'{format.case(case)} updated:\n{updates}'
+        return f'{fmt.case(case)} updated:\n{updates}'
 
     # Create new case.
     if num is None:
@@ -158,7 +162,7 @@ def put_case(
         'jumps': [],
     }
     case = _add_case(case_data)
-    return f'{format.case(case)} created'
+    return f'{fmt.case(case)} created'
 
 
 def delete_case(num: int):
@@ -217,23 +221,23 @@ def find_case(query: t.Union[int, str]) -> t.Optional[types.Case]:
         # rat nick
         try:
             for case in _state['cases']:
-                rat: types.Rat = next(
+                next(
                     r for r in case['rats'] if utils.nicks_match(
                         r['nick'], query,
                     )
                 )
-                return find_case(rat['case_num'])
+                return case
         except StopIteration:
             pass
 
         # rat cmdr
         try:
             for case in _state['cases']:
-                rat: types.Rat = next(
+                next(
                     r for r in case['rats'] if
                     r['cmdr'].lower() == query.lower()
                 )
-                return find_case(rat['case_num'])
+                return case
         except StopIteration:
             pass
 
