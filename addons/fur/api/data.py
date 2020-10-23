@@ -96,6 +96,8 @@ class Case:
     _system: str = ''
     _landmark: str = ''
 
+    _last_quote: str = ''
+
     _rats: t.List[Rat] = field(default_factory=list)
     _jump_calls: t.List[str] = field(default_factory=list)
 
@@ -129,11 +131,18 @@ class Case:
                  f'INACTIVE' \
                  f'{types.Color.DEFAULT.value}' \
             if not self.is_active else ''
-        title = f'{self}{cr}{active}'
+        result = f'{self}{cr}{active}'
+
         if self.rats:
-            return f'{title}\n' + '\n'.join(rat.details() for rat in self.rats)
-        else:
-            return f'{title}\n' + '\n'.join(self.jump_calls)
+            result += f'\n' + '\n'.join(rat.details() for rat in self.rats)
+        elif self.jump_calls:
+            result += f'\n' + '\n'.join(self.jump_calls)
+
+        result += f'{types.Color.LIGHT_GRAY.value}\n' \
+                  f'{self._last_quote}' if self._last_quote else ''
+
+        result += '\n'
+        return result
 
     @property
     def state(self):
@@ -174,6 +183,10 @@ class Case:
     @property
     def landmark(self):
         return self._landmark
+
+    @property
+    def last_quote(self):
+        return self._last_quote
 
     @property
     def rats(self):

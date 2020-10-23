@@ -15,6 +15,8 @@ def handler(author: str, message: str, **kwargs):
         #     f'{api.types.Color.DEFAULT.value} {case}'
         # )
 
+        api.state.put_case(num=case.num, last_quote=f'<{author}> {message}')
+
         if _jumps_rexp.search(message):
             case.jumps_called(f'<{author}> {message}')
 
