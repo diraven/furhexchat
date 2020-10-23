@@ -57,12 +57,12 @@ def clear() -> str:
 _platforms = {
     '': types.Platform.PC,
     'pc': types.Platform.PC,
-    'playstation': types.Platform.PLAYSTATION,
-    'playstation4': types.Platform.PLAYSTATION,
-    'ps': types.Platform.PLAYSTATION,
-    'ps4': types.Platform.PLAYSTATION,
-    'xbox': types.Platform.XBOX,
-    'xb': types.Platform.XBOX,
+    'playstation': types.Platform.PS,
+    'playstation4': types.Platform.PS,
+    'ps': types.Platform.PS,
+    'ps4': types.Platform.PS,
+    'xbox': types.Platform.XB,
+    'xb': types.Platform.XB,
 }
 
 

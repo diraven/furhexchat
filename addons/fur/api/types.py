@@ -40,8 +40,8 @@ PlatformData = collections.namedtuple('PlatformData', ['id', 'prefix'])
 class Platform(enum.Enum):
     DEFAULT = PlatformData('', 'pc')
     PC = PlatformData('pc', 'pc')
-    XBOX = PlatformData('x', 'x')
-    PLAYSTATION = PlatformData('ps', 'ps')
+    XB = PlatformData('x', 'x')
+    PS = PlatformData('ps', 'ps')
 
 
 @enum.unique

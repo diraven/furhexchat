@@ -11,9 +11,9 @@ def dict_updates(dict1: t.Dict, dict2: t.Dict) -> str:
 
 def platform(obj: types.Platform) -> str:
     color = types.Color.PURPLE
-    if obj == types.Platform.PLAYSTATION:
+    if obj == types.Platform.PS:
         color = types.Color.ROYAL_BLUE
-    if obj == types.Platform.XBOX:
+    if obj == types.Platform.XB:
         color = types.Color.GREEN
     return f'{color.value}{obj.name}{types.Color.DEFAULT.value}'
 
