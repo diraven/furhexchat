@@ -14,16 +14,6 @@ import typing
 
 from . import api
 
-_platforms = {
-    'pc': api.types.Platform.PC,
-    'playstation': api.types.Platform.PLAYSTATION,
-    'playstation4': api.types.Platform.PLAYSTATION,
-    'ps': api.types.Platform.PLAYSTATION,
-    'ps4': api.types.Platform.PLAYSTATION,
-    'xbox': api.types.Platform.XBOX,
-    'xb': api.types.Platform.XBOX,
-}
-
 
 # noinspection PyUnusedLocal
 @api.hook_print(
@@ -40,11 +30,10 @@ def mama_announcement(
     matches: typing.Dict[str, str],
     **kwargs,
 ):
-    platform = _platforms[matches.get('platform').lower()]
     api.put_case(
         cmdr=matches.get('cmdr'),
         system=matches.get('system'),
-        platform=platform,
+        platform=matches.get('platform'),
         is_cr=matches.get('o2') != 'OK',
         language=matches.get('language')
     )
@@ -68,12 +57,11 @@ def mecha_announcement(
     matches: typing.Dict[str, str],
     **kwargs,
 ):
-    platform = _platforms[matches.get('platform').lower()]
     api.put_case(
         cmdr=matches.get('cmdr'),
         system=matches.get('system'),
         landmark=matches.get('landmark'),
-        platform=platform,
+        platform=matches.get('platform'),
         is_cr=matches.get('o2') != 'OK',
         language=matches.get('language_code'),
         num=int(matches.get('num')),
@@ -102,11 +90,10 @@ def mecha_list(message: str, **kwargs):
     for item in items:
         matches: typing.Dict = _list_item_rexp.match(item).groupdict()
         nums.append(int(matches.get('num')))
-        platform = _platforms[matches.get('platform').lower()]
         api.put_case(
             cmdr=matches.get('cmdr'),
             num=int(matches.get('num')),
-            platform=platform,
+            platform=matches.get('platform'),
             is_cr='(cr)' in item.lower(),
             is_active='(inactive)' not in item.lower(),
         )

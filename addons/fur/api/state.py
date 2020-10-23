@@ -1,9 +1,11 @@
 import typing as t
 
+import hexchat
 from . import utils, types, format, gui
 
 # -----------------------------------------------------------------------------
 # Helper functions.
+
 
 _state: types.State = {
     'cases': [],
@@ -52,6 +54,18 @@ def clear() -> str:
     return 'state cleared'
 
 
+_platforms = {
+    '': types.Platform.PC,
+    'pc': types.Platform.PC,
+    'playstation': types.Platform.PLAYSTATION,
+    'playstation4': types.Platform.PLAYSTATION,
+    'ps': types.Platform.PLAYSTATION,
+    'ps4': types.Platform.PLAYSTATION,
+    'xbox': types.Platform.XBOX,
+    'xb': types.Platform.XBOX,
+}
+
+
 def put_case(
     num: int = None,
     cmdr: str = None,
@@ -60,12 +74,15 @@ def put_case(
 
     nick: str = None,
     language: str = None,
-    platform: types.Platform = None,
+    platform: str = None,
 
     landmark: str = None,
     system: str = None,
 ):
     global _state
+
+    if platform is not None:
+        platform = _platforms[hexchat.strip(platform).lower()]
 
     case_data = {
         'num': num,
