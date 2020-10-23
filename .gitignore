@@ -5,6 +5,7 @@
 !addons/**
 !hexchat.pyi
 !.gitignore
+!pevents.conf
 
 addons/**/.*
 
