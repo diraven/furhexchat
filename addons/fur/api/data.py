@@ -248,6 +248,7 @@ class State:
         for case in self.cases:
             self._leads[case.cmdr] = case
             self._leads[case.nick] = case
+            self._leads[f' {case.num}'] = case
             self._leads[f'#{case.num}'] = case
             self._leads[f'case{case.num}'] = case
             self._leads[f'case {case.num}'] = case
