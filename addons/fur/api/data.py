@@ -138,7 +138,7 @@ class Case:
         elif self.jump_calls:
             result += f'\n' + '\n'.join(self.jump_calls)
 
-        result += f'{types.Color.LIGHT_GRAY.value}\n' \
+        result += f'\n{types.Color.LIGHT_GRAY.value} > ' \
                   f'{self._last_quote}' if self._last_quote else ''
 
         result += '\n'
