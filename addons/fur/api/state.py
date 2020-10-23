@@ -1,6 +1,6 @@
 import typing as t
 
-from . import utils, types, format
+from . import utils, types, format, gui
 
 # -----------------------------------------------------------------------------
 # Helper functions.
@@ -15,11 +15,14 @@ def _add_case(case: types.Case) -> types.Case:
     global _state
 
     _state['cases'].append(case)
+    gui.update_board()
     return case
 
 
 def _update_case(case: types.Case, data: t.Dict) -> types.Case:
     case.update(data)
+    print(data)
+    gui.update_board()
     return case
 
 
@@ -27,6 +30,7 @@ def _delete_case(case: types.Case) -> types.Case:
     global _state
 
     _state['cases'].remove(case)
+    gui.update_board()
     return case
 
 
@@ -77,7 +81,7 @@ def put_case(
     }
     # Remove None keys from the dict.
     bad_keys = [k for k, v in case_data.items() if v is None]
-    map(lambda x: case_data.pop(x), bad_keys)
+    list(map(lambda x: case_data.pop(x), bad_keys))
 
     # Try to find and update existing case.
     case = find_case(num) or find_case(cmdr) or find_case(nick)
