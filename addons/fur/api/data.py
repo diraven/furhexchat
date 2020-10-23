@@ -68,6 +68,18 @@ class Rat:
         return self.case.delete_rat(self)
 
 
+_platform_color = {
+    'ps': types.Color.ROYAL_BLUE.value,
+    'ps4': types.Color.ROYAL_BLUE.value,
+    'playstation': types.Color.ROYAL_BLUE.value,
+    'playstation4': types.Color.ROYAL_BLUE.value,
+    'x': types.Color.GREEN.value,
+    'xb': types.Color.GREEN.value,
+    'xbox': types.Color.GREEN.value,
+    'pc': types.Color.PURPLE.value,
+}
+
+
 @dataclass
 class Case:
     _state: 'State'
@@ -99,7 +111,9 @@ class Case:
                f'#{self.num}' \
                f'{types.Color.DEFAULT.value}-' \
                f'[' \
+               f'{_platform_color[self.platform.lower()]}' \
                f'{self.platform}' \
+               f'{types.Color.DEFAULT.value}' \
                f'|' \
                f'{self.language}' \
                f'|' \
