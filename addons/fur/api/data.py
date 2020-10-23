@@ -282,6 +282,9 @@ class State:
         # Fix case num.
         if kwargs.get('num') is None:
             kwargs['num'] = str(self._free_case_num)
+        # Create cmdr irc nick.
+        if 'nick' not in kwargs:
+            kwargs['nick'] = kwargs['cmdr'].replace(' ', '_')
         kwargs = {
             f'_{k}': v for k, v in kwargs.items()
         }
