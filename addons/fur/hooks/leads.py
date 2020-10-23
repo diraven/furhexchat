@@ -1,4 +1,8 @@
+import re
+
 from .. import api
+
+_jumps_rexp = re.compile(r'(?P<count>\d+)\s*j(?:ump)?s?')
 
 
 # noinspection PyUnusedLocal
@@ -10,6 +14,9 @@ def handler(author: str, message: str, **kwargs):
             f'{api.types.Color.LIGHT_GREEN.value}>'
             f'{api.types.Color.DEFAULT.value} {case}'
         )
+
+        if _jumps_rexp.search(message):
+            case.jumps_called(f'<{author}> {message}')
 
         rat = case.find_rat(author)
         if rat:
