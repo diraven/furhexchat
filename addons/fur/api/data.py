@@ -42,7 +42,7 @@ class Rat:
             color = value_to_color[val].value
             no_color = types.Color.DEFAULT.value
             data = data + f' [{color}{bit}{char}{no_color}]'
-        return f'{self}:{data}'
+        return f'{data} - {self}'
 
     @property
     def nick(self):
