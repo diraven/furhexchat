@@ -3,8 +3,6 @@ from .aliases import *
 from .commands import *
 from .hooks import *
 
-api.state.updated()
-
 # Sync cases with bot on plugin reload.
 fr_ctx: 'api.hexchat.Context' = api.hexchat.find_context(channel='#fuelrats')
 if fr_ctx:
@@ -16,4 +14,5 @@ if fr_ctx:
 @api.hook_print(events=[api.types.Event.YOU_JOIN])
 def get_cases_list(message, **kwargs):
     if message == '#fuelrats':
+        api.state.updated()
         api.send_message('MechaSqueak[BOT]', '!list')
