@@ -36,4 +36,5 @@ def handler(author: str, message: str, **kwargs):
                 if f'{call}-' in message.lower():
                     calls[call] = False
             if calls:
+                print(calls)
                 case.put_rat(nick=author, **calls)
