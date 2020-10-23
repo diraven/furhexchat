@@ -219,7 +219,6 @@ class Case:
             if isinstance(v, str):
                 kwargs[k] = utils.strip(v)
 
-        print(kwargs)
         # Try to find and update existing rat.
         rat = self.find_rat(
             kwargs.get('nick'),
