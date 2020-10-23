@@ -139,3 +139,11 @@ def activate_case(matches: typing.Dict[str, str], **kwargs):
         api.print(f'Case not found: {query}')
         return
     api.put_case(num=case['num'], is_active=not case['is_active'])
+
+
+# noinspection PyUnusedLocal
+@api.hook_print()
+def leads(author: str, message: str, **kwargs):
+    case = api.check_leads(f'{author} {message}')
+    if case:
+        api.print(f'LEAD: {api.format.case(case)}')

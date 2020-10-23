@@ -247,9 +247,8 @@ class Eat(enum.Enum):
 
 
 class Rat(t.TypedDict):
-    case_num: int
-    cmdr: str
     nick: str
+    cmdr: t.Optional[str]
     fr: t.Optional[bool]
     wr: t.Optional[bool]
     bc: t.Optional[bool]
@@ -269,8 +268,12 @@ class Case(t.TypedDict):
     system: str
     landmark: str
 
+    rats: t.Iterable[Rat]
+    jump_calls: t.Iterable[str]
+
 
 class State(t.TypedDict):
     cases: t.List[Case]
     rats: t.List[Rat]
     jump_calls: t.List[str]
+    leads: t.Dict[str, Case]
