@@ -30,9 +30,9 @@ def case(obj: types.Case) -> str:
            f'#{obj["num"]}' \
            f'{types.Color.DEFAULT.value}-' \
            f'[' \
-           f'{obj["language"]}' \
-           f'|' \
            f'{platform(obj["platform"])}' \
+           f'|' \
+           f'{obj["language"]}' \
            f'|' \
            f'{obj["nick"] or obj["cmdr"]}' \
            f']' \
