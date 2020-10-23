@@ -146,4 +146,5 @@ def activate_case(matches: typing.Dict[str, str], **kwargs):
 def leads(author: str, message: str, **kwargs):
     case = api.check_leads(f'{author} {message}')
     if case:
-        api.print(f'LEAD: {api.format.case(case)}')
+        api.print(f'{api.types.Color.LIGHT_GREEN}>'
+                  f'{api.types.Color.DEFAULT} {api.format.case(case)}')
