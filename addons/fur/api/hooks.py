@@ -43,15 +43,17 @@ def hook_print(
                     matches = matches.groupdict()
 
             # Run the handler itself.
-            return func(
-                author=word[0],
-                message=hexchat.strip(
-                    word[1].strip(),
-                ) if len(word) > 1 else None,
-                mode=word[2] if len(word) > 2 else None,
-                matches=matches,
-                data=userdata,
-            )
+            message = hexchat.strip(
+                word[1].strip(),
+            ) if len(word) > 1 else ''
+            if message:
+                return func(
+                    author=word[0],
+                    message=message,
+                    mode=word[2] if len(word) > 2 else '',
+                    matches=matches,
+                    data=userdata,
+                )
 
         # Register hooks with hexchat.
         for event in events:
