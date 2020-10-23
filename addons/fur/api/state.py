@@ -140,6 +140,12 @@ def find_case(query: t.Union[int, str]) -> t.Optional[types.Case]:
         except ValueError:
             pass
 
+    # Convert to num directly if possible.
+    try:
+        query = int(query)
+    except ValueError:
+        pass
+
     # Try to find case by:
     # case number
     if isinstance(query, int):

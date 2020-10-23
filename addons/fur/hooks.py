@@ -104,10 +104,10 @@ def mecha_list(message: str, **kwargs):
 
 # noinspection PyUnusedLocal
 @api.hook_print(
-    match_message=re.compile(r'^!(?:close|clear|md|trash) (?P<query>.+)')
+    match_message=re.compile(r'^!(?:close|clear|md|trash) (?P<query>[^\s]+)')
 )
-def delete_case(message: str, **kwargs):
-    query = message.split()[1]
+def delete_case(matches: typing.Dict[str, str], **kwargs):
+    query = matches.get('query')
     case = api.find_case(query)
     if not case:
         api.print(f'Case not found: {query}')
@@ -117,10 +117,10 @@ def delete_case(message: str, **kwargs):
 
 # noinspection PyUnusedLocal
 @api.hook_print(
-    match_message=re.compile(r'^!cr (?P<query>.+)')
+    match_message=re.compile(r'^!cr (?P<query>[^\s]+)')
 )
-def cr_case(message: str, **kwargs):
-    query = message.split()[1]
+def cr_case(matches: typing.Dict[str, str], **kwargs):
+    query = matches.get('query')
     case = api.find_case(query)
     if not case:
         api.print(f'Case not found: {query}')
@@ -130,10 +130,10 @@ def cr_case(message: str, **kwargs):
 
 # noinspection PyUnusedLocal
 @api.hook_print(
-    match_message=re.compile(r'^!active (?P<num>\d+)')
+    match_message=re.compile(r'^!active (?P<query>[^\s]+)')
 )
-def activate_case(message: str, **kwargs):
-    query = message.split()[1]
+def activate_case(matches: typing.Dict[str, str], **kwargs):
+    query = matches.get('query')
     case = api.find_case(query)
     if not case:
         api.print(f'Case not found: {query}')
