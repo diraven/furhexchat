@@ -206,6 +206,10 @@ register_alias(name='fuel', messages=[
     'your rats for '
     'some quick and helpful tips on fuel management.',
 ])
+register_alias(name='welcome', messages=[
+    'You are most welcome, {word[1]}! Thank you for calling us. Let the fuel '
+    'be with you and fly safe, cmdr! o7',
+])
 
 for cmd_name in [
     'pc',
