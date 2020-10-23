@@ -15,7 +15,7 @@ def get_window_context(name: str) -> 'hexchat.Context':
     return ctx
 
 
-def update_board():
+def render():
     ctx = get_window_context(config.CASES_WINDOW_NAME)
     data = format.state(state.get_state())
     ctx.command('clear')

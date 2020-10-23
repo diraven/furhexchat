@@ -4,7 +4,7 @@ from . import api
 
 
 # noinspection PyUnusedLocal
-@api.hook_command(names=('state', 'status'))
-def print_state(**kwargs) -> t.Optional[api.types.Eat]:
-    api.gui.update_board()
+@api.hook_command(names=('render',))
+def render(**kwargs) -> t.Optional[api.types.Eat]:
+    api.gui.render()
     return api.types.Eat.ALL

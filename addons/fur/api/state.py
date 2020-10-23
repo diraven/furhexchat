@@ -15,14 +15,14 @@ def _add_case(case: types.Case) -> types.Case:
     global _state
 
     _state['cases'].append(case)
-    gui.update_board()
+    gui.render()
     return case
 
 
 def _update_case(case: types.Case, data: t.Dict) -> types.Case:
     case.update(data)
     print(data)
-    gui.update_board()
+    gui.render()
     return case
 
 
@@ -30,7 +30,7 @@ def _delete_case(case: types.Case) -> types.Case:
     global _state
 
     _state['cases'].remove(case)
-    gui.update_board()
+    gui.render()
     return case
 
 
