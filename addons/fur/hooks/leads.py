@@ -8,7 +8,7 @@ _jumps_rexp = re.compile(r'(?P<count>\d+)\s*j(?:ump)?s?')
 # noinspection PyUnusedLocal
 @api.hook_print()
 def handler(author: str, message: str, **kwargs):
-    case = api.state.process_quote(f'{author} {message}')
+    case = api.state.process_quote(f'<{author}> {message}')
     if case:
         api.print(
             f'{api.types.Color.LIGHT_GREEN.value}>'
