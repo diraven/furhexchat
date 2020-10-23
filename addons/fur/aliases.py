@@ -196,17 +196,15 @@ register_alias(name='bounce', messages=[
     'could you try and make sure the screen stays on so that you do not get '
     'disconnected?',
 ])
-register_alias(name='sorry', command='clear', messages=[
+register_alias(name='sorry', messages=[
     '{word[1]}: sorry we couldn\'t get to you in time today, your rats '
     'will be there for you after you respawn to help you with some tips '
     'and tricks, so please stick with them for a bit.',
-    '{cmd} {word[1]}',
 ])
-register_alias(name='clear', command='clear', messages=[
+register_alias(name='fuel', messages=[
     '{word[1]}: you should be receiving fuel now. Please remain with '
     'your rats for '
     'some quick and helpful tips on fuel management.',
-    '{cmd} {word_eol[1]}',
 ], arguments=['ircname', 'rat'])
 
 for cmd_name in [
