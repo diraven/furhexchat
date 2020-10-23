@@ -10,10 +10,10 @@ _jumps_rexp = re.compile(r'(?P<count>\d+)\s*j(?:ump)?s?')
 def handler(author: str, message: str, **kwargs):
     case = api.state.process_quote(f'<{author}> {message}')
     if case:
-        api.print(
-            f'{api.types.Color.LIGHT_GREEN.value}>'
-            f'{api.types.Color.DEFAULT.value} {case}'
-        )
+        # api.print(
+        #     f'{api.types.Color.LIGHT_GREEN.value}>'
+        #     f'{api.types.Color.DEFAULT.value} {case}'
+        # )
 
         if _jumps_rexp.search(message):
             case.jumps_called(f'<{author}> {message}')
