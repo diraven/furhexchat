@@ -201,6 +201,12 @@ class Case:
             pass
 
     def put_rat(self, **kwargs):
+        # Strip all formatting from input.
+        kwargs = {
+            k: utils.strip(v) for k, v in kwargs.items() if v
+        }
+
+        # Try to find and update existing rat.
         rat = self.find_rat(
             kwargs.get('nick'),
         ) or self.find_rat(kwargs.get('cmdr'))
@@ -283,6 +289,11 @@ class State:
         self._render()
 
     def put_case(self, **kwargs):
+        # Strip all formatting from input.
+        kwargs = {
+            k: utils.strip(v) for k, v in kwargs.items() if v
+        }
+
         # Try to find and update existing case.
         case = self.find_case(kwargs.get('num')) or \
                self.find_case(kwargs.get('cmdr')) or \

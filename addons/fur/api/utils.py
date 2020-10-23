@@ -1,6 +1,8 @@
 # import typing as t
 
 import hexchat
+
+
 # from . import types
 
 
@@ -16,6 +18,10 @@ def send_message(target: str, message: str):
 
 def nicks_match(n1, n2) -> bool:
     return hexchat.nickcmp(n1, n2) == 0
+
+
+def strip(text: str) -> str:
+    return hexchat.strip(text)
 
 
 # noinspection PyShadowingBuiltins
