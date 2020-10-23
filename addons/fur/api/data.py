@@ -133,6 +133,9 @@ class Case:
             if not self.is_active else ''
         result = f'{self}{cr}{active}'
 
+        if self.system:
+            result += f'\n' + self.system
+
         if self.rats:
             result += f'\n' + '\n'.join(rat.details() for rat in self.rats)
         elif self.jump_calls:
