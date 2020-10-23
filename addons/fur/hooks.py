@@ -27,7 +27,6 @@ _platforms = {
 
 # noinspection PyUnusedLocal
 @api.hook_print(
-    match_author='RatMama[BOT]',
     match_message=re.compile(
         r'Incoming Client: (?P<cmdr>.+) - '
         r'System: (?P<system>.+) - '
@@ -53,7 +52,6 @@ def mama_announcement(
 
 # noinspection PyUnusedLocal
 @api.hook_print(
-    match_author='MechaSqueak[BOT]',
     match_message=re.compile(
         r'RATSIGNAL - '
         r'CMDR (?P<cmdr>.+) - '
@@ -92,13 +90,13 @@ _list_item_rexp = re.compile(
 
 # noinspection PyUnusedLocal
 @api.hook_print(
-    match_author='MechaSqueak[BOT]',
     match_message=re.compile(r'\d+ cases found')
 )
 def mecha_list(message: str, **kwargs):
     items = message.split(', ')
     if len(items) < 2:
         return
+
     items = items[1:]
     nums = []
     for item in items:
