@@ -5,7 +5,7 @@ from .. import api
 
 # noinspection PyUnusedLocal
 @api.hook_print(
-    match_message=re.compile(r'^!(?:go|assign) [^\s]+ [^\s]+'),
+    match_message=re.compile(r'^!(?:go|assign)(?:-[^\s]+)? [^\s]+ [^\s]+'),
 )
 def handler(message: str, **kwargs):
     args = message.split()
