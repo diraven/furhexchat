@@ -24,7 +24,7 @@ def handler(message: str, **kwargs):
     nums = []
     for item in items:
         matches: t.Dict = _list_item_rexp.match(item).groupdict()
-        nums.append(int(matches.get('num')))
+        nums.append(matches.get('num'))
         api.state.put_case(
             cmdr=matches.get('cmdr'),
             num=matches.get('num'),
