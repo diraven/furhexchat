@@ -7,9 +7,9 @@ from .. import api
 # noinspection PyUnusedLocal
 @api.hook_print(
     match_message=re.compile(
-        r'RATSIGNAL - '
-        r'CMDR (?P<cmdr>.+) - '
-        r'Reported System: (?P<system>.+) \((?P<landmark>.+)\) - '
+        r'RATSIGNAL - CMDR (?P<cmdr>.+) - '
+        r'Reported System: '
+        r'(?P<system>.+) \((?P<landmark>.+)\)(?: \((?P<permit>.+)\))? - '
         r'Platform: (?P<platform>.+) - '
         r'O2: (?P<o2>.+) '
         r'Language: (?P<language>.+) \((?P<language_code>.+)\) '
