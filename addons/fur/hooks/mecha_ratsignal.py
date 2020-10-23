@@ -30,5 +30,5 @@ def handler(
         platform=matches.get('platform'),
         is_cr=matches.get('o2') != 'OK',
         language=matches.get('language_code'),
-        num=int(matches.get('num')),
+        num=matches.get('num'),
     )

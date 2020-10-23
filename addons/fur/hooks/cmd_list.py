@@ -27,7 +27,7 @@ def handler(message: str, **kwargs):
         nums.append(int(matches.get('num')))
         api.state.put_case(
             cmdr=matches.get('cmdr'),
-            num=int(matches.get('num')),
+            num=matches.get('num'),
             platform=matches.get('platform'),
             is_cr='(cr)' in item.lower(),
             is_active='(inactive)' not in item.lower(),

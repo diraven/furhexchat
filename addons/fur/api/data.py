@@ -18,7 +18,7 @@ class Rat:
 class Case:
     _state: 'State'
 
-    _num: int
+    _num: str
     _cmdr: str = ''
     _is_active: bool = True
     _is_cr: bool = False
@@ -137,7 +137,7 @@ class State:
 
     @property
     def _free_case_num(self) -> int:
-        return max(max([c.num for c in self.cases] + [0]), 100) + 1
+        return max(max([int(c.num) for c in self.cases] + [0]), 100) + 1
 
     def _build_leads(self):
         self._leads = {}
@@ -165,12 +165,6 @@ class State:
         self._render()
 
     def put_case(self, **kwargs):
-        # Fix case num.
-        if kwargs.get('num') is None:
-            kwargs['num'] = self._free_case_num
-        else:
-            kwargs['num'] = int(kwargs['num'])
-
         # Try to find and update existing case.
         case = self.find_case(kwargs.get('num')) or \
                self.find_case(kwargs.get('cmdr')) or \
@@ -182,6 +176,9 @@ class State:
             return case
 
         # Create new case.
+        # Fix case num.
+        if kwargs.get('num') is None:
+            kwargs['num'] = str(self._free_case_num)
         kwargs = {
             f'_{k}': v for k, v in kwargs.items()
         }
@@ -190,72 +187,60 @@ class State:
         self.updated()
         return case
 
-    def find_case(self, query: t.Union[int, str]) -> t.Optional[Case]:
+    def find_case(self, query: str) -> t.Optional[Case]:
         # Immediately return if query is empty.
         if query is None or query == '':
             return
 
         # Convert '#num' query to 'num' query.
-        if isinstance(query, str) and query.startswith('#'):
-            try:
-                query = int(query[1:])
-            except ValueError:
-                pass
-
-        # Convert to num directly if possible.
-        try:
-            query = int(query)
-        except ValueError:
-            pass
+        query = query.lstrip('#')
 
         # Try to find case by:
         # case number
-        if isinstance(query, int):
-            try:
-                return next(
-                    c for c in self.cases if c.num == query
-                )
-            except StopIteration:
-                pass
+        try:
+            return next(
+                c for c in self.cases if c.num == query
+            )
+        except StopIteration:
+            pass
 
-        if isinstance(query, str):
-            # case nick
-            try:
-                return next(
-                    c for c in self.cases if utils.nicks_match(c.nick, query)
-                )
-            except StopIteration:
-                pass
+        # case nick
+        try:
+            return next(
+                c for c in self.cases if utils.nicks_match(c.nick, query)
+            )
+        except StopIteration:
+            pass
 
-            # case cmdr
-            try:
-                return next(
-                    c for c in self.cases if c.cmdr.lower() == query.lower()
-                )
-            except StopIteration:
-                pass
+        # case cmdr
+        try:
+            return next(
+                c for c in self.cases if c.cmdr.lower() == query.lower()
+            )
+        except StopIteration:
+            pass
 
-            # rat nick
-            try:
-                for case in self.cases:
-                    next(
-                        r for r in case.rats if utils.nicks_match(
-                            r.nick, query,
-                        )
+        # rat nick
+        try:
+            for case in self.cases:
+                next(
+                    r for r in case.rats if utils.nicks_match(
+                        r.nick, query,
                     )
-                    return case
-            except StopIteration:
-                pass
+                )
+                return case
+        except StopIteration:
+            pass
 
-            # rat cmdr
-            try:
-                for case in self.cases:
-                    next(
-                        r for r in case.rats if r.cmdr.lower() == query.lower()
-                    )
-                    return case
-            except StopIteration:
-                pass
+        # rat cmdr
+        try:
+            for case in self.cases:
+                next(
+                    r for r in case.rats if r.cmdr.lower() == query.lower()
+                )
+                return case
+        except StopIteration:
+            pass
 
     def delete_case(self, case: Case):
         self._cases.remove(case)

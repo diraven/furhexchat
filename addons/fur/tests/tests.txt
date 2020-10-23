@@ -1,0 +1,5 @@
+Incoming Client: DeepDarkFantasy - System: Crucis Sector dw-n a6-3 - Platform: PC - O2: NOT OK - Language: Russian (ru-RU)
+RATSIGNAL - CMDR CPT.Tyr - Reported System: PIPE (BOWL) SECTOR FQ-Y B3 (377.5 LY from Fuelum) - Platform: PC - O2: OK Language: German (de) (Case #0) (PC_SIGNAL)
+
+Incoming Client: Trebleclef - System: WOLF 1462 - Platform: PC - O2: OK - Language: English (en-US)
+RATSIGNAL - CMDR Trebleclef - Reported System: WOLF 1462 (89 LY from Sol) - Platform: PC - O2: OK Language: English (United States) (en-US) (Case #8) (PC_SIGNAL)
