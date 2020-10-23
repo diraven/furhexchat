@@ -3,6 +3,8 @@ from .aliases import *
 from .commands import *
 from .hooks import *
 
+api.state.updated()
+
 # Sync cases with bot on plugin reload.
 fr_ctx: 'api.hexchat.Context' = api.hexchat.find_context(channel='#fuelrats')
 if fr_ctx:
