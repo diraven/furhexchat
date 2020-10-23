@@ -6,12 +6,63 @@ from . import utils, types, context, config
 
 @dataclass
 class Rat:
-    nick: str
-    cmdr: str
-    fr: t.Optional[bool]
-    wr: t.Optional[bool]
-    bc: t.Optional[bool]
-    fuel: t.Optional[bool]
+    case: 'Case'
+
+    _nick: str
+    _cmdr: str = ''
+    _fr: t.Optional[bool] = None
+    _prep: t.Optional[bool] = None
+    _pos: t.Optional[bool] = None
+    _wr: t.Optional[bool] = None
+    _bc: t.Optional[bool] = None
+    _fuel: t.Optional[bool] = None
+
+    def __str__(self) -> str:
+        return self._cmdr or self._nick
+
+    def details(self) -> str:
+        value_to_char = {
+            None: '?',
+            True: '+',
+            False: '-',
+        }
+        value_to_color = {
+            None: types.Color.GRAY,
+            True: types.Color.GREEN,
+            False: types.Color.RED,
+        }
+        data = ''
+        if self.case.is_cr:
+            bits = ['fr', 'prep', 'pos', 'wr', 'bc', 'fuel']
+        else:
+            bits = ['fr', 'prep', 'wr', 'bc', 'fuel']
+        for bit in bits:
+            val = getattr(self, f'_{bit}')
+            char = value_to_char[val]
+            color = value_to_color[val].value
+            no_color = types.Color.DEFAULT.value
+            data = data + f' [{color}{bit}{char}{no_color}]'
+        return f'{self}:{data}'
+
+    @property
+    def nick(self):
+        return self._nick
+
+    @property
+    def cmdr(self):
+        return self._cmdr
+
+    @property
+    def fr(self):
+        return self._fr
+
+    @property
+    def wr(self):
+        return self._wr
+
+    @property
+    def bc(self):
+        return self._bc
 
 
 @dataclass
@@ -30,8 +81,8 @@ class Case:
     _system: str = ''
     _landmark: str = ''
 
-    _rats: t.Iterable[Rat] = field(default_factory=list)
-    _jump_calls: t.Iterable[str] = field(default_factory=list)
+    _rats: t.List[Rat] = field(default_factory=list)
+    _jump_calls: t.List[str] = field(default_factory=list)
 
     def __str__(self):
         color = types.Color.SUCCESS
@@ -61,7 +112,15 @@ class Case:
                  f'INACTIVE' \
                  f'{types.Color.DEFAULT.value}' \
             if not self.is_active else ''
-        return f'{self}{cr}{active}'
+        title = f'{self}{cr}{active}'
+        if self.rats:
+            return f'{title}\n' + '\n'.join(rat.details() for rat in self.rats)
+        else:
+            return f'{title}\n' + '\n'.join(self.jump_calls)
+
+    @property
+    def state(self):
+        return self._state
 
     @property
     def num(self):
@@ -109,6 +168,39 @@ class Case:
 
     def delete(self):
         self._state.delete_case(self)
+
+    def find_rat(self, query: str) -> t.Optional[Rat]:
+        # Immediately return if query is empty.
+        if not query:
+            return
+
+        try:
+            return next(
+                r for r in self.rats if utils.nicks_match(
+                    r.nick, query,
+                ) or r.cmdr.lower == query.lower()
+            )
+        except StopIteration:
+            pass
+
+    def put_rat(self, **kwargs):
+        rat = self.find_rat(
+            kwargs.get('nick'),
+        ) or self.find_rat(kwargs.get('cmdr'))
+        if rat:
+            for k, v in kwargs.items():
+                setattr(rat, f'_{k}', v)
+            self.state.updated()
+            return rat
+
+        # Create new rat.
+        kwargs = {
+            f'_{k}': v for k, v in kwargs.items()
+        }
+        rat = Rat(case=self, **kwargs)
+        self._rats.append(rat)
+        self.state.updated()
+        return rat
 
 
 @dataclass
@@ -189,7 +281,7 @@ class State:
 
     def find_case(self, query: str) -> t.Optional[Case]:
         # Immediately return if query is empty.
-        if query is None or query == '':
+        if not query:
             return
 
         # Convert '#num' query to 'num' query.
@@ -253,6 +345,7 @@ class State:
                 ) if lead in msg.lower()
             )
             context.print(f'#{case.num}', msg)
+            return case
         except StopIteration:
             pass
 

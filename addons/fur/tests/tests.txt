@@ -1,5 +1,9 @@
-Incoming Client: DeepDarkFantasy - System: Crucis Sector dw-n a6-3 - Platform: PC - O2: NOT OK - Language: Russian (ru-RU)
+Incoming Client: Client1 - System: Crucis Sector dw-n a6-3 - Platform: PC - O2: NOT OK - Language: Russian (ru-RU)
 RATSIGNAL - CMDR CPT.Tyr - Reported System: PIPE (BOWL) SECTOR FQ-Y B3 (377.5 LY from Fuelum) - Platform: PC - O2: OK Language: German (de) (Case #0) (PC_SIGNAL)
+!go #0 rat1 rat2
 
-Incoming Client: Trebleclef - System: WOLF 1462 - Platform: PC - O2: OK - Language: English (en-US)
+Incoming Client: Client2 - System: WOLF 1462 - Platform: PC - O2: OK - Language: English (en-US)
 RATSIGNAL - CMDR Trebleclef - Reported System: WOLF 1462 (89 LY from Sol) - Platform: PC - O2: OK Language: English (United States) (en-US) (Case #8) (PC_SIGNAL)
+
+1 cases found, [7] Client3 (PS4)
+<+rat1> #7 wr+ prep- trying direct them here
