@@ -205,6 +205,10 @@ class Case:
         self.state.updated()
         return rat
 
+    def jumps_called(self, text):
+        self._jump_calls.append(text)
+        self.state.updated()
+
     def delete_rat(self, rat: Rat):
         self._rats.remove(rat)
         self.state.updated()
@@ -319,27 +323,27 @@ class State:
         except StopIteration:
             pass
 
-        # rat nick
-        try:
-            for case in self.cases:
-                next(
-                    r for r in case.rats if utils.nicks_match(
-                        r.nick, query,
-                    )
-                )
-                return case
-        except StopIteration:
-            pass
-
-        # rat cmdr
-        try:
-            for case in self.cases:
-                next(
-                    r for r in case.rats if r.cmdr.lower() == query.lower()
-                )
-                return case
-        except StopIteration:
-            pass
+        # # rat nick
+        # try:
+        #     for case in self.cases:
+        #         next(
+        #             r for r in case.rats if utils.nicks_match(
+        #                 r.nick, query,
+        #             )
+        #         )
+        #         return case
+        # except StopIteration:
+        #     pass
+        #
+        # # rat cmdr
+        # try:
+        #     for case in self.cases:
+        #         next(
+        #             r for r in case.rats if r.cmdr.lower() == query.lower()
+        #         )
+        #         return case
+        # except StopIteration:
+        #     pass
 
     def delete_case(self, case: Case):
         self._cases.remove(case)
