@@ -273,3 +273,4 @@ class Case(t.TypedDict):
 class State(t.TypedDict):
     cases: t.List[Case]
     rats: t.List[Rat]
+    jump_calls: t.List[str]

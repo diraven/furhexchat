@@ -10,6 +10,7 @@ from . import utils, types, format, gui
 _state: types.State = {
     'cases': [],
     'rats': [],
+    'jump_calls': [],
 }
 
 
@@ -17,14 +18,12 @@ def _add_case(case: types.Case) -> types.Case:
     global _state
 
     _state['cases'].append(case)
-    gui.render()
     return case
 
 
 def _update_case(case: types.Case, data: t.Dict) -> types.Case:
     case.update(data)
     print(data)
-    gui.render()
     return case
 
 
@@ -32,7 +31,6 @@ def _delete_case(case: types.Case) -> types.Case:
     global _state
 
     _state['cases'].remove(case)
-    gui.render()
     return case
 
 
@@ -50,7 +48,9 @@ def clear() -> str:
 
     _state['cases'] = []
     _state['rats'] = []
+    _state['jump_calls'] = []
 
+    gui.render()
     return 'state cleared'
 
 
@@ -105,6 +105,7 @@ def put_case(
     if case:
         updates = format.dict_updates(case, case_data)
         _update_case(case, case_data)
+        gui.render()
         return f'{format.case(case)} updated:\n{updates}'
 
     # Create new case.
@@ -123,6 +124,7 @@ def put_case(
         'system': system or '',
     }
     case = _add_case(case_data)
+    gui.render()
     return f'{format.case(case)} created'
 
 
@@ -199,6 +201,7 @@ def delete_case(num: int):
 
     case = find_case(num)
     _delete_case(case)
+    gui.render()
 
 
 def get_state() -> types.State:
