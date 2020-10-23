@@ -205,7 +205,7 @@ register_alias(name='fuel', messages=[
     '{word[1]}: you should be receiving fuel now. Please remain with '
     'your rats for '
     'some quick and helpful tips on fuel management.',
-], arguments=['ircname', 'rat'])
+])
 
 for cmd_name in [
     'pc',
