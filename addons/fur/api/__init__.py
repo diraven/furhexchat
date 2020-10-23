@@ -1,8 +1,7 @@
 # noinspection PyUnresolvedReferences
 import hexchat
-from . import types, fmt, config
+from . import config, types
 from .aliases import register_alias
+from .data import state
 from .hooks import hook_print, hook_command
-from .state import put_case, delete_case, get, find_case, check_leads
 from .utils import reply, send_message, print
-from .gui import render_dashboard, add_quote

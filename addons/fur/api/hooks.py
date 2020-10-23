@@ -8,12 +8,7 @@ def hook_print(
     *,
     match_author: t.Optional[t.Union[str, t.Pattern]] = None,
     match_message: t.Optional[t.Union[str, t.Pattern]] = None,
-    events: t.Iterable[types.Event] = (
-        types.Event.CHANNEL_MESSAGE,
-        types.Event.CHANNEL_MSG_HILIGHT,
-        types.Event.NOTICE,
-        types.Event.PRIVATE_MESSAGE_TO_DIALOG,
-    ),
+    events: t.Iterable[types.Event] = types.COMMAND_EVENTS,
 ):
     def factory(func: t.Callable):
         # noinspection PyUnusedLocal

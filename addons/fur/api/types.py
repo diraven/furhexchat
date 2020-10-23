@@ -1,6 +1,5 @@
 import collections
 import enum
-import typing as t
 
 import hexchat
 
@@ -205,6 +204,16 @@ class Event(enum.Enum):
     YOUR_NICK_CHANGING = 'Your Nick Changing'
 
 
+COMMAND_EVENTS = [
+    Event.CHANNEL_MESSAGE,
+    Event.CHANNEL_MSG_HILIGHT,
+    Event.YOUR_MESSAGE,
+    Event.NOTICE,
+    Event.PRIVATE_MESSAGE,
+    Event.PRIVATE_MESSAGE_TO_DIALOG,
+]
+
+
 class Color(enum.Enum):
     DEFAULT = '\003'
     WHITE = '\00300'
@@ -244,34 +253,3 @@ class Eat(enum.Enum):
     NONE = hexchat.EAT_NONE
     PLUGIN = hexchat.EAT_PLUGIN
     HEXCHAT = hexchat.EAT_HEXCHAT
-
-
-class Rat(t.TypedDict):
-    nick: str
-    cmdr: t.Optional[str]
-    fr: t.Optional[bool]
-    wr: t.Optional[bool]
-    bc: t.Optional[bool]
-    fuel: t.Optional[bool]
-
-
-class Case(t.TypedDict):
-    num: int
-    cmdr: str
-    is_active: bool
-    is_cr: bool
-
-    nick: str
-    language: str
-    platform: Platform
-
-    system: str
-    landmark: str
-
-    rats: t.Iterable[Rat]
-    jump_calls: t.Iterable[str]
-
-
-class State(t.TypedDict):
-    cases: t.List[Case]
-    leads: t.Dict[str, Case]

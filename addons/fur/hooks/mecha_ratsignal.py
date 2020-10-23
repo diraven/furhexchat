@@ -17,12 +17,13 @@ from .. import api
         r'\((?P<platform_signal>.+)\)',
         flags=re.IGNORECASE,
     ),
+    events=api.types.COMMAND_EVENTS,
 )
-def mecha_announcement(
+def handler(
     matches: t.Dict[str, str],
     **kwargs,
 ):
-    api.put_case(
+    api.state.put_case(
         cmdr=matches.get('cmdr'),
         system=matches.get('system'),
         landmark=matches.get('landmark'),
