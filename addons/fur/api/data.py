@@ -64,6 +64,9 @@ class Rat:
     def bc(self):
         return self._bc
 
+    def delete(self):
+        return self.case.delete_rat(self)
+
 
 @dataclass
 class Case:
@@ -201,6 +204,10 @@ class Case:
         self._rats.append(rat)
         self.state.updated()
         return rat
+
+    def delete_rat(self, rat: Rat):
+        self._rats.remove(rat)
+        self.state.updated()
 
 
 @dataclass

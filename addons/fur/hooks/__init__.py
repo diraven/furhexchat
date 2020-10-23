@@ -4,6 +4,7 @@ from . import (
     cmd_cr,
     cmd_go,
     cmd_list,
+    cmd_unassign,
     leads,
     mecha_ratsignal,
     ratmama_client,
