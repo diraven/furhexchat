@@ -22,3 +22,8 @@ def clear(name: str):
 # noinspection PyShadowingBuiltins
 def print(name, text: str):
     _get(name).prnt(text)
+
+
+def delete(name: str):
+    ctx = hexchat.find_context(server=name)
+    ctx.command(f'close')

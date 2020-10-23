@@ -389,6 +389,7 @@ class State:
 
     def delete_case(self, case: Case):
         self._cases.remove(case)
+        context.delete(f'#{case.num}')
         self.updated()
 
     def process_quote(self, msg: str):
