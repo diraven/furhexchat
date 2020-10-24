@@ -14,11 +14,12 @@ COLOR_CLIENT = api.const.COLOR.ORANGE
 quote_matcher = re.compile(r'((?:#|case ?)(?P<case_id>\d+))', re.IGNORECASE)
 highlighters: t.Dict[t.Pattern, str] = {
     quote_matcher: COLOR_INFO,
-    re.compile(r'(\d\s?k?ls)', re.IGNORECASE): COLOR_INFO,
     re.compile(r'(\w+\+)', re.IGNORECASE): COLOR_SUCCESS,
     re.compile(r'(\w+conf)', re.IGNORECASE): COLOR_SUCCESS,
-    re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR_DANGER,
+    re.compile(r'(\d+\s?k?ls)', re.IGNORECASE): COLOR_WARNING,
     re.compile(r'(\d+\s*j(?:umps?)?|$)', re.IGNORECASE): COLOR_WARNING,
+    re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR_DANGER,
+    re.compile(r'(ratsignal|incoming client)', re.IGNORECASE): COLOR_WARNING,
 }
 close_matcher = re.compile(
     r'!(?:close|md|clear|trash) #?(?P<case_id>\d+)', re.IGNORECASE,
@@ -28,10 +29,11 @@ close_matcher = re.compile(
 # INBOUND_EVENT = api.const.EVENT.YOUR_MESSAGE
 # OUTBOUND_EVENT = api.const.EVENT.CHANNEL_MESSAGE
 
-
 # PROD
 INBOUND_EVENT = api.const.EVENT.CHANNEL_MESSAGE
 OUTBOUND_EVENT = api.const.EVENT.YOUR_MESSAGE
+
+HIGHLIGHTED_EVENT = api.const.EVENT.CHANNEL_MSG_HILIGHT
 
 
 # noinspection PyUnusedLocal
@@ -40,6 +42,13 @@ OUTBOUND_EVENT = api.const.EVENT.YOUR_MESSAGE
     priority=api.const.PRIORITY.LOWEST,
 )
 def handler(author: str, text: str, mode: str, **kwargs):
+    outbound_event = OUTBOUND_EVENT
+    if any((
+        'ratsignal' in text.lower(),
+        text.lower().startswith('incoming client:'),
+    )):
+        outbound_event = HIGHLIGHTED_EVENT
+
     for highlighter, color in highlighters.items():
         text = highlighter.sub(
             f'{color}\\1{api.const.COLOR.DEFAULT}',
@@ -48,7 +57,7 @@ def handler(author: str, text: str, mode: str, **kwargs):
 
     api.utils.emit_print(
         f'{api.const.COLOR.DEFAULT}{text}',
-        event=OUTBOUND_EVENT,
+        event=outbound_event,
         prefix=f'{COLOR_RAT if mode else COLOR_CLIENT}'
                f'{author}'
                f'{api.const.COLOR.DEFAULT}',

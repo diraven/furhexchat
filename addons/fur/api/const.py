@@ -204,3 +204,6 @@ class EAT:
     NONE = hexchat.EAT_NONE
     PLUGIN = hexchat.EAT_PLUGIN
     HEXCHAT = hexchat.EAT_HEXCHAT
+
+
+BEEP = '\007'
