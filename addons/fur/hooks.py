@@ -18,7 +18,7 @@ highlighters: t.Dict[t.Pattern, str] = {
     re.compile(r'(\w+conf)', re.IGNORECASE): COLOR_SUCCESS,
     re.compile(r'(\d+\s?k?ls)', re.IGNORECASE): COLOR_WARNING,
     re.compile(r'(\d+\s*j(?:umps?)?|$)', re.IGNORECASE): COLOR_WARNING,
-    re.compile(r'(\sopen|pg|mm|ez(?:[^\w]|$))]', re.IGNORECASE): COLOR_WARNING,
+    re.compile(r'(\sopen|pg|mm|ez(?:[^\w]|$))', re.IGNORECASE): COLOR_WARNING,
     re.compile(r'(ratsignal|incoming client)', re.IGNORECASE): COLOR_WARNING,
     re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR_DANGER,
 }
@@ -65,7 +65,7 @@ def handler(author: str, text: str, mode: str, **kwargs):
         mode=mode,
     )
 
-    matches = quote_matcher.search(text)
+    matches = quote_matcher.search(api.utils.strip(text))
     if matches:
         api.utils.emit_print(
             f'{api.const.COLOR.DEFAULT}{text}',

@@ -48,4 +48,5 @@ def strip(text: str) -> str:
 
 def close_context(name: str):
     ctx = hexchat.find_context(server=name)
-    ctx.command(f'close')
+    if ctx:
+        ctx.command(f'close')
