@@ -8,8 +8,8 @@ COLOR_WARNING = api.const.COLOR.YELLOW
 COLOR_DANGER = api.const.COLOR.RED
 COLOR_INFO = api.const.COLOR.ROYAL_BLUE
 
-COLOR_RAT = api.const.COLOR.TEAL
-COLOR_CLIENT = api.const.COLOR.ORANGE
+COLOR_RAT = api.const.COLOR.ORANGE
+COLOR_CLIENT = api.const.COLOR.TEAL
 
 quote_matcher = re.compile(r'((?:#|case ?)(?P<case_id>\d+))', re.IGNORECASE)
 highlighters: t.Dict[t.Pattern, str] = {
