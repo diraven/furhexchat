@@ -53,7 +53,7 @@ def register_alias(
     languages = LANGUAGES if translated else ['']
     platforms = PLATFORMS if platformed else {'': ''}
 
-    for platform in platforms:
+    for alias_platform, command_platform in platforms.items():
         for language in languages:
             # Get message template.
             if isinstance(template, dict):
@@ -61,7 +61,7 @@ def register_alias(
 
             userdata = (
                 name,
-                f'{platform}{command or name}'
+                f'{command_platform}{command or name}'
                 f'{f"-{language}" if language else ""}',
                 template or '!{command} {first_arg} {rest_args}',
                 arguments or ['nick'],
@@ -69,7 +69,8 @@ def register_alias(
 
             hooks.command(
                 names=[
-                    f'{platform}{name}{f"-{language}" if language else ""}',
+                    f'{alias_platform}{name}'
+                    f'{f"-{language}" if language else ""}',
                 ],
                 description=f'{name} '
                             f'{" ".join(a for a in arguments or ["nick"])}',
