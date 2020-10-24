@@ -1,11 +1,28 @@
 # import typing as t
-
 import hexchat
+from . import const
 
 
 # noinspection PyShadowingBuiltins
 def print(text: str):
     hexchat.prnt(text)
+
+
+def emit_print(
+    text: str, *,
+    event: str = const.EVENT.YOUR_MESSAGE,
+    prefix: str = '',
+    mode: str = '',
+    context: str = None,
+):
+    if context is None:
+        hexchat.emit_print(event, prefix, text, mode)
+    else:
+        ctx = hexchat.find_context(server=context)
+        if not ctx:
+            hexchat.command(f'newserver -noconnect {context}')
+        ctx = hexchat.find_context(server=context)
+        ctx.emit_print(event, prefix, text, mode)
 
 
 def command(text: str):
@@ -28,19 +45,7 @@ def nicks_match(n1, n2) -> bool:
 def strip(text: str) -> str:
     return hexchat.strip(text.strip())
 
-# def strip(text: str) -> str:
-#     return hexchat.strip(text)
-#
-#
 
-# def show_message(*, msg: str, author: str = '', mode: str = ''):
-#     hexchat.emit_print("Custom Message", author, msg, mode)
-
-# noinspection PyShadowingBuiltins
-# def print(what: t.Any, label: str = types.Label.INFO.value):
-# for line in str(what).splitlines():
-#     hexchat.emit_print(
-#         types.Event.CHANNEL_MESSAGE.value,
-#         f'{label} {types.Color.LIGHT_GREEN.value}>',
-#         line,
-#     )
+def close_context(name: str):
+    ctx = hexchat.find_context(server=name)
+    ctx.command(f'close')

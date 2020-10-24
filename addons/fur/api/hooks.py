@@ -8,14 +8,14 @@ from . import const, utils
 def print(
     *,
     match_author: t.Optional[t.Union[str, t.Pattern]] = None,
-    match_message: t.Optional[t.Union[str, t.Pattern]] = None,
+    match_text: t.Optional[t.Union[str, t.Pattern]] = None,
     match_events: t.Iterable[str] = const.COMMAND_EVENTS,
     priority=const.PRIORITY.NORM,
 ):
     def factory(func: t.Callable):
         # noinspection PyUnusedLocal
         def wrapper(word: t.List[str], word_eol: t.List[str], userdata: t.Any):
-            # Make sure message data is provided.
+            # Make sure text data is provided.
             if not word:
                 return
 
@@ -27,26 +27,24 @@ def print(
                     if not match_author.match(word[0]):
                         return
 
-            # Match message.
+            # Match text.
             matches = None
-            if match_message and len(word) > 1:
-                if isinstance(match_message, str):
-                    if not word[1].startswith(match_message):
+            if match_text and len(word) > 1:
+                if isinstance(match_text, str):
+                    if not word[1].startswith(match_text):
                         return
                 else:
-                    matches = match_message.match(word[1])
+                    matches = match_text.match(word[1])
                     if not matches:
                         return
                     matches = matches.groupdict()
 
             # Run the handler itself.
-            message = hexchat.strip(
-                word[1].strip(),
-            ) if len(word) > 1 else ''
-            if message:
+            text = word[1].strip() if len(word) > 1 else ''
+            if text:
                 return func(
                     author=word[0],
-                    message=message,
+                    text=text,
                     mode=word[2] if len(word) > 2 else '',
                     matches=matches,
                     data=userdata,
@@ -80,4 +78,3 @@ def command(
             )
 
     return factory
-

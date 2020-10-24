@@ -1,15 +1,74 @@
 import re
+import typing as t
 
 from . import api
 
-# highlights = {
-#     re.compile('(fr[+-])', re.IGNORECASE): api.constants.Color.RED,
-# }
-#
-#
-# # noinspection PyUnusedLocal
-# @api.hook_print(
-#     events=[api.constants.Event.YOUR_MESSAGE],
-# )
-# def handler(author: str, message: str, **kwargs):
-#     api.show_message(msg='asdf', author=f'{author}')
+COLOR_SUCCESS = api.const.COLOR.GREEN
+COLOR_WARNING = api.const.COLOR.YELLOW
+COLOR_DANGER = api.const.COLOR.RED
+COLOR_INFO = api.const.COLOR.ROYAL_BLUE
+
+COLOR_RAT = api.const.COLOR.TEAL
+COLOR_CLIENT = api.const.COLOR.ORANGE
+
+quote_matcher = re.compile(r'((?:#|case ?)(?P<case_id>\d+))', re.IGNORECASE)
+highlighters: t.Dict[t.Pattern, str] = {
+    quote_matcher: COLOR_INFO,
+    re.compile(r'(\d\s?k?ls)', re.IGNORECASE): COLOR_INFO,
+    re.compile(r'(\w+\+)', re.IGNORECASE): COLOR_SUCCESS,
+    re.compile(r'(\w+conf)', re.IGNORECASE): COLOR_SUCCESS,
+    re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR_DANGER,
+    re.compile(r'(\d+\s*j(?:umps?)?|$)', re.IGNORECASE): COLOR_WARNING,
+}
+close_matcher = re.compile(
+    r'!(?:close|md|clear|trash) #?(?P<case_id>\d+)', re.IGNORECASE,
+)
+
+# DEBUG
+# INBOUND_EVENT = api.const.EVENT.YOUR_MESSAGE
+# OUTBOUND_EVENT = api.const.EVENT.CHANNEL_MESSAGE
+
+
+# PROD
+INBOUND_EVENT = api.const.EVENT.CHANNEL_MESSAGE
+OUTBOUND_EVENT = api.const.EVENT.YOUR_MESSAGE
+
+
+# noinspection PyUnusedLocal
+@api.hooks.print(
+    match_events=[INBOUND_EVENT],
+    priority=api.const.PRIORITY.LOWEST,
+)
+def handler(author: str, text: str, mode: str, **kwargs):
+    for highlighter, color in highlighters.items():
+        text = highlighter.sub(
+            f'{color}\\1{api.const.COLOR.DEFAULT}',
+            text,
+        )
+
+    api.utils.emit_print(
+        f'{api.const.COLOR.DEFAULT}{text}',
+        event=OUTBOUND_EVENT,
+        prefix=f'{COLOR_RAT if mode else COLOR_CLIENT}'
+               f'{author}'
+               f'{api.const.COLOR.DEFAULT}',
+        mode=mode,
+    )
+
+    matches = quote_matcher.search(text)
+    if matches:
+        api.utils.emit_print(
+            f'{api.const.COLOR.DEFAULT}{text}',
+            event=OUTBOUND_EVENT,
+            prefix=f'{COLOR_RAT if mode else COLOR_CLIENT}'
+                   f'{author}'
+                   f'{api.const.COLOR.DEFAULT}',
+            mode=mode,
+            context=f'#{matches["case_id"]}',
+        )
+
+    matches = close_matcher.match(text)
+    if matches:
+        api.close_context(f'#{matches["case_id"]}')
+
+    return api.const.EAT.ALL
