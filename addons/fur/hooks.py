@@ -69,7 +69,11 @@ def handler(author: str, text: str, mode: str, **kwargs):
     )
 
     matches = quote_matcher.search(text)
-    if matches and 'paperwork' not in text.lower():
+    if all((
+        matches,
+        'paperwork' not in text.lower(),
+        'successfully closed case' not in text.lower(),
+    )):
         api.utils.emit_print(
             f'{api.const.COLOR.DEFAULT}{text}',
             event=OUTBOUND_EVENT,
