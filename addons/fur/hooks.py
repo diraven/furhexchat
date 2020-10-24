@@ -18,8 +18,9 @@ highlighters: t.Dict[t.Pattern, str] = {
     re.compile(r'(\w+conf)', re.IGNORECASE): COLOR_SUCCESS,
     re.compile(r'(\d+\s?k?ls)', re.IGNORECASE): COLOR_WARNING,
     re.compile(r'(\d+\s*j(?:umps?)?|$)', re.IGNORECASE): COLOR_WARNING,
-    re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR_DANGER,
+    re.compile(r'(\sopen|pg|mm|ez(?:[^\w]|$))]', re.IGNORECASE): COLOR_WARNING,
     re.compile(r'(ratsignal|incoming client)', re.IGNORECASE): COLOR_WARNING,
+    re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR_DANGER,
 }
 close_matcher = re.compile(
     r'!(?:close|md|clear|trash) #?(?P<case_id>\d+)', re.IGNORECASE,
