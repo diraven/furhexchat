@@ -1,28 +1,47 @@
-from .api import register_alias
+from . import api
 
-register_alias(
-    name='prep', command='prep', translated=True,
-)
-register_alias(
-    name='quit', command='quit', translated=True, platformed=True,
-)
-register_alias(
-    name='modules', command='modules', translated=True, platformed=True,
-)
-register_alias(
-    name='go', command='go', translated=True,
-)
-register_alias(
-    name='fr', command='fr', translated=True, platformed=True,
-)
-register_alias(
-    name='wr', command='wing', translated=True, platformed=True,
-)
-register_alias(
-    name='bc', command='beacon', translated=True, platformed=True,
-)
+# Regular
+for alias in [
+    'pc',
+    'xb',
+    'ps',
+    'quote',
+    'active',
+    'grab',
+    'cr',
+    'multi',
+    'md',
+    'pg',
+    'tweetc',
+]:
+    api.register_alias(alias)
 
-register_alias(name='hello', command='', messages=[{
+# Translated only.
+for alias in [
+    'prep',
+]:
+    api.register_alias(alias, translated=True)
+
+# Translated and platformed.
+for alias in [
+    'quit',
+    'modules',
+    'fr',
+]:
+    api.register_alias(alias, translated=True, platformed=True)
+
+api.register_alias('go', translated=True, arguments=['nick', 'rat1 [rat2...]'])
+api.register_alias('cmdr', arguments=['case', 'cmdr'])
+api.register_alias('sys', arguments=['case', 'system'])
+api.register_alias('ircnick', arguments=['case', 'nick'])
+api.register_alias('inject', arguments=['case', 'text'])
+api.register_alias('sub', arguments=['case', 'line [text]'])
+
+api.register_alias('wr', command='wing', translated=True, platformed=True)
+api.register_alias('bc', command='beacon', translated=True, platformed=True)
+api.register_alias('i', command='inject', arguments=['case', 'text'])
+
+api.register_alias('hello', template={
     '': 'Welcome to the Fuel rats, {word[1]}. Please tell us once you\'ve '
         'powered down all of your modules EXCEPT life support, need help '
         'with it or if an "Oxygen depleted in:" timer appear in the upper '
@@ -55,189 +74,189 @@ register_alias(name='hello', command='', messages=[{
           'Support", in caso tu abbia bisogno di aiuto o se un avviso con su '
           'scritto "Oxygen depleted in:" e un timer appare nell\'angolo in '
           'alto a destra.',
-}], translated=True)
-register_alias(name='qeng', command='', messages=[{
-    '': '{word[1]}: Do you speak English?',
-    'de': '{word[1]}: sprechen Sie Englisch?',
-    'ru': '{word[1]}: ты говоришь по-английски',
-    'es': '¿ {word[1]}: hablas inglés?',
-    'fr': '{word[1]}: parlez-vous anglais?',
-    'pt': '{word[1]}: fala inglês?',
-    'cn': '{word[1]}: 你会说英语吗？',
-    'it': '{word[1]}: lei parla inglese?',
-}], translated=True)
-register_alias(name='qmodules', messages=[
-    '{word[1]}: how are those modules coming up? :) Would you like '
-    'additional instructions?'
-])
-register_alias(name='qfr', messages=[
-    '{word[1]}: how are those friend requests coming along? :) Would you '
-    'like additional instructions?'
-])
-register_alias(name='open', messages=[
-    '{word[1]}: please exit to the main menu and log back in to OPEN '
-    'play, then re-disable your thrusters.'
-])
-register_alias(name='qwr', messages=[
-    '{word[1]}: how are those wing requests coming along, are there any '
-    'issues? :)'
-])
-register_alias(name='qbc', messages=[
-    '{word[1]}: how is that wing beacon coming along, are there any '
-    'issues? :)',
-])
-register_alias(name='qo2', messages=[
-    '{word[1]}: do you see an "oxygen depleted in ..." timer in the top '
-    'right of your HUD?',
-])
-register_alias(name='qsys', messages=[
-    '{word[1]}: please, look in the left panel in the navigation tab and '
-    'give me the full '
-    'system name under "System" in the top left corner.',
-])
-
-register_alias(name='revwr', command='invite', messages=[
-    '{word[2]} revwr pls.',
-    '{word[1]}: one of your rat(s) will now send you wing invite, '
-    'please accept.',
-    '{cmd} {word[1]}',
-], arguments=['ircname', 'ratname'], translated=True)
-register_alias(name='bcalt', messages=[
-    '{word[1]}: please go to the Comms Menu on the top left, and from the '
-    'third tab (where you invited your rats to the wing) under Options use '
-    '"Enable Wing Beacon".',
-])
-
-register_alias(name='mm', messages=[
-    '{word[1]}: from THIS point onwards, remain logged out in the MAIN '
-    'MENU please! '
-    'Do NOT login until I give you the "GO GO GO" command.',
-])
-register_alias(name='qmm', messages=[
-    '{word[1]}: please confirm that you\'ve quit to MAIN MENU where you '
-    'can see your ship in the hangar.',
-])
-register_alias(name='qmmsys', messages=[
-    '{word[1]}: staying in the MAIN MENU, can you confirm your full '
-    'system name including any sector name? '
-    'Look in the upper right below your CMDR name where it says / IDLE.',
-])
-register_alias(name='qmmo2', messages=[
-    '{word[1]}: staying in the MAIN MENU, do you remember how much O2 '
-    'you had left?',
-])
-register_alias(name='qmmo2alt', messages=[
-    '{word[1]}: staying in the MAIN MENU, do you remember if the game '
-    'asked you to wait for 15 seconds before '
-    'letting you exit into main menu?',
-])
-register_alias(name='qmmpos', messages=[
-    '{word[1]}: staying in the MAIN MENU, can you remember WHERE in the '
-    'system you were? By the star, '
-    'a planet or station or on the way to one?',
-])
-register_alias(name='mmfr', messages=[
-    '{word[1]}: staying in the MAIN MENU, select SOCIAL, and search for '
-    'a friend in the upper right. '
-    'Click them, then click ADD FRIEND.?',
-])
-register_alias(name='crplan', messages=[
-    '{word[1]}: please, STAY in the MAIN MENU. Overall plan will be: '
-    '1. Login to OPEN - 2. light your beacon - 3. invite your rats to a '
-    'wing - '
-    '4. report your o2 time in this chat and be ready to logout if I '
-    'tell you to.',
-])
-register_alias(name='crvideo', messages=[
-    '{word[1]}: here is a short video on how to do it: '
-    'https://fuelrats.cloud/s/YYzSy2K2QKPfr4X ю',
-])
-register_alias(name='gogogo', messages=[
-    '{word[1]}: GO GO GO! 1. Login to OPEN - '
-    '2. light your beacon - '
-    '3. invite your rat(s) your wing: {word_eol[2]} - '
-    '4. report your o2 time in this chat and be ready to logout if I '
-    'tell you to.',
-], arguments=['ircname', 'rats...'])
-
-register_alias(name='ls', messages=[
-    '{word[1]}: please turn your Life Support on immediately: go to the '
-    'right menu -> '
-    'Modules tab, select Life Support and select Activate',
-])
-register_alias(name='sr', messages=[
-    '{word[1]}: please disable Silent Running Immediately!  Default key: '
-    'Delete, or in the Right side Holo Panel > SHIP tab > Functions '
-    'Screen - Middle Right',
-])
-register_alias(name='sc', messages=[
-    '{word[1]}: looks like you\'re too close to a stellar body or a '
-    'fleet carrier. '
-    'Please, reactivate your thrusters and Frameshift drive, '
-    'then un-target everything and jump to supercruise. '
-    'Fly away from the stellar body or fleet carrier for about 5 light '
-    'seconds, '
-    'then drop back down into normal space.',
-])
-register_alias(name='eta', messages=[
-    '{word[1]}: your rats will be with you in about {word_eol[2]}, '
-    'if you see a blue oxygen timer pop up at any time tell me '
-    'immediately.',
-], arguments=['client', 'time'])
-register_alias(name='scdrop', messages=[
-    '{word[1]}: to drop from supercruise slow down to 30km/s, open your '
-    'left menu, '
-    'navigation tab and select the main star in your current system ('
-    'will be the first '
-    'entry in the list), then press the jump button.',
-])
-register_alias(name='bounce', messages=[
-    '{word[1]}: if you are using a mobile device or table for this chat, '
-    'could you try and make sure the screen stays on so that you do not get '
-    'disconnected?',
-])
-register_alias(name='sorry', messages=[
-    '{word[1]}: sorry we couldn\'t get to you in time today, your rats '
-    'will be there for you after you respawn to help you with some tips '
-    'and tricks, so please stick with them for a bit.',
-])
-register_alias(name='fuel', messages=[
-    '{word[1]}: you should be receiving fuel now. Please remain with '
-    'your rats for '
-    'some quick and helpful tips on fuel management.',
-])
-register_alias(name='welcome', messages=[
-    'You are most welcome, {word[1]}! Thank you for calling us. Let the fuel '
-    'be with you and fly safe, cmdr! o7',
-])
-
-for cmd_name in [
-    'pc',
-    'xb',
-    'ps',
-    'quote',
-    'active',
-    'grab',
-    'cr',
-    'multi',
-    'md',
-    'pg',
-    'tweetc',
-]:
-    register_alias(name=cmd_name, command=cmd_name)
-
-register_alias(
-    name='sys', command='sys', arguments=['casenum', 'system_name'],
+}, translated=True)
+api.register_alias(
+    'qeng',
+    template={
+        '': '{word[1]}: Do you speak English?',
+        'de': '{word[1]}: sprechen Sie Englisch?',
+        'ru': '{word[1]}: ты говоришь по-английски',
+        'es': '¿ {word[1]}: hablas inglés?',
+        'fr': '{word[1]}: parlez-vous anglais?',
+        'pt': '{word[1]}: fala inglês?',
+        'cn': '{word[1]}: 你会说英语吗？',
+        'it': '{word[1]}: lei parla inglese?',
+    },
+    translated=True,
 )
-register_alias(
-    name='cmdr', command='cmdr', arguments=['casenum', 'new_cmdr_name'],
+api.register_alias(
+    'qmodules',
+    template='{word[1]}: how are those modules coming up? :) Would you like '
+             'additional instructions?'
 )
-register_alias(
-    name='ircnick', command='ircnick', arguments=['casenum', 'new_nick'],
+api.register_alias(
+    'qfr',
+    template='{word[1]}: how are those friend requests coming along? :) Would '
+             'you like additional instructions?'
 )
-register_alias(
-    name='inject', command='inject', arguments=['casenum', 'text'],
+api.register_alias(
+    'open',
+    template='{word[1]}: please exit to the main menu and log back in to OPEN '
+             'play, then re-disable your thrusters.'
 )
-register_alias(
-    name='sub', command='sub', arguments=['casenum', 'linenum [text]'],
+api.register_alias(
+    'qwr',
+    template='{word[1]}: how are those wing requests coming along, are there '
+             'any issues? :)'
+)
+api.register_alias(
+    'qbc',
+    template='{word[1]}: how is that wing beacon coming along, are there any '
+             'issues? :)',
+)
+api.register_alias(
+    'qo2',
+    template='{word[1]}: do you see an "oxygen depleted in ..." timer in the '
+             'top right of your HUD?',
+)
+api.register_alias(
+    'qsys',
+    template='{word[1]}: please, look in the left panel in the navigation tab '
+             'and give me the full system name under "System" in the top left '
+             'corner.',
+)
+
+api.register_alias(
+    'revwr',
+    command='invite',
+    template='{word[2]} revwr pls.\n'
+             '{word[1]}: one of your rat(s) will now send you wing invite, '
+             'please accept.\n'
+             '{command} {word[1]}',
+    arguments=['nick', 'rat_nick'],
+    translated=True,
+)
+api.register_alias(
+    'bcalt',
+    template='{word[1]}: please go to the Comms Menu on the top left, '
+             'and from the third tab (where you invited your rats to the '
+             'wing) under Options use "Enable Wing Beacon".',
+)
+
+api.register_alias(
+    'mm',
+    template='{word[1]}: from THIS point onwards, remain logged out in the '
+             'MAIN MENU please! Do NOT login until I give you the "GO GO GO" '
+             'command.',
+)
+api.register_alias(
+    'qmm',
+    template='{word[1]}: please confirm that you\'ve quit to MAIN MENU where '
+             'you can see your ship in the hangar.',
+)
+api.register_alias(
+    'qmmsys',
+    template='{word[1]}: staying in the MAIN MENU, can you confirm your full '
+             'system name including any sector name? Look in the upper right '
+             'below your commandR name where it says / IDLE.',
+)
+api.register_alias(
+    'qmmo2',
+    template='{word[1]}: staying in the MAIN MENU, do you remember how much '
+             'O2 you had left?',
+)
+api.register_alias(
+    'qmmo2alt',
+    template='{word[1]}: staying in the MAIN MENU, do you remember if the '
+             'game asked you to wait for 15 seconds before letting you exit '
+             'into main menu?',
+)
+api.register_alias(
+    'qmmpos',
+    template='{word[1]}: staying in the MAIN MENU, can you remember WHERE in '
+             'the system you were? By the star, a planet or station or on the '
+             'way to one?',
+)
+api.register_alias(
+    'mmfr',
+    template='{word[1]}: staying in the MAIN MENU, select SOCIAL, and search '
+             'for a friend in the upper right. Click them, then click ADD '
+             'FRIEND.?',
+)
+api.register_alias(
+    'crplan',
+    template='{word[1]}: please, STAY in the MAIN MENU. Overall plan will be: '
+             '1. Login to OPEN - 2. light your beacon - 3. invite your rats '
+             'to a wing - 4. report your o2 time in this chat and be ready to '
+             'logout if I tell you to.',
+)
+api.register_alias(
+    'crvideo',
+    template='{word[1]}: here is a short video on how to do it: '
+             'https://fuelrats.cloud/s/YYzSy2K2QKPfr4X ю',
+)
+api.register_alias(
+    'gogogo',
+    template='{word[1]}: GO GO GO! 1. Login to OPEN - 2. light your beacon - '
+             '3. invite your rat(s) your wing: {word_eol[2]} - 4. report your '
+             'o2 time in this chat and be ready to logout if I tell you to.',
+    arguments=['nick', 'rats...'],
+)
+
+api.register_alias(
+    'ls',
+    template='{word[1]}: please turn your Life Support on immediately: go to '
+             'the right menu -> Modules tab, select Life Support and select '
+             'Activate',
+)
+api.register_alias(
+    'sr',
+    template='{word[1]}: please disable Silent Running Immediately!  Default '
+             'key: Delete, or in the Right side Holo Panel > SHIP tab > '
+             'Functions Screen - Middle Right',
+)
+api.register_alias(
+    'sc',
+    template='{word[1]}: looks like you\'re too close to a stellar body or a '
+             'fleet carrier. Please, reactivate your thrusters and Frameshift '
+             'drive, then un-target everything and jump to supercruise. Fly '
+             'away from the stellar body or fleet carrier for about 5 light '
+             'seconds, then drop back down into normal space.',
+)
+api.register_alias(
+    'eta',
+    template='{word[1]}: your rats will be with you in about {word_eol[2]}, '
+             'if you see a blue oxygen timer pop up at any time tell me '
+             'immediately.',
+    arguments=['client', 'time']
+)
+api.register_alias(
+    'scdrop',
+    template='{word[1]}: to drop from supercruise slow down to 30km/s, '
+             'open your left menu, navigation tab and select the main star in '
+             'your current system (will be the first entry in the list), '
+             'then press the jump button.',
+)
+api.register_alias(
+    'bounce',
+    template='{word[1]}: if you are using a mobile device or table for this '
+             'chat, could you try and make sure the screen stays on so that '
+             'you do not get disconnected?',
+)
+api.register_alias(
+    'sorry',
+    template='{word[1]}: sorry we couldn\'t get to you in time today, '
+             'your rats will be there for you after you respawn to help you '
+             'with some tips and tricks, so please stick with them for a '
+             'bit.',
+)
+api.register_alias(
+    'fuel',
+    template='{word[1]}: you should be receiving fuel now. Please remain with '
+             'your rats for some quick and helpful tips on fuel management.',
+)
+api.register_alias(
+    'welcome',
+    template='You are most welcome, {word[1]}! Thank you for calling us. Let '
+             'the fuel be with you and fly safe, commandr! o7',
 )

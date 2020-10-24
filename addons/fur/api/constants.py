@@ -1,55 +1,15 @@
-import collections
-import enum
-
 import hexchat
 
-Alias = collections.namedtuple('Alias', [
-    'name',
-    'command',
-    'arguments',
-    'preamble',
-    'translated',
-    'platformed',
-])
 
-LanguageData = collections.namedtuple('LanguageData', ['id', 'postfix'])
+class Priority:
+    HIGHEST = hexchat.PRI_HIGHEST
+    HIGH = hexchat.PRI_HIGH
+    NORM = hexchat.PRI_NORM
+    LOW = hexchat.PRI_LOW
+    LOWEST = hexchat.PRI_LOWEST
 
 
-@enum.unique
-class Language(enum.Enum):
-    DEFAULT = LanguageData('', '')
-    DE = LanguageData('de', 'de')
-    RU = LanguageData('ru', 'ru')
-    ES = LanguageData('es', 'es')
-    FR = LanguageData('fr', 'fr')
-    PT = LanguageData('pt', 'pt')
-    CN = LanguageData('cn', 'cn')
-    IT = LanguageData('it', 'it')
-
-
-@enum.unique
-class NoLanguage(enum.Enum):
-    DEFAULT = LanguageData('', '')
-
-
-PlatformData = collections.namedtuple('PlatformData', ['id', 'prefix'])
-
-
-@enum.unique
-class Platform(enum.Enum):
-    DEFAULT = PlatformData('', 'pc')
-    PC = PlatformData('pc', 'pc')
-    XB = PlatformData('x', 'x')
-    PS = PlatformData('ps', 'ps')
-
-
-@enum.unique
-class NoPlatform(enum.Enum):
-    DEFAULT = PlatformData('', '')
-
-
-@enum.unique
-class Event(enum.Enum):
+class Event:
     ADD_NOTIFY = 'Add Notify'
     BAN_LIST = 'Ban List'
     BANNED = 'Banned'
@@ -214,7 +174,7 @@ COMMAND_EVENTS = [
 ]
 
 
-class Color(enum.Enum):
+class Color:
     DEFAULT = '\003'
     WHITE = '\00300'
     BLACK = '\00301'
@@ -239,16 +199,7 @@ class Color(enum.Enum):
     ERROR = RED
 
 
-@enum.unique
-class Label(enum.Enum):
-    INFO = f'{Color.INFO.value}info{Color.DEFAULT.value}'
-    SUCCESS = f'{Color.SUCCESS.value}success{Color.DEFAULT.value}'
-    WARNING = f'{Color.WARNING.value}warning{Color.DEFAULT.value}'
-    ERROR = f'{Color.ERROR.value}error{Color.DEFAULT.value}'
-
-
-@enum.unique
-class Eat(enum.Enum):
+class Eat:
     ALL = hexchat.EAT_ALL
     NONE = hexchat.EAT_NONE
     PLUGIN = hexchat.EAT_PLUGIN

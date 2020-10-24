@@ -4,7 +4,7 @@ from . import api
 
 
 # noinspection PyUnusedLocal
-@api.hook_command(names=('render',))
-def render(**kwargs) -> t.Optional[api.types.Eat]:
-    api.state.updated()
-    return api.types.Eat.ALL
+# @api.hook_command(names=('fur',))
+# def handler(**kwargs) -> t.Optional[api.constants.Eat]:
+#     api.command('py reload fur.py')
+#     return api.constants.Eat.ALL
