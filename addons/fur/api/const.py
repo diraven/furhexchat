@@ -1,7 +1,7 @@
 import hexchat
 
 
-class Priority:
+class PRIORITY:
     HIGHEST = hexchat.PRI_HIGHEST
     HIGH = hexchat.PRI_HIGH
     NORM = hexchat.PRI_NORM
@@ -9,7 +9,7 @@ class Priority:
     LOWEST = hexchat.PRI_LOWEST
 
 
-class Event:
+class EVENT:
     ADD_NOTIFY = 'Add Notify'
     BAN_LIST = 'Ban List'
     BANNED = 'Banned'
@@ -165,16 +165,16 @@ class Event:
 
 
 COMMAND_EVENTS = [
-    Event.CHANNEL_MESSAGE,
-    Event.CHANNEL_MSG_HILIGHT,
-    Event.YOUR_MESSAGE,
-    Event.NOTICE,
-    Event.PRIVATE_MESSAGE,
-    Event.PRIVATE_MESSAGE_TO_DIALOG,
+    EVENT.CHANNEL_MESSAGE,
+    EVENT.CHANNEL_MSG_HILIGHT,
+    EVENT.YOUR_MESSAGE,
+    EVENT.NOTICE,
+    EVENT.PRIVATE_MESSAGE,
+    EVENT.PRIVATE_MESSAGE_TO_DIALOG,
 ]
 
 
-class Color:
+class COLOR:
     DEFAULT = '\003'
     WHITE = '\00300'
     BLACK = '\00301'
@@ -199,7 +199,7 @@ class Color:
     ERROR = RED
 
 
-class Eat:
+class EAT:
     ALL = hexchat.EAT_ALL
     NONE = hexchat.EAT_NONE
     PLUGIN = hexchat.EAT_PLUGIN

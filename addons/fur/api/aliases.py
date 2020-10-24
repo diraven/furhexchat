@@ -7,7 +7,7 @@ word_eol: ['command 1 2 3', '1 2 3', '2 3', '3']
 
 import typing as t
 
-import hexchat
+from . import utils, const, hooks
 
 LANGUAGES = ['', 'de', 'ru', 'es', 'fr', 'pt', 'cn', 'it']
 PLATFORMS = {
@@ -18,28 +18,27 @@ PLATFORMS = {
 }
 
 
-def _handler(word: t.List[str], word_eol: t.List[str], userdata):
-    (name, command, template, arguments) = userdata
+def _handler(args: t.List[str], data):
+    (name, command, template, arguments) = data
 
     # Enforce correct command usage.
-    if len(word) < len(arguments) + 1:
-        hexchat.prnt(
+    if len(args) < len(arguments):
+        utils.print(
             f'\00304Usage: {name}'
             f'{" ".join(a.upper() for a in arguments)}',
         )
 
     message = template.format(
-        word=word,
-        word_eol=word_eol,
+        first_arg=args[0],
+        rest_args=' '.join(args[1:]) if len(args) > 0 else '',
         command=command,
     )
 
     # Send the message.
-    ctx = hexchat.get_context()
     for line in message.splitlines():
-        ctx.command(f'MSG {ctx.get_info("channel")} {line}')
+        utils.reply(line)
 
-    return hexchat.EAT_ALL
+    return const.EAT.ALL
 
 
 def register_alias(
@@ -64,14 +63,15 @@ def register_alias(
                 name,
                 f'{platform}{command or name}'
                 f'{f"-{language}" if language else ""}',
-                template or '!{command} {word_eol[1]}',
+                template or '!{command} {first_arg} {rest_args}',
                 arguments or ['nick'],
             )
 
-            hexchat.hook_command(
-                name=f'{platform}{name}{f"-{language}" if language else ""}',
-                callback=_handler,
-                help=f'{name} '
-                     f'{" ".join(a.upper() for a in arguments or ["nick"])}',
+            hooks.command(
+                names=[
+                    f'{platform}{name}{f"-{language}" if language else ""}',
+                ],
+                description=f'{name} '
+                            f'{" ".join(a for a in arguments or ["nick"])}',
                 userdata=userdata,
-            )
+            )(_handler)
