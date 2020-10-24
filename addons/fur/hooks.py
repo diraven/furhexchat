@@ -65,7 +65,7 @@ def handler(author: str, text: str, mode: str, **kwargs):
         mode=mode,
     )
 
-    matches = quote_matcher.search(api.utils.strip(text))
+    matches = quote_matcher.search(text)
     if matches:
         api.utils.emit_print(
             f'{api.const.COLOR.DEFAULT}{text}',
@@ -77,7 +77,7 @@ def handler(author: str, text: str, mode: str, **kwargs):
             context=f'#{matches["case_id"]}',
         )
 
-    matches = close_matcher.match(text)
+    matches = close_matcher.match(api.utils.strip(text))
     if matches:
         api.close_context(f'#{matches["case_id"]}')
 
