@@ -11,7 +11,9 @@ COLOR_INFO = api.const.COLOR.ROYAL_BLUE
 COLOR_RAT = api.const.COLOR.ORANGE
 COLOR_CLIENT = api.const.COLOR.TEAL
 
-quote_matcher = re.compile(r'((?:#|case ?)(?P<case_id>\d+))', re.IGNORECASE)
+quote_matcher = re.compile(
+    r'((?:#|case ?|go |assign |unassign )(?P<case_id>\d+))', re.IGNORECASE,
+)
 highlighters: t.Dict[t.Pattern, str] = {
     quote_matcher: COLOR_INFO,
     re.compile(r'(\w+\+)', re.IGNORECASE): COLOR_SUCCESS,
@@ -20,6 +22,7 @@ highlighters: t.Dict[t.Pattern, str] = {
     re.compile(r'(\d+\s*j(?:umps?)?|$)', re.IGNORECASE): COLOR_WARNING,
     re.compile(r'(\sopen|pg|mm|ez(?:[^\w]|$))', re.IGNORECASE): COLOR_WARNING,
     re.compile(r'(ratsignal|incoming client)', re.IGNORECASE): COLOR_WARNING,
+    re.compile(r'(stdn)', re.IGNORECASE): COLOR_DANGER,
     re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR_DANGER,
 }
 close_matcher = re.compile(
