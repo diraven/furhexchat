@@ -42,3 +42,10 @@ def delete(num):
     case = get(num=num)
     if case:
         _cases.remove(case)
+        return  True
+
+
+def get_all():
+    global _cases
+
+    return _cases

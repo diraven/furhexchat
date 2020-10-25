@@ -6,16 +6,22 @@ from . import api
 # noinspection PyUnusedLocal
 @api.hooks.command(names=('c', 'case'))
 def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
-    if len(args) != 2:
-        api.print_error('Usage: /c case_num nick')
     api.cases.put(*args)
+    api.print(f'case #{args[0]} was associated with nick {args[1]}')
     return api.const.EAT.ALL
 
 
 # noinspection PyUnusedLocal
 @api.hooks.command(names=('cd', 'casedelete'))
 def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
-    if len(args) != 1:
-        api.print_error('Usage: /c case_num')
-    api.cases.delete(*args)
+    if api.cases.delete(*args):
+        api.print(f'case #{args[0]} nick association was removed')
+    return api.const.EAT.ALL
+
+
+# noinspection PyUnusedLocal
+@api.hooks.command(names=('cc', 'cases'))
+def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
+    for case in api.cases.get_all():
+        api.print(str(case))
     return api.const.EAT.ALL
