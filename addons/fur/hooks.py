@@ -12,7 +12,7 @@ COLOR_RAT = api.const.COLOR.ORANGE
 COLOR_CLIENT = api.const.COLOR.TEAL
 
 quote_matcher = re.compile(
-    r'((?:#|case ?|go |assign |unassign )(?P<case_id>\d+))', re.IGNORECASE,
+    r'((?:#|case ?|go |assign |unassign )(?P<case_num>\d+))', re.IGNORECASE,
 )
 highlighters: t.Dict[t.Pattern, str] = {
     quote_matcher: COLOR_INFO,
@@ -27,7 +27,10 @@ highlighters: t.Dict[t.Pattern, str] = {
     re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR_DANGER,
 }
 close_matcher = re.compile(
-    r'!(?:close|md|clear|trash) #?(?P<case_id>\d+)', re.IGNORECASE,
+    r'!(?:close|md|clear|trash) #?(?P<case_num>\d+)', re.IGNORECASE,
+)
+case_num_matcher = re.compile(
+    r'#(?P<case_num>\d+)', re.IGNORECASE,
 )
 
 # DEBUG
@@ -51,6 +54,21 @@ def handler(author: str, text: str, mode: str, **kwargs):
     )):
         api.beep()
 
+    # Add case number to nick.
+    case = api.cases.get(nick=author)
+    if case:
+        author = f'{author}{COLOR_INFO}#{case.num}'
+
+    # Add nick to case number.
+    matches = case_num_matcher.search(text)
+    if matches:
+        case = api.cases.get(num=matches.groupdict()['case_num'])
+        if case:
+            text = text.replace(
+                f'#{case.num}',
+                f'{COLOR_CLIENT}{case.nick}#{case.num}',
+            )
+
     for highlighter, color in highlighters.items():
         text = highlighter.sub(
             f'{color}\\1{api.const.COLOR.DEFAULT}',
@@ -71,6 +89,7 @@ def handler(author: str, text: str, mode: str, **kwargs):
         matches,
         'paperwork' not in text.lower(),
         'successfully closed case' not in text.lower(),
+        'to the trash' not in text.lower(),
     )):
         api.utils.emit_print(
             f'{api.const.COLOR.DEFAULT}{text}',
@@ -79,11 +98,12 @@ def handler(author: str, text: str, mode: str, **kwargs):
                    f'{author}'
                    f'{api.const.COLOR.DEFAULT}',
             mode=mode,
-            context=f'#{matches["case_id"]}',
+            context=f'#{matches["case_num"]}',
         )
 
     matches = close_matcher.match(api.utils.strip(text))
     if matches:
-        api.close_context(f'#{matches["case_id"]}')
+        api.close_context(f'#{matches["case_num"]}')
+        api.cases.delete(matches["case_num"])
 
     return api.const.EAT.ALL

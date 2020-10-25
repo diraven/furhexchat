@@ -158,7 +158,7 @@ api.register_alias(
     template='{first_arg}: staying in the MAIN MENU, can you confirm your '
              'full '
              'system name including any sector name? Look in the upper right '
-             'below your commandR name where it says / IDLE.',
+             'below your commander name where it says / IDLE.',
 )
 api.register_alias(
     'qmmo2',
@@ -266,6 +266,5 @@ api.register_alias(
 api.register_alias(
     'welcome',
     template='You are most welcome, {first_arg}! Thank you for calling us. '
-             'Let '
-             'the fuel be with you and fly safe, commandr! o7',
+             'Let the fuel be with you and fly safe, commander! o7',
 )

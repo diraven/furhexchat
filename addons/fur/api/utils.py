@@ -10,6 +10,11 @@ def print(text: str):
     hexchat.prnt(text)
 
 
+# noinspection PyShadowingBuiltins
+def print_error(text: str):
+    hexchat.prnt(f'{const.COLOR.RED}{text}')
+
+
 def emit_print(
     text: str, *,
     event: str = const.EVENT.YOUR_MESSAGE,
