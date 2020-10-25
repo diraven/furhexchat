@@ -1,4 +1,6 @@
 # import typing as t
+import winsound
+
 import hexchat
 from . import const
 
@@ -50,3 +52,10 @@ def close_context(name: str):
     ctx = hexchat.find_context(server=name)
     if ctx:
         ctx.command(f'close')
+
+
+def beep():
+    winsound.PlaySound(
+        '.\\config\\addons\\fur\\notification.wav',
+        winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NOWAIT,
+    )
