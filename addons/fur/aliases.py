@@ -196,7 +196,7 @@ api.register_alias(
 api.register_alias(
     'crvideo',
     template='{first_arg}: here is a short video on how to do it: '
-             'https://fuelrats.cloud/s/YYzSy2K2QKPfr4X ю',
+             'https://fuelrats.cloud/s/YYzSy2K2QKPfr4X',
 )
 api.register_alias(
     'gogogo',
