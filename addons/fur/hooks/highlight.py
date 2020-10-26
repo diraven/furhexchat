@@ -58,7 +58,7 @@ def handler(author: str, text: str, mode: str, **kwargs):
 
     # Emit resulting message as an output print.
     api.utils.emit_print(
-        f'{COLOR.DEFAULT} {text}',
+        f'{COLOR.WHITE}{text}',
         event=api.const.EVENT.YOUR_MESSAGE,
         prefix=f'{COLOR.RAT if mode else COLOR.CLIENT}'
                f'{author}'
