@@ -6,7 +6,7 @@ from . import api
 # noinspection PyUnusedLocal
 @api.hooks.command(names=('c', 'case'))
 def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
-    api.cases.put(num=args[0], nick=args[1])
+    api.cases.put(num=args[0], nick=args[1], cmdr=args[1])
     api.print(f'case #{args[0]} was associated with nick {args[1]}')
     return api.const.EAT.ALL
 

@@ -21,18 +21,14 @@ highlighters: t.Dict[t.Pattern, str] = {
     re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR.DANGER,
 }
 
-# DEBUG
-# INBOUND_EVENT = api.const.EVENT.YOUR_MESSAGE
-# OUTBOUND_EVENT = api.const.EVENT.CHANNEL_MESSAGE
-
-
-# PROD
-INBOUND_EVENT = api.const.EVENT.CHANNEL_MESSAGE
-OUTBOUND_EVENT = api.const.EVENT.YOUR_MESSAGE
-
 
 # noinspection PyUnusedLocal
-@api.hooks.print(match_events=[INBOUND_EVENT])
+@api.hooks.print(match_events=[
+    api.const.EVENT.CHANNEL_MESSAGE,
+    api.const.EVENT.CHANNEL_MSG_HILIGHT,
+    api.const.EVENT.PRIVATE_MESSAGE_TO_DIALOG,
+    api.const.EVENT.PRIVATE_MESSAGE,
+])
 def handler(author: str, text: str, mode: str, **kwargs):
     # Strip formatting.
     author = api.utils.strip(author)
@@ -62,7 +58,7 @@ def handler(author: str, text: str, mode: str, **kwargs):
     # Emit resulting message as an output print.
     api.utils.emit_print(
         f'{COLOR.DEFAULT} {text}',
-        event=OUTBOUND_EVENT,
+        event=api.const.EVENT.YOUR_MESSAGE,
         prefix=f'{COLOR.RAT if mode else COLOR.CLIENT}'
                f'{author}'
                f'{COLOR.DEFAULT}',
@@ -78,7 +74,7 @@ def handler(author: str, text: str, mode: str, **kwargs):
     )):
         api.utils.emit_print(
             f'{COLOR.DEFAULT} {text}',
-            event=OUTBOUND_EVENT,
+            event=api.const.EVENT.YOUR_MESSAGE,
             prefix=f'{COLOR.RAT if mode else COLOR.CLIENT}'
                    f'{author}'
                    f'{COLOR.DEFAULT}',
