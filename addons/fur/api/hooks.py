@@ -40,10 +40,11 @@ def print(
                     matches = matches.groupdict()
 
             # Run the handler itself.
-            text = word[1].strip() if len(word) > 1 else ''
+            text = utils.strip(word[1]) if len(word) > 1 else ''
+            author = utils.strip(word[0]) if word[0] else ''
             if text:
                 return func(
-                    author=word[0],
+                    author=author,
                     text=text,
                     mode=word[2] if len(word) > 2 else '',
                     matches=matches,
