@@ -7,12 +7,6 @@ from .. import api
 # noinspection PyUnusedLocal
 @api.hooks.print(
     match_text=re.compile(r'Incoming Client: (?P<cmdr>[^-]+) - System:'),
-    match_events=[
-        api.const.EVENT.CHANNEL_MESSAGE,
-        api.const.EVENT.CHANNEL_MSG_HILIGHT,
-        api.const.EVENT.PRIVATE_MESSAGE_TO_DIALOG,
-        api.const.EVENT.PRIVATE_MESSAGE,
-    ],
 )
 def handler(text: str, matches: t.Dict, **kwargs):
     cmdr = matches['cmdr']
@@ -27,15 +21,7 @@ ratsignal_cmdr_matcher = re.compile(r'CMDR (?P<cmdr>.*) - Reported System:')
 
 
 # noinspection PyUnusedLocal
-@api.hooks.print(
-    match_text='RATSIGNAL',
-    match_events=[
-        api.const.EVENT.CHANNEL_MESSAGE,
-        api.const.EVENT.CHANNEL_MSG_HILIGHT,
-        api.const.EVENT.PRIVATE_MESSAGE_TO_DIALOG,
-        api.const.EVENT.PRIVATE_MESSAGE,
-    ],
-)
+@api.hooks.print(match_text='RATSIGNAL')
 def handler(text: str, mode: str, **kwargs):
     num = ratsignal_casenum_matcher.search(
         text,
@@ -47,12 +33,6 @@ def handler(text: str, mode: str, **kwargs):
 # noinspection PyUnusedLocal
 @api.hooks.print(
     match_text=re.compile(r'!(?:close|clear|md|trash)\s+(?P<query>[^\s]+)'),
-    match_events=[
-        api.const.EVENT.CHANNEL_MESSAGE,
-        api.const.EVENT.CHANNEL_MSG_HILIGHT,
-        api.const.EVENT.PRIVATE_MESSAGE_TO_DIALOG,
-        api.const.EVENT.PRIVATE_MESSAGE,
-    ],
 )
 def handler(matches: t.Match, **kwargs):
     query = matches['query']
@@ -66,12 +46,6 @@ def handler(matches: t.Match, **kwargs):
 # noinspection PyUnusedLocal
 @api.hooks.print(
     match_text=re.compile(r'!nick\s+(?P<query>[^\s]+)\s+(?P<nick>[^\s]+)'),
-    match_events=[
-        api.const.EVENT.CHANNEL_MESSAGE,
-        api.const.EVENT.CHANNEL_MSG_HILIGHT,
-        api.const.EVENT.PRIVATE_MESSAGE_TO_DIALOG,
-        api.const.EVENT.PRIVATE_MESSAGE,
-    ],
 )
 def handler(matches: t.Match, **kwargs):
     query = matches['query']
