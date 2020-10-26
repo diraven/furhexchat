@@ -98,3 +98,5 @@ def handler(author: str, text: str, mode: str, **kwargs):
             mode=mode,
             context=f'#{case.num}',
         )
+
+    return api.const.EAT.ALL
