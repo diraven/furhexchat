@@ -196,7 +196,12 @@ class COLOR:
     INFO = NAVY
     SUCCESS = GREEN
     WARNING = YELLOW
+    DANGER = RED
+
     ERROR = RED
+
+    RAT = ORANGE
+    CLIENT = TEAL
 
 
 class EAT:
