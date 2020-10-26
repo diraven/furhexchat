@@ -39,7 +39,13 @@ def handler(text: str, mode: str, **kwargs):
 # noinspection PyUnusedLocal
 @api.hooks.print(
     match_text=re.compile(r'!(?:close|clear|md|trash)\s+(?P<query>[^\s]+)'),
-    match_events=[api.const.EVENT.YOUR_MESSAGE],
+    match_events=[
+        api.const.EVENT.YOUR_MESSAGE,
+        api.const.EVENT.CHANNEL_MESSAGE,
+        api.const.EVENT.CHANNEL_MSG_HILIGHT,
+        api.const.EVENT.PRIVATE_MESSAGE_TO_DIALOG,
+        api.const.EVENT.PRIVATE_MESSAGE,
+    ],
     priority=api.const.PRIORITY.LOWEST,
 )
 def handler(matches: t.Match, **kwargs):
