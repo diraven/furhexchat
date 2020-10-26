@@ -10,16 +10,16 @@ quote_matcher = re.compile(
 )
 highlighters: t.Dict[t.Pattern, str] = {
     re.compile(
-        r'((?:#|case ?)(?P<case_num>\d+)(?:[^\d]|$))', re.IGNORECASE): COLOR.INFO,
-    re.compile(r'(\w+\+(?:[^\d]|$))', re.IGNORECASE): COLOR.SUCCESS,
-    re.compile(r'(\w+-(?:[^\d]|$))', re.IGNORECASE): COLOR.DANGER,
-    re.compile(r'(\w+conf(?:[^\d]|$))', re.IGNORECASE): COLOR.SUCCESS,
-    re.compile(r'(\d+\s?k?ls(?:[^\d]|$))', re.IGNORECASE): COLOR.WARNING,
+        r'((?:#|case ?)(?P<case_num>\d+)(?:[^\w]|$))', re.IGNORECASE): COLOR.INFO,
+    re.compile(r'(\w+\+(?:[^\w]|$))', re.IGNORECASE): COLOR.SUCCESS,
+    re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR.DANGER,
+    re.compile(r'(\w+conf(?:[^\w]|$))', re.IGNORECASE): COLOR.SUCCESS,
+    re.compile(r'(\d+\s?k?ls(?:[^\w]|$))', re.IGNORECASE): COLOR.WARNING,
     re.compile(
-        r'(\d+\s*j(?:umps?)?(?:[^\d]|$))', re.IGNORECASE): COLOR.WARNING,
+        r'(\d+\s*j(?:umps?)?(?:[^\w]|$))', re.IGNORECASE): COLOR.WARNING,
     re.compile(
-        r'(\s(?:open|pg|mm|ez)(?:[^\d]|$))', re.IGNORECASE): COLOR.WARNING,
-    re.compile(r'(stdn(?:[^\d]|$))', re.IGNORECASE): COLOR.DANGER,
+        r'(\s(?:open|pg|mm|ez)(?:[^\w]|$))', re.IGNORECASE): COLOR.WARNING,
+    re.compile(r'(stdn(?:[^\w]|$))', re.IGNORECASE): COLOR.DANGER,
 }
 
 
