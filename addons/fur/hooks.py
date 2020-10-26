@@ -91,6 +91,11 @@ def handler(author: str, text: str, mode: str, **kwargs):
         'successfully closed case' not in text.lower(),
         'to the trash' not in text.lower(),
     )):
+        case_num = ''
+        if matches:
+            case_num = matches["case_num"]
+        if case:
+            case_num = case.num
         api.utils.emit_print(
             f'{api.const.COLOR.DEFAULT}{text}',
             event=OUTBOUND_EVENT,
@@ -98,7 +103,7 @@ def handler(author: str, text: str, mode: str, **kwargs):
                    f'{author}'
                    f'{api.const.COLOR.DEFAULT}',
             mode=mode,
-            context=f'#{matches["case_num"]}',
+            context=f'#{case_num}',
         )
 
     matches = close_matcher.match(api.utils.strip(text))
