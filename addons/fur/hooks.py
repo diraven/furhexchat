@@ -86,7 +86,7 @@ def handler(author: str, text: str, mode: str, **kwargs):
 
     matches = quote_matcher.search(text)
     if all((
-        matches,
+        matches or case,
         'paperwork' not in text.lower(),
         'successfully closed case' not in text.lower(),
         'to the trash' not in text.lower(),
