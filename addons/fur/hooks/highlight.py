@@ -10,7 +10,8 @@ quote_matcher = re.compile(
 )
 highlighters: t.Dict[t.Pattern, str] = {
     re.compile(
-        r'((?:#|case ?)(?P<case_num>\d+)(?:[^\w]|$))', re.IGNORECASE): COLOR.INFO,
+        r'((?:#|case ?)(?P<case_num>\d+)(?:[^\w]|$))',
+        re.IGNORECASE): COLOR.INFO,
     re.compile(r'(\w+\+(?:[^\w]|$))', re.IGNORECASE): COLOR.SUCCESS,
     re.compile(r'(\w+-(?:[^\w]|$))', re.IGNORECASE): COLOR.DANGER,
     re.compile(r'(\w+conf(?:[^\w]|$))', re.IGNORECASE): COLOR.SUCCESS,
@@ -44,6 +45,15 @@ def handler(author: str, text: str, mode: str, **kwargs):
         matches = quote_matcher.search(text)
         if matches:
             case = api.cases.get(num=matches.groupdict()['case_num'])
+    if not case:
+        # Try reverse match by nick.
+        cases = api.cases.get_all()
+        try:
+            case = next((
+                c for c in cases if (c.nick or c.cmdr) in text
+            ))
+        except StopIteration:
+            pass
 
     # If case found - replace all case num mentions with the case info.
     if case:
