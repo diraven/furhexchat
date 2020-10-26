@@ -6,7 +6,8 @@ simple_casenum_matcher = re.compile(r'(#(?P<num>\d+))', re.IGNORECASE)
 cmdr_matcher = re.compile(r'Incoming Client: (?P<cmdr>[^-]+) - System:')
 ratsignal_casenum_matcher = re.compile(r'Case #(?P<num>\d+)')
 ratsignal_cmdr_matcher = re.compile(r'CMDR (?P<cmdr>.*) - Reported System:')
-close_matcher = re.compile(r'!(?:close|clear|md|trash) (?P<query>[^\s]+)')
+close_matcher = re.compile(r'!(?:close|clear|md|trash)\s+(?P<query>[^\s]+)')
+nick_matcher = re.compile(r'!(?:nick)\s+(?P<query>[^\s]+)\s+(?P<nick>[^\s]+)')
 
 
 # noinspection PyUnusedLocal
@@ -43,6 +44,16 @@ def handler(author: str, text: str, mode: str, **kwargs):
             api.close_context(f'#{case.num}')
             if api.cases.delete(num=case.num):
                 api.print(f'case #{case.num} nick association was removed')
+        return
+
+    matches = nick_matcher.match(text)
+    if matches:
+        query = matches.groupdict()['query']
+        nick = matches.groupdict()['nick']
+        case = api.cases.get(num=query, nick=query, cmdr=query)
+        if case:
+            case.nick = nick
+            api.print(f'case #{case.num} nick association was updated: {nick}')
         return
 
     matches = simple_casenum_matcher.search(text)
