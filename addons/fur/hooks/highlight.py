@@ -24,12 +24,15 @@ highlighters: t.Dict[t.Pattern, str] = {
 
 
 # noinspection PyUnusedLocal
-@api.hooks.print(match_events=[
-    api.const.EVENT.CHANNEL_MESSAGE,
-    api.const.EVENT.CHANNEL_MSG_HILIGHT,
-    api.const.EVENT.PRIVATE_MESSAGE_TO_DIALOG,
-    api.const.EVENT.PRIVATE_MESSAGE,
-])
+@api.hooks.print(
+    match_events=[
+        api.const.EVENT.CHANNEL_MESSAGE,
+        api.const.EVENT.CHANNEL_MSG_HILIGHT,
+        api.const.EVENT.PRIVATE_MESSAGE_TO_DIALOG,
+        api.const.EVENT.PRIVATE_MESSAGE,
+    ],
+    priority=api.const.PRIORITY.LOWEST,
+)
 def handler(author: str, text: str, mode: str, **kwargs):
     # Strip formatting.
     author = api.utils.strip(author)
@@ -95,5 +98,3 @@ def handler(author: str, text: str, mode: str, **kwargs):
             mode=mode,
             context=f'#{case.num}',
         )
-
-    return api.const.EAT.ALL
