@@ -14,9 +14,13 @@ def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
 # noinspection PyUnusedLocal
 @api.hooks.command(names=('cd', 'casedelete'))
 def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
-    api.close_context(f'#{args[0]}')
-    if api.cases.delete(num=args[0]):
-        api.print(f'case #{args[0]} nick association was removed')
+    query = args[0]
+    case = api.cases.get(cmdr=query, num=query, nick=query)
+    if not case:
+        api.print_error(f'case "{query}" was not found')
+    api.close_context(f'#{case.num}')
+    if api.cases.delete(num=case.num):
+        api.print(f'case {query} was removed')
     return api.const.EAT.ALL
 
 
