@@ -4,10 +4,9 @@ import typing as t
 from .. import api
 from ..api.const import COLOR
 
-quote_matcher = re.compile(
-    r'((?:#|case ?|go |assign |unassign |nick )(?P<case_num>\d+))',
-    re.IGNORECASE,
-)
+quote_matcher = re.compile(r'((?:#|case ?)(?P<query>\d+))', re.IGNORECASE)
+command_matcher = re.compile(r'(![\w-]+\s+(?P<query>[\w_-]+))', re.IGNORECASE)
+
 highlighters: t.Dict[t.Pattern, str] = {
     re.compile(
         r'((?:#|case ?)(?P<case_num>\d+)(?:[^\w]|$))',
@@ -41,10 +40,14 @@ def handler(author: str, text: str, mode: str, **kwargs):
     if case:
         author += f'{COLOR.INFO}#{case.num}{COLOR.DEFAULT}'
     else:
-        # Get case by number.
-        matches = quote_matcher.search(text)
+        # Get case by number or from command.
+        matches = quote_matcher.search(text) or command_matcher.match(text)
         if matches:
-            case = api.cases.get(num=matches.groupdict()['case_num'])
+            case = api.cases.get(
+                cmdr=matches.groupdict()['query'],
+                num=matches.groupdict()['query'],
+                nick=matches.groupdict()['query'],
+            )
     if not case:
         # Try reverse match by nick.
         cases = api.cases.get_all()
