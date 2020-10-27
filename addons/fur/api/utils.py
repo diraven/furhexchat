@@ -6,30 +6,23 @@ from . import const
 
 
 # noinspection PyShadowingBuiltins
-def print(text: str):
-    hexchat.prnt(text)
-
-
-# noinspection PyShadowingBuiltins
-def print_error(text: str):
-    hexchat.prnt(f'{const.COLOR.RED}{text}')
-
-
-def emit_print(
-    text: str, *,
-    event: str = const.EVENT.YOUR_MESSAGE,
-    prefix: str = '',
-    mode: str = '',
-    context: str = None,
-):
+def print(text: str, prefix: str = '', context: str = None):
+    if prefix:
+        text = f'{prefix}\t{text}'
     if context is None:
-        hexchat.emit_print(event, prefix, text, mode)
+        hexchat.prnt(text)
     else:
         ctx = hexchat.find_context(server=context)
         if not ctx:
             hexchat.command(f'newserver -noconnect {context}')
         ctx = hexchat.find_context(server=context)
-        ctx.emit_print(event, prefix, text, mode)
+        ctx.prnt(text)
+
+
+# noinspection PyShadowingBuiltins
+def print_error(text: str):
+    ctx = hexchat.get_context()
+    ctx.prnt(f'{const.COLOR.RED}{text}')
 
 
 def command(text: str):

@@ -200,8 +200,8 @@ class COLOR:
 
     ERROR = RED
 
-    RAT = ORANGE
-    CLIENT = TEAL
+    TAILED = ORANGE
+    UNTAILED = TEAL
 
 
 class EAT:
