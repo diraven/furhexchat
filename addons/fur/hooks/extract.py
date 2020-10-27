@@ -28,9 +28,7 @@ extractors: t.Dict[t.Pattern, str] = {
 def handler(author: str, text: str, mode: str, **kwargs):
     # Get case by nick.
     case = api.cases.get(nick=author, cmdr=author)
-    if case:
-        author += f'{COLOR.INFO}#{case.num}{COLOR.DEFAULT}'
-    else:
+    if not case:
         # Get case by number or from command.
         matches = quote_matcher.search(text) or command_matcher.match(text)
         if matches:
