@@ -56,7 +56,8 @@ def handler(author: str, text: str, mode: str, **kwargs):
         for match in matches:
             bits.append(f'{color}{match}{COLOR.DEFAULT}')
 
-    api.utils.print(" ".join(bits), case if case else '')
+    if case or bits:
+        api.utils.print(" ".join(bits), case if case else '')
 
     # Print resulting message into the respective context if available.
     if all((
