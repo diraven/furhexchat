@@ -17,9 +17,7 @@ class Case:
         self.nick = nick
 
     def __str__(self):
-        return f'{COLOR.DEFAULT}({COLOR.UNTAILED}' \
-               f'{self.nick or self.cmdr}#{self.num}' \
-               f'{COLOR.DEFAULT})'
+        return f'({self.nick or self.cmdr}#{self.num})'
 
 
 _cases: t.List[Case] = []
