@@ -6,7 +6,7 @@ from . import const
 
 
 # noinspection PyShadowingBuiltins
-def print(text: str, prefix: str = '', context: str = None):
+def print(text: str, prefix: str = '*', context: str = None):
     if prefix:
         text = f'{prefix}\t{text}'
     if context is None:
