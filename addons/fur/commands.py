@@ -30,3 +30,10 @@ def handler(args: t.List[str], **kwargs) -> t.Optional[api.const.Eat]:
     for case in api.cases.get_all():
         api.print(str(case))
     return api.const.Eat.all
+
+
+# noinspection PyUnusedLocal
+@api.hooks.command(names=('cs', 'casesync'))
+def handler(args: t.List[str], **kwargs) -> t.Optional[api.const.Eat]:
+    api.message('MechaSqueak[BOT]', '!list')
+    return api.const.Eat.all
