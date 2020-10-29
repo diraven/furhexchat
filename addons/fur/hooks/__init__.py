@@ -1,2 +1,2 @@
-from . import extract
+from . import highlight
 from . import react

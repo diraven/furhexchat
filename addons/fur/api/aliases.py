@@ -38,7 +38,7 @@ def _handler(args: t.List[str], data):
     for line in message.splitlines():
         utils.reply(line)
 
-    return const.EAT.ALL
+    return const.Eat.all
 
 
 def register_alias(

@@ -1,6 +1,7 @@
 import typing as t
 
-from .const import COLOR
+from . import utils
+from .const import Color
 
 
 class Case:
@@ -12,12 +13,17 @@ class Case:
         num: str = None,
         nick: str = None,
     ):
-        self.cmdr = cmdr
-        self.num = num
-        self.nick = nick
+        self.cmdr = utils.strip(cmdr)
+        self.num = utils.strip(num)
+        self.nick = utils.strip(nick)
+
+    @property
+    def name(self):
+        return self.nick or self.cmdr
 
     def __str__(self):
-        return f'({self.nick or self.cmdr}#{self.num})'
+        return f'{Color.default}({Color.client}{self.name}' \
+               f'{Color.info}#{self.num}{Color.default})'
 
 
 _cases: t.List[Case] = []

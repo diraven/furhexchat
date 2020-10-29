@@ -2,7 +2,7 @@
 import winsound
 
 import hexchat
-from . import const
+from .const import Event, NOOP, Color, Format
 
 
 # noinspection PyShadowingBuiltins
@@ -19,10 +19,28 @@ def print(text: str, prefix: str = '*', context: str = None):
         ctx.prnt(text)
 
 
+def emit_print(
+    text: str, *,
+    prefix: str = '',
+    event: Event = Event.channel_message,
+    mode: str = '',
+    context: str = None,
+):
+    text = f'{text}{Format.hidden.value}{NOOP}'
+    if context is None:
+        hexchat.emit_print(event.value, prefix, text, mode)
+    else:
+        ctx = hexchat.find_context(server=context)
+        if not ctx:
+            hexchat.command(f'newserver -noconnect {context}')
+        ctx = hexchat.find_context(server=context)
+        ctx.emit_print(event.value, prefix, text, mode)
+
+
 # noinspection PyShadowingBuiltins
 def print_error(text: str):
     ctx = hexchat.get_context()
-    ctx.prnt(f'{const.COLOR.RED}{text}')
+    ctx.prnt(f'{Color.red}{text}')
 
 
 def command(text: str):

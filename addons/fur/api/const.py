@@ -1,214 +1,239 @@
-import hexchat
+import enum
+
+import hexchat as _hexchat
 
 
-class PRIORITY:
-    HIGHEST = hexchat.PRI_HIGHEST
-    HIGH = hexchat.PRI_HIGH
-    NORM = hexchat.PRI_NORM
-    LOW = hexchat.PRI_LOW
-    LOWEST = hexchat.PRI_LOWEST
+class StrEnum(enum.Enum):
+    def __str__(self):
+        return str(self.value)
 
 
-class EVENT:
-    ADD_NOTIFY = 'Add Notify'
-    BAN_LIST = 'Ban List'
-    BANNED = 'Banned'
-    BEEP = 'Beep'
-    CAPABILITY_ACKNOWLEDGEMENT = 'Capability Acknowledgement'
-    CAPABILITY_DELETED = 'Capability Deleted'
-    CAPABILITY_LIST = 'Capability List'
-    CAPABILITY_REQUEST = 'Capability Request'
-    CHANGE_NICK = 'Change Nick'
-    CHANNEL_ACTION = 'Channel Action'
-    CHANNEL_ACTION_HILIGHT = 'Channel Action Hilight'
-    CHANNEL_BAN = 'Channel Ban'
-    CHANNEL_CREATION = 'Channel Creation'
-    CHANNEL_DEHALFOP = 'Channel DeHalfOp'
-    CHANNEL_DEOP = 'Channel DeOp'
-    CHANNEL_DEVOICE = 'Channel DeVoice'
-    CHANNEL_EXEMPT = 'Channel Exempt'
-    CHANNEL_HALF_OPERATOR = 'Channel Half-Operator'
-    CHANNEL_INVITE = 'Channel INVITE'
-    CHANNEL_LIST = 'Channel List'
-    CHANNEL_MESSAGE = 'Channel Message'
-    CHANNEL_MODE_GENERIC = 'Channel Mode Generic'
-    CHANNEL_MODES = 'Channel Modes'
-    CHANNEL_MSG_HILIGHT = 'Channel Msg Hilight'
-    CHANNEL_NOTICE = 'Channel Notice'
-    CHANNEL_OPERATOR = 'Channel Operator'
-    CHANNEL_QUIET = 'Channel Quiet'
-    CHANNEL_REMOVE_EXEMPT = 'Channel Remove Exempt'
-    CHANNEL_REMOVE_INVITE = 'Channel Remove Invite'
-    CHANNEL_REMOVE_KEYWORD = 'Channel Remove Keyword'
-    CHANNEL_REMOVE_LIMIT = 'Channel Remove Limit'
-    CHANNEL_SET_KEY = 'Channel Set Key'
-    CHANNEL_SET_LIMIT = 'Channel Set Limit'
-    CHANNEL_UNBAN = 'Channel UnBan'
-    CHANNEL_UNQUIET = 'Channel UnQuiet'
-    CHANNEL_URL = 'Channel Url'
-    CHANNEL_VOICE = 'Channel Voice'
-    CONNECTED = 'Connected'
-    CONNECTING = 'Connecting'
-    CONNECTION_FAILED = 'Connection Failed'
-    CTCP_GENERIC = 'CTCP Generic'
-    CTCP_GENERIC_TO_CHANNEL = 'CTCP Generic to Channel'
-    CTCP_SEND = 'CTCP Send'
-    CTCP_SOUND = 'CTCP Sound'
-    CTCP_SOUND_TO_CHANNEL = 'CTCP Sound to Channel'
-    DCC_CHAT_ABORT = 'DCC CHAT Abort'
-    DCC_CHAT_CONNECT = 'DCC CHAT Connect'
-    DCC_CHAT_FAILED = 'DCC CHAT Failed'
-    DCC_CHAT_OFFER = 'DCC CHAT Offer'
-    DCC_CHAT_OFFERING = 'DCC CHAT Offering'
-    DCC_CHAT_REOFFER = 'DCC CHAT Reoffer'
-    DCC_CONECTION_FAILED = 'DCC Conection Failed'
-    DCC_GENERIC_OFFER = 'DCC Generic Offer'
-    DCC_HEADER = 'DCC Header'
-    DCC_MALFORMED = 'DCC Malformed'
-    DCC_OFFER = 'DCC Offer'
-    DCC_OFFER_NOT_VALID = 'DCC Offer Not Valid'
-    DCC_RECV_ABORT = 'DCC RECV Abort'
-    DCC_RECV_COMPLETE = 'DCC RECV Complete'
-    DCC_RECV_CONNECT = 'DCC RECV Connect'
-    DCC_RECV_FAILED = 'DCC RECV Failed'
-    DCC_RECV_FILE_OPEN_ERROR = 'DCC RECV File Open Error'
-    DCC_RENAME = 'DCC Rename'
-    DCC_RESUME_REQUEST = 'DCC RESUME Request'
-    DCC_SEND_ABORT = 'DCC SEND Abort'
-    DCC_SEND_COMPLETE = 'DCC SEND Complete'
-    DCC_SEND_CONNECT = 'DCC SEND Connect'
-    DCC_SEND_FAILED = 'DCC SEND Failed'
-    DCC_SEND_OFFER = 'DCC SEND Offer'
-    DCC_STALL = 'DCC Stall'
-    DCC_TIMEOUT = 'DCC Timeout'
-    DELETE_NOTIFY = 'Delete Notify'
-    DISCONNECTED = 'Disconnected'
-    FOUND_IP = 'Found IP'
-    GENERIC_MESSAGE = 'Generic Message'
-    IGNORE_ADD = 'Ignore Add'
-    IGNORE_CHANGED = 'Ignore Changed'
-    IGNORE_FOOTER = 'Ignore Footer'
-    IGNORE_HEADER = 'Ignore Header'
-    IGNORE_REMOVE = 'Ignore Remove'
-    IGNORELIST_EMPTY = 'Ignorelist Empty'
-    INVITE = 'Invite'
-    INVITED = 'Invited'
-    JOIN = 'Join'
-    KEYWORD = 'Keyword'
-    KICK = 'Kick'
-    KILLED = 'Killed'
-    MESSAGE_SEND = 'Message Send'
-    MOTD = 'Motd'
-    MOTD_SKIPPED = 'MOTD Skipped'
-    NICK_CLASH = 'Nick Clash'
-    NICK_ERRONEOUS = 'Nick Erroneous'
-    NICK_FAILED = 'Nick Failed'
-    NO_DCC = 'No DCC'
-    NO_RUNNING_PROCESS = 'No Running Process'
-    NOTICE = 'Notice'
-    NOTICE_SEND = 'Notice Send'
-    NOTIFY_AWAY = 'Notify Away'
-    NOTIFY_BACK = 'Notify Back'
-    NOTIFY_EMPTY = 'Notify Empty'
-    NOTIFY_HEADER = 'Notify Header'
-    NOTIFY_NUMBER = 'Notify Number'
-    NOTIFY_OFFLINE = 'Notify Offline'
-    NOTIFY_ONLINE = 'Notify Online'
-    OPEN_DIALOG = 'Open Dialog'
-    PART = 'Part'
-    PART_WITH_REASON = 'Part with Reason'
-    PING_REPLY = 'Ping Reply'
-    PING_TIMEOUT = 'Ping Timeout'
-    PRIVATE_ACTION = 'Private Action'
-    PRIVATE_ACTION_TO_DIALOG = 'Private Action to Dialog'
-    PRIVATE_MESSAGE = 'Private Message'
-    PRIVATE_MESSAGE_TO_DIALOG = 'Private Message to Dialog'
-    PROCESS_ALREADY_RUNNING = 'Process Already Running'
-    QUIT = 'Quit'
-    RAW_MODES = 'Raw Modes'
-    RECEIVE_WALLOPS = 'Receive Wallops'
-    RESOLVING_USER = 'Resolving User'
-    SASL_AUTHENTICATING = 'SASL Authenticating'
-    SASL_RESPONSE = 'SASL Response'
-    SERVER_CONNECTED = 'Server Connected'
-    SERVER_ERROR = 'Server Error'
-    SERVER_LOOKUP = 'Server Lookup'
-    SERVER_NOTICE = 'Server Notice'
-    SERVER_TEXT = 'Server Text'
-    SSL_MESSAGE = 'SSL Message'
-    STOP_CONNECTION = 'Stop Connection'
-    TOPIC = 'Topic'
-    TOPIC_CHANGE = 'Topic Change'
-    TOPIC_CREATION = 'Topic Creation'
-    UNKNOWN_HOST = 'Unknown Host'
-    USER_LIMIT = 'User Limit'
-    USERS_ON_CHANNEL = 'Users On Channel'
-    WHOIS_AUTHENTICATED = 'WhoIs Authenticated'
-    WHOIS_AWAY_LINE = 'WhoIs Away Line'
-    WHOIS_CHANNEL_OPER_LINE = 'WhoIs Channel/Oper Line'
-    WHOIS_END = 'WhoIs End'
-    WHOIS_IDENTIFIED = 'WhoIs Identified'
-    WHOIS_IDLE_LINE = 'WhoIs Idle Line'
-    WHOIS_IDLE_LINE_WITH_SIGNON = 'WhoIs Idle Line with Signon'
-    WHOIS_NAME_LINE = 'WhoIs Name Line'
-    WHOIS_REAL_HOST = 'WhoIs Real Host'
-    WHOIS_SERVER_LINE = 'WhoIs Server Line'
-    WHOIS_SPECIAL = 'WhoIs Special'
-    YOU_JOIN = 'You Join'
-    YOU_KICKED = 'You Kicked'
-    YOU_PART = 'You Part'
-    YOU_PART_WITH_REASON = 'You Part with Reason'
-    YOUR_ACTION = 'Your Action'
-    YOUR_INVITATION = 'Your Invitation'
-    YOUR_MESSAGE = 'Your Message'
-    YOUR_NICK_CHANGING = 'Your Nick Changing'
+@enum.unique
+class Priority(enum.Enum):
+    highest = _hexchat.PRI_HIGHEST
+    high = _hexchat.PRI_HIGH
+    normal = _hexchat.PRI_NORM
+    low = _hexchat.PRI_LOW
+    lowest = _hexchat.PRI_LOWEST
 
 
-COMMAND_EVENTS = [
-    EVENT.CHANNEL_MESSAGE,
-    EVENT.CHANNEL_MSG_HILIGHT,
-    EVENT.YOUR_MESSAGE,
-    EVENT.NOTICE,
-    EVENT.PRIVATE_MESSAGE,
-    EVENT.PRIVATE_MESSAGE_TO_DIALOG,
+@enum.unique
+class Event(enum.Enum):
+    add_notify = 'Add Notify'
+    ban_list = 'Ban List'
+    banned = 'Banned'
+    beep = 'Beep'
+    capability_acknowledgement = 'Capability Acknowledgement'
+    capability_deleted = 'Capability Deleted'
+    capability_list = 'Capability List'
+    capability_request = 'Capability Request'
+    change_nick = 'Change Nick'
+    channel_action = 'Channel Action'
+    channel_action_hilight = 'Channel Action Hilight'
+    channel_ban = 'Channel Ban'
+    channel_creation = 'Channel Creation'
+    channel_dehalfop = 'Channel DeHalfOp'
+    channel_deop = 'Channel DeOp'
+    channel_devoice = 'Channel DeVoice'
+    channel_exempt = 'Channel Exempt'
+    channel_half_operator = 'Channel Half-Operator'
+    channel_invite = 'Channel INVITE'
+    channel_list = 'Channel List'
+    channel_message = 'Channel Message'
+    channel_mode_generic = 'Channel Mode Generic'
+    channel_modes = 'Channel Modes'
+    channel_msg_hilight = 'Channel Msg Hilight'
+    channel_notice = 'Channel Notice'
+    channel_operator = 'Channel Operator'
+    channel_quiet = 'Channel Quiet'
+    channel_remove_exempt = 'Channel Remove Exempt'
+    channel_remove_invite = 'Channel Remove Invite'
+    channel_remove_keyword = 'Channel Remove Keyword'
+    channel_remove_limit = 'Channel Remove Limit'
+    channel_set_key = 'Channel Set Key'
+    channel_set_limit = 'Channel Set Limit'
+    channel_unban = 'Channel UnBan'
+    channel_unquiet = 'Channel UnQuiet'
+    channel_url = 'Channel Url'
+    channel_voice = 'Channel Voice'
+    connected = 'Connected'
+    connecting = 'Connecting'
+    connection_failed = 'Connection Failed'
+    ctcp_generic = 'CTCP Generic'
+    ctcp_generic_to_channel = 'CTCP Generic to Channel'
+    ctcp_send = 'CTCP Send'
+    ctcp_sound = 'CTCP Sound'
+    ctcp_sound_to_channel = 'CTCP Sound to Channel'
+    dcc_chat_abort = 'DCC CHAT Abort'
+    dcc_chat_connect = 'DCC CHAT Connect'
+    dcc_chat_failed = 'DCC CHAT Failed'
+    dcc_chat_offer = 'DCC CHAT Offer'
+    dcc_chat_offering = 'DCC CHAT Offering'
+    dcc_chat_reoffer = 'DCC CHAT Reoffer'
+    dcc_conection_failed = 'DCC Conection Failed'
+    dcc_generic_offer = 'DCC Generic Offer'
+    dcc_header = 'DCC Header'
+    dcc_malformed = 'DCC Malformed'
+    dcc_offer = 'DCC Offer'
+    dcc_offer_not_valid = 'DCC Offer Not Valid'
+    dcc_recv_abort = 'DCC RECV Abort'
+    dcc_recv_complete = 'DCC RECV Complete'
+    dcc_recv_connect = 'DCC RECV Connect'
+    dcc_recv_failed = 'DCC RECV Failed'
+    dcc_recv_file_open_error = 'DCC RECV File Open Error'
+    dcc_rename = 'DCC Rename'
+    dcc_resume_request = 'DCC RESUME Request'
+    dcc_send_abort = 'DCC SEND Abort'
+    dcc_send_complete = 'DCC SEND Complete'
+    dcc_send_connect = 'DCC SEND Connect'
+    dcc_send_failed = 'DCC SEND Failed'
+    dcc_send_offer = 'DCC SEND Offer'
+    dcc_stall = 'DCC Stall'
+    dcc_timeout = 'DCC Timeout'
+    delete_notify = 'Delete Notify'
+    disconnected = 'Disconnected'
+    found_ip = 'Found IP'
+    generic_message = 'Generic Message'
+    ignore_add = 'Ignore Add'
+    ignore_changed = 'Ignore Changed'
+    ignore_footer = 'Ignore Footer'
+    ignore_header = 'Ignore Header'
+    ignore_remove = 'Ignore Remove'
+    ignorelist_empty = 'Ignorelist Empty'
+    invite = 'Invite'
+    invited = 'Invited'
+    join = 'Join'
+    keyword = 'Keyword'
+    kick = 'Kick'
+    killed = 'Killed'
+    message_send = 'Message Send'
+    motd = 'Motd'
+    motd_skipped = 'MOTD Skipped'
+    nick_clash = 'Nick Clash'
+    nick_erroneous = 'Nick Erroneous'
+    nick_failed = 'Nick Failed'
+    no_dcc = 'No DCC'
+    no_running_process = 'No Running Process'
+    notice = 'Notice'
+    notice_send = 'Notice Send'
+    notify_away = 'Notify Away'
+    notify_back = 'Notify Back'
+    notify_empty = 'Notify Empty'
+    notify_header = 'Notify Header'
+    notify_number = 'Notify Number'
+    notify_offline = 'Notify Offline'
+    notify_online = 'Notify Online'
+    open_dialog = 'Open Dialog'
+    part = 'Part'
+    part_with_reason = 'Part with Reason'
+    ping_reply = 'Ping Reply'
+    ping_timeout = 'Ping Timeout'
+    private_action = 'Private Action'
+    private_action_to_dialog = 'Private Action to Dialog'
+    private_message = 'Private Message'
+    private_message_to_dialog = 'Private Message to Dialog'
+    process_already_running = 'Process Already Running'
+    quit = 'Quit'
+    raw_modes = 'Raw Modes'
+    receive_wallops = 'Receive Wallops'
+    resolving_user = 'Resolving User'
+    sasl_authenticating = 'SASL Authenticating'
+    sasl_response = 'SASL Response'
+    server_connected = 'Server Connected'
+    server_error = 'Server Error'
+    server_lookup = 'Server Lookup'
+    server_notice = 'Server Notice'
+    server_text = 'Server Text'
+    ssl_message = 'SSL Message'
+    stop_connection = 'Stop Connection'
+    topic = 'Topic'
+    topic_change = 'Topic Change'
+    topic_creation = 'Topic Creation'
+    unknown_host = 'Unknown Host'
+    user_limit = 'User Limit'
+    users_on_channel = 'Users On Channel'
+    whois_authenticated = 'WhoIs Authenticated'
+    whois_away_line = 'WhoIs Away Line'
+    whois_channel_oper_line = 'WhoIs Channel/Oper Line'
+    whois_end = 'WhoIs End'
+    whois_identified = 'WhoIs Identified'
+    whois_idle_line = 'WhoIs Idle Line'
+    whois_idle_line_with_signon = 'WhoIs Idle Line with Signon'
+    whois_name_line = 'WhoIs Name Line'
+    whois_real_host = 'WhoIs Real Host'
+    whois_server_line = 'WhoIs Server Line'
+    whois_special = 'WhoIs Special'
+    you_join = 'You Join'
+    you_kicked = 'You Kicked'
+    you_part = 'You Part'
+    you_part_with_reason = 'You Part with Reason'
+    your_action = 'Your Action'
+    your_invitation = 'Your Invitation'
+    your_message = 'Your Message'
+    your_nick_changing = 'Your Nick Changing'
+
+
+DEFAULT_EVENTS = [
+    Event.channel_message,
+    Event.channel_msg_hilight,
+    Event.your_message,
+    Event.notice,
+    Event.private_message,
+    Event.private_message_to_dialog,
 ]
 
 
-class COLOR:
-    DEFAULT = '\003'
-    WHITE = '\00300'
-    BLACK = '\00301'
-    NAVY = '\00302'
-    GREEN = '\00303'
-    RED = '\00304'
-    MAROON = '\00305'
-    PURPLE = '\00306'
-    ORANGE = '\00307'
-    YELLOW = '\00308'
-    LIGHT_GREEN = '\00309'
-    TEAL = '\00310'
-    CYAN = '\00311'
-    ROYAL_BLUE = '\00312'
-    MAGENTA = '\00313'
-    GRAY = '\00314'
-    LIGHT_GRAY = '\00315'
+class Color(StrEnum):
+    default = '\017'
 
-    INFO = NAVY
-    SUCCESS = GREEN
-    WARNING = YELLOW
-    DANGER = RED
+    white = '\00300'
+    black = '\00301'
+    navy = '\00302'
+    green = '\00303'
+    red = '\00304'
+    maroon = '\00305'
+    purple = '\00306'
+    orange = '\00307'
+    yellow = '\00308'
+    light_green = '\00309'
+    teal = '\00310'
+    cyan = '\00311'
+    royal_blue = '\00312'
+    magenta = '\00313'
+    gray = '\00314'
+    light_gray = '\00315'
 
-    ERROR = RED
+    reversed = '\017'
 
-    TAILED = ORANGE
-    UNTAILED = TEAL
+    info = navy
+    success = green
+    warning = yellow
+    danger = red
+    error = red
 
-
-class EAT:
-    ALL = hexchat.EAT_ALL
-    NONE = hexchat.EAT_NONE
-    PLUGIN = hexchat.EAT_PLUGIN
-    HEXCHAT = hexchat.EAT_HEXCHAT
+    tailed = orange
+    untailed = yellow
+    client = teal
 
 
-BEEP = '\007'
+@enum.unique
+class Eat(enum.Enum):
+    all = _hexchat.EAT_ALL
+    hexchat = _hexchat.EAT_HEXCHAT
+    none = _hexchat.EAT_NONE
+    plugin = _hexchat.EAT_PLUGIN
+
+
+@enum.unique
+class Format(StrEnum):
+    default = '\017'
+
+    bold = '\002'
+    italics = '\035'
+    underline = '\037'
+
+    hidden = '\010'
+    beep = '\007'
+
+
+NOOP = ' ..'

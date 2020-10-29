@@ -8,7 +8,7 @@ from . import api
 def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
     api.cases.put(num=args[0], nick=args[1], cmdr=args[1])
     api.print(f'case #{args[0]} was associated with nick {args[1]}')
-    return api.const.EAT.ALL
+    return api.const.Eat.all
 
 
 # noinspection PyUnusedLocal
@@ -21,7 +21,7 @@ def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
     api.close_context(f'#{case.num}')
     if api.cases.delete(num=case.num):
         api.print(f'case {query} was removed')
-    return api.const.EAT.ALL
+    return api.const.Eat.all
 
 
 # noinspection PyUnusedLocal
@@ -29,4 +29,4 @@ def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
 def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
     for case in api.cases.get_all():
         api.print(str(case))
-    return api.const.EAT.ALL
+    return api.const.Eat.all
