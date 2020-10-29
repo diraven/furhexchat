@@ -19,6 +19,7 @@ class Case:
 
         if not self.nick:
             self.nick = self.cmdr.replace(' ', '_')
+            self.nick = self.cmdr.replace('.', '')
             self.nick = f'c_{self.nick}' if \
                 self.nick[0].isdigit() else self.nick
 
