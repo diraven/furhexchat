@@ -37,10 +37,8 @@ def handler(text: str, mode: str, **kwargs):
 def handler(matches: t.Match, **kwargs):
     query = matches['query']
     case = api.cases.get(num=query, nick=query, cmdr=query)
-    if case:
-        api.close_context(f'#{case.num}')
-        if api.cases.delete(num=case.num):
-            api.print(f'case #{case.num} nick association was removed')
+    if api.cases.delete(num=case.num):
+        api.print(f'case #{case.num} nick association was removed')
 
 
 # noinspection PyUnusedLocal
@@ -55,3 +53,34 @@ def handler(matches: t.Match, **kwargs):
         case.nick = nick
         api.print(f'case #{case.num} nick association was updated: {nick}')
     return
+
+
+_list_item_rexp = re.compile(
+    r'(\[(?P<num>\d+)] '
+    r'(?P<cmdr>[^)]+) '
+    r'\((?P<platform>[^)]+)\)) ?',
+    flags=re.IGNORECASE,
+)
+
+
+# noinspection PyUnusedLocal
+@api.hooks.print(
+    match_text=re.compile(r'\d+ cases found'),
+)
+def handler(text: str, **kwargs):
+    items = text.split(', ')
+    if len(items) < 2:
+        return
+
+    items = items[1:]
+    nums = []
+    for item in items:
+        matches: t.Dict = _list_item_rexp.match(item).groupdict()
+        nums.append(matches.get('num'))
+        api.cases.put(
+            cmdr=matches.get('cmdr'),
+            num=matches.get('num'),
+        )
+    for case in api.cases.get_all():
+        if case.num not in nums:
+            api.cases.delete(num=case.num)

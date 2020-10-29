@@ -5,7 +5,7 @@ from . import api
 
 # noinspection PyUnusedLocal
 @api.hooks.command(names=('c', 'case'))
-def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
+def handler(args: t.List[str], **kwargs) -> t.Optional[api.const.Eat]:
     api.cases.put(num=args[0], nick=args[1], cmdr=args[1])
     api.print(f'case #{args[0]} was associated with nick {args[1]}')
     return api.const.Eat.all
@@ -13,7 +13,7 @@ def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
 
 # noinspection PyUnusedLocal
 @api.hooks.command(names=('cd', 'casedelete'))
-def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
+def handler(args: t.List[str], **kwargs) -> t.Optional[api.const.Eat]:
     query = args[0]
     case = api.cases.get(cmdr=query, num=query, nick=query)
     if not case:
@@ -26,7 +26,7 @@ def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
 
 # noinspection PyUnusedLocal
 @api.hooks.command(names=('cc', 'cases'))
-def handler(args: t.List[str], **kwargs) -> t.Optional[int]:
+def handler(args: t.List[str], **kwargs) -> t.Optional[api.const.Eat]:
     for case in api.cases.get_all():
         api.print(str(case))
     return api.const.Eat.all

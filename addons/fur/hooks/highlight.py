@@ -17,6 +17,7 @@ raw_highlighters: t.Dict[str, Color] = {
     r'\d+\s*j(?:umps?)?': Color.warning,
     r'(?:open|pg|mm|ez|solo)': Color.warning,
     r'stdn': Color.danger,
+    r'(?:RATSIGNAL|Incoming Client)': Color.warning,
 }
 
 highlighters = {

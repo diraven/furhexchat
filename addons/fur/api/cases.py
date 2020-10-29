@@ -13,9 +13,14 @@ class Case:
         num: str = None,
         nick: str = None,
     ):
-        self.cmdr = utils.strip(cmdr)
-        self.num = utils.strip(num)
-        self.nick = utils.strip(nick)
+        self.cmdr = utils.strip(cmdr) if cmdr else cmdr
+        self.num = utils.strip(num) if num else num
+        self.nick = utils.strip(nick) if nick else nick
+
+        if not self.nick:
+            self.nick = self.cmdr.replace(' ', '_')
+            self.nick = f'c_{self.nick}' if \
+                self.nick[0].isdigit() else self.nick
 
     @property
     def name(self):
@@ -65,10 +70,11 @@ def delete(**kwargs):
     case = get(**kwargs)
     if case:
         _cases.remove(case)
+        utils.close_context(f'#{case.num}')
     return case
 
 
 def get_all():
     global _cases
 
-    return _cases
+    return _cases[:]
