@@ -2,7 +2,7 @@
 import winsound
 
 import hexchat
-from .const import Event, NOOP, Color, Format
+from .const import Event, TERMINATOR, Color, Format
 
 
 # noinspection PyShadowingBuiltins
@@ -26,7 +26,7 @@ def emit_print(
     mode: str = '',
     context: str = None,
 ):
-    text = f'{text}{Format.hidden.value}{NOOP}'
+    text = f'{text}{Color.gray.value}{TERMINATOR}'
     if context is None:
         hexchat.emit_print(event.value, prefix, text, mode)
     else:
@@ -64,10 +64,14 @@ def strip(text: str) -> str:
     return hexchat.strip(text.strip())
 
 
+def get_context(name: str):
+    return hexchat.find_context(server=name)
+
+
 def close_context(name: str):
-    ctx = hexchat.find_context(server=name)
+    ctx = get_context(name)
     if ctx:
-        ctx.command(f'close')
+        ctx.command('close')
 
 
 def beep():

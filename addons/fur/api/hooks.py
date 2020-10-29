@@ -42,7 +42,7 @@ def print(
             # Run the handler itself.
             text = utils.strip(word[1]) if len(word) > 1 else ''
             author = utils.strip(word[0]) if word[0] else ''
-            if text and not text.endswith(utils.strip(const.NOOP)):
+            if text and not text.endswith(utils.strip(const.TERMINATOR)):
                 return func(
                     author=author,
                     text=text,

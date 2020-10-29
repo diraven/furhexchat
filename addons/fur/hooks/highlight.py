@@ -79,4 +79,6 @@ def handler(author: str, text: str, mode: str, **kwargs):
         text = highlighter.sub(f'{color}\\1{Color.default}', text)
 
     # Now output processed text.
-    api.utils.emit_print(text, prefix=author, context='formatted')
+    api.utils.emit_print(
+        text, prefix=author, context=api.const.MAIN_CONTEXT_NAME,
+    )

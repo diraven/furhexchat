@@ -236,4 +236,5 @@ class Format(StrEnum):
     beep = '\007'
 
 
-NOOP = ' ..'
+TERMINATOR = ' ._'
+MAIN_CONTEXT_NAME = 'formatted'
