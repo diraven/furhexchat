@@ -15,7 +15,11 @@ def print(
     def factory(func: t.Callable):
         # noinspection PyUnusedLocal
         def wrapper(word: t.List[str], word_eol: t.List[str], userdata: t.Any):
-            # Make srue we are not processing log.
+            channel = hexchat.get_info(_const.Info.channel.value)
+            server = hexchat.get_info(_const.Info.server.value)
+            # Make sure we are not processing log.
+            if server == _const.LOG_CONTEXT_NAME:
+                return
 
             # Make sure text data is provided.
             if not word:
@@ -52,8 +56,8 @@ def print(
                     mode=word[2] if len(word) > 2 else '',
                     matches=matches,
                     event=_const.Event(userdata['event']),
-                    channel=hexchat.get_info(_const.Info.channel.value),
-                    server=hexchat.get_info(_const.Info.server.value),
+                    channel=channel,
+                    server=server,
                     data=userdata,
                 )
                 if result:

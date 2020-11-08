@@ -256,5 +256,4 @@ class Info(_StrEnum):
     win_status = 'win_status'
 
 
-TERMINATOR = ' ._'
 LOG_CONTEXT_NAME = 'log'

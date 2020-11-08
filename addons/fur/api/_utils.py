@@ -2,7 +2,7 @@
 import winsound
 
 import hexchat
-from ._const import Event, TERMINATOR, Color
+from ._const import Event, Color, LOG_CONTEXT_NAME
 
 
 # noinspection PyShadowingBuiltins
@@ -17,12 +17,10 @@ def log(
     event: Event = Event.channel_message,
     mode: str = '',
 ):
-    text = f'{text}{Color.gray.value}{TERMINATOR}'
-    ctx_name = 'log'
-    ctx = hexchat.find_context(server=ctx_name)
+    ctx = hexchat.find_context(server=LOG_CONTEXT_NAME)
     if not ctx:
-        hexchat.command(f'newserver -noconnect {ctx_name}')
-    ctx = hexchat.find_context(server=ctx_name)
+        hexchat.command(f'newserver -noconnect {LOG_CONTEXT_NAME}')
+    ctx = hexchat.find_context(server=LOG_CONTEXT_NAME)
     ctx.emit_print(event.value, prefix, text, mode)
 
 
