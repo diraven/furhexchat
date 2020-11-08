@@ -13,7 +13,7 @@ def print(text: str, prefix: str = '*', context: 'hexchat.Context' = None):
 
 def log(
     text: str, *,
-    prefix: str = '',
+    prefix: str = '*',
     event: Event = Event.channel_message,
     mode: str = '',
 ):
