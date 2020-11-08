@@ -176,7 +176,6 @@ class Event(enum.Enum):
 DEFAULT_EVENTS = [
     Event.channel_message,
     Event.channel_msg_hilight,
-    Event.your_message,
     Event.notice,
     Event.private_message,
     Event.private_message_to_dialog,
