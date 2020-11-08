@@ -2,7 +2,7 @@
 import winsound
 
 import hexchat
-from .const import Event, TERMINATOR, Color
+from ._const import Event, TERMINATOR, Color
 
 
 # noinspection PyShadowingBuiltins
@@ -51,16 +51,6 @@ def nicks_match(n1, n2) -> bool:
 
 def strip(text: str) -> str:
     return hexchat.strip(text.strip())
-
-
-def get_context(name: str):
-    return hexchat.find_context(server=name)
-
-
-def close_context(name: str):
-    ctx = get_context(name)
-    if ctx:
-        ctx.command('close')
 
 
 def beep():

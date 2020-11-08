@@ -3,7 +3,7 @@ import enum
 import hexchat as _hexchat
 
 
-class StrEnum(enum.Enum):
+class _StrEnum(enum.Enum):
     def __str__(self):
         return str(self.value)
 
@@ -182,7 +182,7 @@ DEFAULT_EVENTS = [
 ]
 
 
-class Color(StrEnum):
+class Color(_StrEnum):
     default = '\017'
 
     white = '\00300'
@@ -224,7 +224,7 @@ class Eat(enum.Enum):
 
 
 @enum.unique
-class Format(StrEnum):
+class Format(_StrEnum):
     default = '\017'
 
     bold = '\002'
@@ -236,7 +236,7 @@ class Format(StrEnum):
 
 
 @enum.unique
-class Info(StrEnum):
+class Info(_StrEnum):
     away = 'away'
     channel = 'channel'
     charset = 'charset'
@@ -257,4 +257,4 @@ class Info(StrEnum):
 
 
 TERMINATOR = ' ._'
-RAW_CONTEXT_NAME = 'raw'
+LOG_CONTEXT_NAME = 'log'

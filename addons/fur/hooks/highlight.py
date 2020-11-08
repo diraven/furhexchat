@@ -2,22 +2,21 @@ import re
 import typing as t
 
 from .. import api
-from ..api.const import Color, Priority
 
 quote_matcher = re.compile(r'((?:#|case ?)(?P<query>\d+))', re.IGNORECASE)
 command_matcher = re.compile(r'(![\w-]+\s+(?P<query>[\w_-]+))', re.IGNORECASE)
 boundary = r'(?:[^\w]|$|^)'
 
-raw_highlighters: t.Dict[str, Color] = {
-    r'(?:#|case ?)\d+': Color.info,
-    r'\w+\+': Color.success,
-    r'\w+-': Color.danger,
-    r'\w+conf': Color.success,
-    r'\d+\s?k?ls': Color.warning,
-    r'\d+\s*j(?:umps?)?': Color.warning,
-    r'(?:open|pg|mm|ez|solo)': Color.warning,
-    r'stdn': Color.danger,
-    r'(?:RATSIGNAL|Incoming Client)': Color.royal_blue,
+raw_highlighters: t.Dict[str, api.Color] = {
+    r'(?:#|case ?)\d+': api.Color.info,
+    r'\w+\+': api.Color.success,
+    r'\w+-': api.Color.danger,
+    r'\w+conf': api.Color.success,
+    r'\d+\s?k?ls': api.Color.warning,
+    r'\d+\s*j(?:umps?)?': api.Color.warning,
+    r'(?:open|pg|mm|ez|solo)': api.Color.warning,
+    r'stdn': api.Color.danger,
+    r'(?:RATSIGNAL|Incoming Client)': api.Color.royal_blue,
 }
 
 highlighters = {
@@ -29,27 +28,27 @@ highlighters = {
 
 
 # noinspection PyUnusedLocal
-@api.hooks.print(priority=Priority.lowest)
+@api.hook_print(priority=api.Priority.lowest)
 def handler(
-    author: str, text: str, mode: str, event: api.const.Event, **kwargs,
+    author: str, text: str, mode: str, event: api.Event, **kwargs,
 ):
     original_text = text
     original_author = author
 
     # Try to figure out case the line is relevant to.
-    case = api.cases.get(nick=author, cmdr=author)
+    case = api.get_case(nick=author, cmdr=author)
     if not case:
         # Get case by number or from command.
         matches = quote_matcher.search(text) or command_matcher.match(text)
         if matches:
-            case = api.cases.get(
+            case = api.get_case(
                 cmdr=matches.groupdict()['query'],
                 num=matches.groupdict()['query'],
                 nick=matches.groupdict()['query'],
             )
     if not case:
         # Try reverse match by nick.
-        cases = api.cases.get_all()
+        cases = api.get_all_cases()
         try:
             case = next((
                 c for c in cases if
@@ -59,25 +58,25 @@ def handler(
 
     # Set color for author.
     if mode:
-        author = f'{Color.tailed}{author}{Color.default}'
+        author = f'{api.Color.tailed}{author}{api.Color.default}'
     else:
-        author = f'{Color.untailed}{author}{Color.default}'
+        author = f'{api.Color.untailed}{author}{api.Color.default}'
 
     # Replace case and author references.
     if case:
         text = re.sub(f'(?:{case.nick}|#{case.num})', str(case), text)
-        if api.utils.strip(author) == case.name:
+        if api.strip(author) == case.name:
             author = str(case)
 
     # Highlight whatever we can find.
     bits = []
     for highlighter, color in highlighters.items():
-        text = highlighter.sub(f'{color}\\1{Color.default}', text)
+        text = highlighter.sub(f'{color}\\1{api.Color.default}', text)
 
     # Output processed text.
-    api.utils.print(text, prefix=author)
+    api.print(text, prefix=author)
 
     # Output original text.
-    api.utils.log(original_text, prefix=original_author, event=event)
+    api.log(original_text, prefix=original_author, event=event)
 
-    return api.const.Eat.all
+    return api.Eat.all

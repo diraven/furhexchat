@@ -7,7 +7,7 @@ word_eol: ['command 1 2 3', '1 2 3', '2 3', '3']
 
 import typing as t
 
-from . import utils, const, hooks
+from . import _utils, _const, _hooks
 
 LANGUAGES = ['', 'de', 'ru', 'es', 'fr', 'pt', 'cn', 'it']
 PLATFORMS = {
@@ -23,7 +23,7 @@ def _handler(args: t.List[str], data):
 
     # Enforce correct command usage.
     if len(args) < len(arguments):
-        utils.print(
+        _utils.print(
             f'\00304Usage: {name}'
             f'{" ".join(a.upper() for a in arguments)}',
         )
@@ -36,12 +36,12 @@ def _handler(args: t.List[str], data):
 
     # Send the message.
     for line in message.splitlines():
-        utils.reply(line)
+        _utils.reply(line)
 
-    return const.Eat.all
+    return _const.Eat.all
 
 
-def register_alias(
+def register(
     name: str,
     *,
     command: str = None,
@@ -67,7 +67,7 @@ def register_alias(
                 arguments or ['nick'],
             )
 
-            hooks.command(
+            _hooks.command(
                 names=[
                     f'{alias_platform}{name}'
                     f'{f"-{language}" if language else ""}',

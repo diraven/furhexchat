@@ -1,7 +1,7 @@
 import typing as t
 
 import hexchat
-from . import const, utils
+from . import _const, _utils
 
 
 # noinspection PyShadowingBuiltins
@@ -9,8 +9,8 @@ def print(
     *,
     match_author: t.Optional[t.Union[str, t.Pattern]] = None,
     match_text: t.Optional[t.Union[str, t.Pattern]] = None,
-    match_events: t.Iterable[const.Event] = const.DEFAULT_EVENTS,
-    priority=const.Priority.normal,
+    match_events: t.Iterable[_const.Event] = _const.DEFAULT_EVENTS,
+    priority=_const.Priority.normal,
 ):
     def factory(func: t.Callable):
         # noinspection PyUnusedLocal
@@ -23,7 +23,7 @@ def print(
 
             if match_author and word:
                 if isinstance(match_author, str):
-                    if not utils.nicks_match(word[0], match_author):
+                    if not _utils.nicks_match(word[0], match_author):
                         return
                 else:
                     if not match_author.match(word[0]):
@@ -42,17 +42,18 @@ def print(
                     matches = matches.groupdict()
 
             # Run the handler itself.
-            text = utils.strip(word[1]) if len(word) > 1 else ''
-            author = utils.strip(word[0]) if word[0] else ''
-            if text and not text.endswith(utils.strip(const.TERMINATOR)):
+            text = _utils.strip(word[1]) if len(word) > 1 else ''
+            author = _utils.strip(word[0]) if word[0] else ''
+            if text and not text.endswith(_utils.strip(_const.TERMINATOR)):
+                # noinspection PyArgumentList
                 result = func(
                     author=author,
                     text=text,
                     mode=word[2] if len(word) > 2 else '',
                     matches=matches,
-                    event=const.Event(userdata['event']),
-                    channel=hexchat.get_info(const.Info.channel.value),
-                    server=hexchat.get_info(const.Info.server.value),
+                    event=_const.Event(userdata['event']),
+                    channel=hexchat.get_info(_const.Info.channel.value),
+                    server=hexchat.get_info(_const.Info.server.value),
                     data=userdata,
                 )
                 if result:

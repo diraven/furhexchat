@@ -65,7 +65,8 @@
 #
 # def send_message(context: 'hexchat.Context', message: str):
 #     context.command(
-#         f'MSG {context.get_info("channel")} #{get_active_case_id()} {message}'
+#         f'MSG {context.get_info("channel")} #{get_active_case_id()}
+#         {message}'
 #     )
 #
 #

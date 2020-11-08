@@ -1,7 +1,7 @@
 import typing as t
 
-from . import utils
-from .const import Color
+from . import _utils
+from ._const import Color
 
 
 class Case:
@@ -13,9 +13,9 @@ class Case:
         num: str = None,
         nick: str = None,
     ):
-        self.cmdr = utils.strip(cmdr) if cmdr else cmdr
-        self.num = utils.strip(num) if num else num
-        self.nick = utils.strip(nick) if nick else nick
+        self.cmdr = _utils.strip(cmdr) if cmdr else cmdr
+        self.num = _utils.strip(num) if num else num
+        self.nick = _utils.strip(nick) if nick else nick
 
         if not self.nick:
             self.nick = self.cmdr.replace(' ', '_')
@@ -71,7 +71,7 @@ def delete(**kwargs):
     case = get(**kwargs)
     if case:
         _cases.remove(case)
-        utils.close_context(f'#{case.num}')
+        # _utils.close_context(f'#{case.num}')
     return case
 
 
