@@ -13,7 +13,7 @@ def handler(text: str, matches: t.Dict, **kwargs):
     nick = None
     if 'IRC Nickname' in text:
         nick = text.split()[-1]
-    api.print(str(api.put_case(cmdr=cmdr, nick=nick)))
+    api.log(f'Case update: {str(api.put_case(cmdr=cmdr, nick=nick))}')
 
 
 ratsignal_casenum_matcher = re.compile(r'Case #(?P<num>\d+)')
@@ -27,7 +27,7 @@ def handler(text: str, mode: str, **kwargs):
         text,
     ).groupdict()['num']
     cmdr = ratsignal_cmdr_matcher.search(text).groupdict()['cmdr']
-    api.print(str(api.put_case(cmdr=cmdr, num=num)))
+    api.log(f'Case update: {str(api.put_case(cmdr=cmdr, num=num))}')
 
 
 # noinspection PyUnusedLocal
@@ -38,7 +38,7 @@ def handler(matches: t.Match, **kwargs):
     query = matches['query']
     case = api.get_case(num=query, nick=query, cmdr=query)
     if api.delete_case(num=case.num):
-        api.print(f'case #{case.num} nick association was removed')
+        api.log(f'case #{case.num} nick association was removed')
 
 
 # noinspection PyUnusedLocal
@@ -51,7 +51,7 @@ def handler(matches: t.Match, **kwargs):
     case = api.get_case(num=query, nick=query, cmdr=query)
     if case:
         case.nick = nick
-        api.print(f'case #{case.num} nick association was updated: {nick}')
+        api.log(f'case #{case.num} nick association was updated: {nick}')
     return
 
 
