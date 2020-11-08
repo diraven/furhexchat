@@ -237,4 +237,4 @@ class Format(StrEnum):
 
 
 TERMINATOR = ' ._'
-MAIN_CONTEXT_NAME = 'formatted'
+RAW_CONTEXT_NAME = 'raw'

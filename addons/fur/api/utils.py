@@ -2,21 +2,13 @@
 import winsound
 
 import hexchat
-from .const import Event, TERMINATOR, Color, Format
+from .const import Event, TERMINATOR, Color
 
 
 # noinspection PyShadowingBuiltins
-def print(text: str, prefix: str = '*', context: str = None):
-    if prefix:
-        text = f'{prefix}\t{text}'
-    if context is None:
-        hexchat.prnt(text)
-    else:
-        ctx = hexchat.find_context(server=context)
-        if not ctx:
-            hexchat.command(f'newserver -noconnect {context}')
-        ctx = hexchat.find_context(server=context)
-        ctx.prnt(text)
+def print(text: str, prefix: str = '*', context: hexchat.Context = None):
+    text = f'{prefix}\t{text}' if prefix else text
+    context.prnt(text) if context else hexchat.prnt(text)
 
 
 def emit_print(

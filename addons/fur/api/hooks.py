@@ -43,7 +43,7 @@ def print(
             text = utils.strip(word[1]) if len(word) > 1 else ''
             author = utils.strip(word[0]) if word[0] else ''
             if text and not text.endswith(utils.strip(const.TERMINATOR)):
-                return func(
+                result = func(
                     author=author,
                     text=text,
                     mode=word[2] if len(word) > 2 else '',
@@ -51,6 +51,8 @@ def print(
                     event=userdata['event'],
                     data=userdata,
                 )
+                if result:
+                    return result.value
 
         # Register hooks with hexchat.
         for event in match_events:

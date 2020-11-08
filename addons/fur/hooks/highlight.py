@@ -31,6 +31,8 @@ highlighters = {
 # noinspection PyUnusedLocal
 @api.hooks.print(priority=Priority.lowest)
 def handler(author: str, text: str, mode: str, **kwargs):
+    original_text = text
+
     # Try to figure out case the line is relevant to.
     case = api.cases.get(nick=author, cmdr=author)
     if not case:
@@ -52,14 +54,14 @@ def handler(author: str, text: str, mode: str, **kwargs):
         except StopIteration:
             pass
 
-    # Print resulting message as is into the respective context.
-    if all((
-        case,
-        'paperwork' not in text.lower(),
-        'successfully closed case' not in text.lower(),
-        'to the trash' not in text.lower(),
-    )):
-        api.utils.emit_print(text, prefix=author, context=f'#{case.num}')
+    # # Print resulting message as is into the respective context.
+    # if all((
+    #     case,
+    #     'paperwork' not in text.lower(),
+    #     'successfully closed case' not in text.lower(),
+    #     'to the trash' not in text.lower(),
+    # )):
+    #     api.utils.emit_print(text, prefix=author, context=f'#{case.num}')
 
     # Set color for author.
     if mode:
@@ -78,7 +80,12 @@ def handler(author: str, text: str, mode: str, **kwargs):
     for highlighter, color in highlighters.items():
         text = highlighter.sub(f'{color}\\1{Color.default}', text)
 
-    # Now output processed text.
+    # Output processed text.
+    api.utils.print(text, prefix=author)
+
+    # Output original text.
     api.utils.emit_print(
-        text, prefix=author, context=api.const.MAIN_CONTEXT_NAME,
+        original_text, prefix=author, context=api.const.RAW_CONTEXT_NAME,
     )
+
+    return api.const.Eat.all

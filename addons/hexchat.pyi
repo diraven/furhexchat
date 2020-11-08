@@ -222,5 +222,8 @@ def get_context() -> Context:
     pass
 
 
-def find_context(server: str = None, channel: str = None):
+def find_context(
+    server: str = None,
+    channel: str = None,
+) -> t.Optional[Context]:
     pass

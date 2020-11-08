@@ -3,7 +3,7 @@ from .aliases import *
 from .commands import *
 from .hooks import *
 
-ctx = api.utils.get_context(api.const.MAIN_CONTEXT_NAME)
+ctx = api.utils.get_context(api.const.RAW_CONTEXT_NAME)
 if ctx:
     api.message('MechaSqueak[BOT]', '!list')
 
