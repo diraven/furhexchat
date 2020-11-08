@@ -235,5 +235,26 @@ class Format(StrEnum):
     beep = '\007'
 
 
+@enum.unique
+class Info(StrEnum):
+    away = 'away'
+    channel = 'channel'
+    charset = 'charset'
+    configdir = 'configdir'
+    event_text = 'event_text'
+    gtkwin_ptr = 'gtkwin_ptr'
+    host = 'host'
+    inputbox = 'inputbox'
+    network = 'network'
+    nick = 'nick'
+    nickserv = 'nickserv'
+    modes = 'modes'
+    password = 'password'
+    server = 'server'
+    topic = 'topic'
+    version = 'version'
+    win_status = 'win_status'
+
+
 TERMINATOR = ' ._'
 RAW_CONTEXT_NAME = 'raw'

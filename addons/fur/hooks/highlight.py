@@ -30,8 +30,11 @@ highlighters = {
 
 # noinspection PyUnusedLocal
 @api.hooks.print(priority=Priority.lowest)
-def handler(author: str, text: str, mode: str, **kwargs):
+def handler(
+    author: str, text: str, mode: str, event: api.const.Event, **kwargs,
+):
     original_text = text
+    original_author = author
 
     # Try to figure out case the line is relevant to.
     case = api.cases.get(nick=author, cmdr=author)
@@ -54,15 +57,6 @@ def handler(author: str, text: str, mode: str, **kwargs):
         except StopIteration:
             pass
 
-    # # Print resulting message as is into the respective context.
-    # if all((
-    #     case,
-    #     'paperwork' not in text.lower(),
-    #     'successfully closed case' not in text.lower(),
-    #     'to the trash' not in text.lower(),
-    # )):
-    #     api.utils.emit_print(text, prefix=author, context=f'#{case.num}')
-
     # Set color for author.
     if mode:
         author = f'{Color.tailed}{author}{Color.default}'
@@ -84,8 +78,6 @@ def handler(author: str, text: str, mode: str, **kwargs):
     api.utils.print(text, prefix=author)
 
     # Output original text.
-    api.utils.emit_print(
-        original_text, prefix=author, context=api.const.RAW_CONTEXT_NAME,
-    )
+    api.utils.log(original_text, prefix=original_author, event=event)
 
     return api.const.Eat.all

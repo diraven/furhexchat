@@ -6,27 +6,24 @@ from .const import Event, TERMINATOR, Color
 
 
 # noinspection PyShadowingBuiltins
-def print(text: str, prefix: str = '*', context: hexchat.Context = None):
+def print(text: str, prefix: str = '*', context: 'hexchat.Context' = None):
     text = f'{prefix}\t{text}' if prefix else text
     context.prnt(text) if context else hexchat.prnt(text)
 
 
-def emit_print(
+def log(
     text: str, *,
     prefix: str = '',
     event: Event = Event.channel_message,
     mode: str = '',
-    context: str = None,
 ):
     text = f'{text}{Color.gray.value}{TERMINATOR}'
-    if context is None:
-        hexchat.emit_print(event.value, prefix, text, mode)
-    else:
-        ctx = hexchat.find_context(server=context)
-        if not ctx:
-            hexchat.command(f'newserver -noconnect {context}')
-        ctx = hexchat.find_context(server=context)
-        ctx.emit_print(event.value, prefix, text, mode)
+    ctx_name = 'log'
+    ctx = hexchat.find_context(server=ctx_name)
+    if not ctx:
+        hexchat.command(f'newserver -noconnect {ctx_name}')
+    ctx = hexchat.find_context(server=ctx_name)
+    ctx.emit_print(event.value, prefix, text, mode)
 
 
 # noinspection PyShadowingBuiltins
