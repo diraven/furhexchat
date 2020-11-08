@@ -5,7 +5,7 @@ from . import _const, _utils
 
 
 # noinspection PyShadowingBuiltins
-def print(
+def prnt(
     *,
     match_author: t.Optional[t.Union[str, t.Pattern]] = None,
     match_text: t.Optional[t.Union[str, t.Pattern]] = None,
@@ -17,8 +17,8 @@ def print(
         def wrapper(word: t.List[str], word_eol: t.List[str], userdata: t.Any):
             channel = hexchat.get_info(_const.Info.channel.value)
             server = hexchat.get_info(_const.Info.server.value)
-            # Make sure we are not processing log.
-            if server == _const.LOG_CONTEXT_NAME:
+            # Make sure we have valid server.
+            if not server:
                 return
 
             # Make sure text data is provided.
@@ -48,7 +48,7 @@ def print(
             # Run the handler itself.
             text = _utils.strip(word[1]) if len(word) > 1 else ''
             author = _utils.strip(word[0]) if word[0] else ''
-            if text and not text.endswith(_utils.strip(_const.TERMINATOR)):
+            if text:
                 # noinspection PyArgumentList
                 result = func(
                     author=author,

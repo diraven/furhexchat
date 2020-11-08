@@ -7,7 +7,7 @@ from ._cases import (
 )
 from ._const import *
 from ._hooks import (
-    print as hook_print,
+    prnt as hook_print,
     command as hook_command,
 )
 from ._utils import command, message, reply, print, beep, print_error, strip, \
