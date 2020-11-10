@@ -3,8 +3,6 @@ import typing as t
 
 import winsound
 
-import hexchat as _hexchat
-
 
 class _StrEnum(enum.Enum):
     def __str__(self):
@@ -45,18 +43,18 @@ class _Case:
 class API:
     @enum.unique
     class Eat(enum.Enum):
-        all = _hexchat.EAT_ALL
-        hexchat = _hexchat.EAT_HEXCHAT
-        none = _hexchat.EAT_NONE
-        plugin = _hexchat.EAT_PLUGIN
+        none = 0
+        hexchat = 1
+        plugin = 2
+        all = hexchat | plugin
 
     @enum.unique
     class Priority(enum.Enum):
-        highest = _hexchat.PRI_HIGHEST
-        high = _hexchat.PRI_HIGH
-        normal = _hexchat.PRI_NORM
-        low = _hexchat.PRI_LOW
-        lowest = _hexchat.PRI_LOWEST
+        highest = 127
+        high = 64
+        normal = 0
+        low = -64
+        lowest = -128
 
     @enum.unique
     class Event(enum.Enum):
@@ -291,11 +289,7 @@ class API:
         self.hc = hexchat
         self._cases: t.List[_Case] = []
 
-    def print_info(
-        self,
-        text: str, *,
-        prefix: str = '*', context: '_hexchat.Context' = None,
-    ):
+    def print_info(self, text: str, *, prefix: str = '*', context=None):
         text = f'{prefix}\t{text}' if prefix else text
         context.prnt(text) if context else self.hc.prnt(text)
 
