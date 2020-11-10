@@ -1,12 +1,12 @@
-from . import aliases, hooks, commands
+from . import _aliases, _hooks, _commands
 from ._api import API
 
 
 # noinspection PyShadowingNames
 def init(api):
-    aliases.init(api)
-    hooks.init(api)
-    commands.init(api)
+    _aliases.init(api)
+    _hooks.init(api)
+    _commands.init(api)
 
 # ctx = hexchat.find_context(server=api.LOG_CONTEXT_NAME)
 # if ctx:

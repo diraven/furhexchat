@@ -445,7 +445,7 @@ class API:
 
         # Send the message.
         for line in message.splitlines():
-            self.send_reply(line)
+            self.send_reply(line.strip())
 
         return self.Eat.all
 
