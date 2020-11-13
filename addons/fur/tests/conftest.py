@@ -7,10 +7,13 @@ from .. import API, init
 
 
 class MockedHexchatContext:
-    def __init__(self):
+    def __init__(self, server: str, channel: str):
         self.info = {
-            'channel': '#mockrats',
+            'server': server,
+            'channel': channel,
         }
+
+    emit_print = Mock()
 
     def get_info(self, key):
         return self.info[key]
@@ -22,9 +25,23 @@ class MockedHexchat:
         self.hooked_prints = []
 
     command = Mock()
+    prnt = Mock()
 
-    def get_context(self):
-        return MockedHexchatContext()
+    @staticmethod
+    def strip(value):
+        return value.strip()
+
+    @staticmethod
+    def get_context():
+        return MockedHexchatContext('FuelRats', '#fuelrats')
+
+    @staticmethod
+    def find_context(server: str = '', channel: str = ''):
+        return MockedHexchatContext(server, channel)
+
+    @staticmethod
+    def get_info(key):
+        return MockedHexchat.get_context().get_info(key)
 
     # noinspection PyShadowingBuiltins
     def hook_command(
@@ -47,12 +64,12 @@ class MockedHexchat:
     def send_command(self, text: str):
         word = text.split()
         word_eol = None
-        for cmd in self.hooked_commands:
-            if cmd['name'].lower() == word[0].lower():
-                userdata = cmd['userdata']
-                result = cmd['callback'](word, word_eol, userdata)
-                if result > 0:
-                    return
+        for handler in self.hooked_commands:
+            if handler['name'].lower() == word[0].lower():
+                userdata = handler['userdata']
+                result = handler['callback'](word, word_eol, userdata)
+                if result is not None and result > 0:
+                    break
 
     # noinspection PyShadowingBuiltins
     def hook_print(
@@ -72,20 +89,25 @@ class MockedHexchat:
         })
         self.hooked_prints.sort(key=lambda x: x['priority'], reverse=True)
 
-    def send_print(self, text: str, event: API.Event):
-        word = text.split()
+    def send_print(
+        self,
+        text: str, *,
+        author: str = '',
+        mode: str = '',
+    ):
         word_eol = None
-        for cmd in self.hooked_commands:
-            if cmd['name'].lower() == event.value.lower():
-                userdata = cmd['userdata']
-                result = cmd['callback'](word, word_eol, userdata)
-                if result > 0:
-                    return
+        for handler in self.hooked_prints:
+            userdata = handler['userdata']
+            result = handler['callback'](
+                [author, text, mode], word_eol, userdata,
+            )
+            if result is not None and result > 0:
+                return
 
 
 @pytest.fixture()
-def hexchat(monkeypatch):
+def api():
     hexchat = MockedHexchat()
     api = API(hexchat)
     init(api)
-    return hexchat
+    return api
