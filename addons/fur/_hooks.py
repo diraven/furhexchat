@@ -113,12 +113,12 @@ def init(api: API):
     # noinspection PyUnusedLocal
     @api.hook_print(
         match_text=re.compile(
-            r'!(?:close|clear|md|trash)\s+(?P<query>[^\s]+)'),
+            r'!(?:close|clear|md|trash)\s+#?(?P<query>[^\s]+)'),
     )
     def handler(matches: t.Match, **kwargs):
         query = matches['query']
         case = api.get_case(num=query, nick=query, cmdr=query)
-        if api.delete_case(num=case.num):
+        if case and api.delete_case(num=case.num):
             api.log(f'case #{case.num} nick association was removed')
 
     # noinspection PyUnusedLocal
