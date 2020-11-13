@@ -123,7 +123,7 @@ def init(api: API):
 
     # noinspection PyUnusedLocal
     @api.hook_print(
-        match_text=re.compile(r'!nick\s+(?P<query>[^\s]+)\s+(?P<nick>[^\s]+)'),
+        match_text=re.compile(r'!nick\s+#?(?P<query>[^\s]+)\s+(?P<nick>[^\s]+)'),
     )
     def handler(matches: t.Match, **kwargs):
         query = matches['query']

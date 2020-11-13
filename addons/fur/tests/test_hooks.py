@@ -49,3 +49,13 @@ def test_case_close(api: API, cmd):
     api.hc.send_print(cmd)
     assert api.get_case(num='0') is None
     assert api.get_case(num='1')
+
+
+@pytest.mark.parametrize('cmd', [
+    '!nick 0 other_nick',
+    '!nick #0 other_nick',
+])
+def test_case_nick(api: API, cmd):
+    api.put_case(num='0', cmdr='some client')
+    api.hc.send_print(cmd)
+    assert api.get_case(num='0').nick == 'other_nick'
