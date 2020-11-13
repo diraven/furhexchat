@@ -456,35 +456,30 @@ class API:
         template: t.Union[str, t.Dict[str, str]] = None,
         arguments: t.List[str] = None,
         translated=False,
-        platformed=False,
     ):
         languages = self.LANGUAGES if translated else ['']
-        platforms = self.PLATFORMS if platformed else {'': ''}
 
-        for alias_platform, command_platform in platforms.items():
-            for language in languages:
-                # Get message template.
-                if isinstance(template, dict):
-                    template = template.get(language) or template.get('')
+        for language in languages:
+            # Get message template.
+            if isinstance(template, dict):
+                template = template.get(language) or template.get('')
 
-                userdata = (
-                    name,
-                    f'{command_platform}{command or name}'
-                    f'{f"-{language}" if language else ""}',
-                    template or '!{command} {first_arg} {rest_args}',
-                    arguments or ['nick'],
-                )
+            userdata = (
+                name,
+                f'{command or name}{f"-{language}" if language else ""}',
+                template or '!{command} {first_arg} {rest_args}',
+                arguments or ['nick'],
+            )
 
-                description = f'{name} '
-                f'{" ".join(a for a in arguments or ["nick"])}'
-                self.hook_command(
-                    names=[
-                        f'{alias_platform}{name}'
-                        f'{f"-{language}" if language else ""}',
-                    ],
-                    description=description,
-                    userdata=userdata,
-                )(self._alias_handler)
+            description = f'{name} '
+            f'{" ".join(a for a in arguments or ["nick"])}'
+            self.hook_command(
+                names=[
+                    f'{name}{f"-{language}" if language else ""}',
+                ],
+                description=description,
+                userdata=userdata,
+            )(self._alias_handler)
 
     def get_case(self, **kwargs) -> t.Optional[_Case]:
         try:

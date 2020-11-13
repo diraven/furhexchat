@@ -21,16 +21,11 @@ def init(api: API):
     # Translated only.
     for alias in [
         'prep',
-    ]:
-        api.register_alias(alias, translated=True)
-
-    # Translated and platformed.
-    for alias in [
         'quit',
         'modules',
         'fr',
     ]:
-        api.register_alias(alias, translated=True, platformed=True)
+        api.register_alias(alias, translated=True)
 
     api.register_alias(
         'go', translated=True, arguments=['nick', 'rat1 [rat2...]'],
@@ -41,11 +36,9 @@ def init(api: API):
     api.register_alias('inject', arguments=['case', 'text'])
     api.register_alias('sub', arguments=['case', 'line [text]'])
 
-    api.register_alias('wr', command='wing', translated=True, platformed=True)
+    api.register_alias('wr', command='wing', translated=True)
     api.register_alias('revwr', command='invite', translated=True)
-    api.register_alias(
-        'bc', command='beacon', translated=True, platformed=True,
-    )
+    api.register_alias('bc', command='beacon', translated=True)
     api.register_alias('i', command='inject', arguments=['case', 'text'])
 
     api.register_alias('hello', template={
