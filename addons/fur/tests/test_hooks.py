@@ -59,3 +59,19 @@ def test_case_nick(api: API, cmd):
     api.put_case(num='0', cmdr='some client')
     api.hc.send_print(cmd)
     assert api.get_case(num='0').nick == 'other_nick'
+
+
+def test_cases_found(api: API):
+    api.hc.send_print(
+        '4 cases found, '
+        '[2] (Weird Name#2) (PC)  , '
+        '[3] 1NumberName (PC)  , '
+        '[4] Three Words Name (PC)  , '
+        '[5] Other Name (PC)',
+        author='MechaSqueak[BOT]',
+    )
+    assert len(api.get_all_cases()) == 4
+    assert api.get_case(num='2').nick == 'Weird_Name#2'
+    assert api.get_case(num='3').nick == 'c_1NumberName'
+    assert api.get_case(num='4').nick == 'Three_Words_Name'
+    assert api.get_case(num='5').nick == 'Other_Name'

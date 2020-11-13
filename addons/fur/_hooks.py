@@ -136,7 +136,7 @@ def init(api: API):
 
     _list_item_rexp = re.compile(
         r'(\[(?P<num>\d+)] '
-        r'(?P<cmdr>[^)]+) '
+        r'\(?(?P<cmdr>[^)]+)\)? '
         r'\((?P<platform>[^)]+)\)) ?',
         flags=re.IGNORECASE,
     )
