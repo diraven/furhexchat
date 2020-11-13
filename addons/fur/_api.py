@@ -329,7 +329,7 @@ class API:
     @staticmethod
     def beep():
         winsound.PlaySound(
-            '.\\config\\addons\\fur\\notification.wav',
+            '.\\config\\addons\\fur\\assets\\notification.wav',
             winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NOWAIT,
         )
 
