@@ -24,9 +24,6 @@ class MockedHexchat:
         self.hooked_commands = []
         self.hooked_prints = []
 
-    command = Mock()
-    prnt = Mock()
-
     @staticmethod
     def strip(value):
         return value.strip()
@@ -108,6 +105,8 @@ class MockedHexchat:
 @pytest.fixture()
 def api():
     hexchat = MockedHexchat()
+    hexchat.command = Mock()
+    hexchat.prnt = Mock()
     api = API(hexchat)
     init(api)
     return api

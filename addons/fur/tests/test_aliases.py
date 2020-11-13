@@ -12,4 +12,3 @@ from .. import API
 def test_go(api: API, sent_cmd, actual_cmd):
     api.hc.send_command(sent_cmd)
     api.hc.command.assert_called_once_with(actual_cmd)
-    api.hc.command.reset_mock()
