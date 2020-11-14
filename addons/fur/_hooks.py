@@ -144,7 +144,7 @@ def init(api: API):
         query = matches['query']
         case = api.get_case(num=query, nick=query, cmdr=query)
         if case and api.delete_case(num=case.num):
-            api.print_info(f'case #{case.num} nick association was removed')
+            api.print_info(f'case #{case.num} was closed')
 
     # noinspection PyUnusedLocal
     @api.hook_print(
