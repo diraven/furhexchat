@@ -68,15 +68,17 @@ def test_cases_found(api: API):
         '[3] 1NumberName (PC)  , '
         '[4] Three Words Name (PC)  , '
         '[5] Other Name (PC)  , '
-        '[6] CMDR_NAME (PS4) (CR) ',
+        '[6] CMDR_NAME (PS4) (CR)  , '
+        '[7] CMDR-NAME (PS4) (CR) ',
         author='MechaSqueak[BOT]',
     )
-    assert len(api.get_all_cases()) == 5
+    assert len(api.get_all_cases()) == 6
     assert api.get_case(num='2').nick == 'Weird_Name#2'
     assert api.get_case(num='3').nick == 'c_1NumberName'
     assert api.get_case(num='4').nick == 'Three_Words_Name'
     assert api.get_case(num='5').nick == 'Other_Name'
     assert api.get_case(num='6').nick == 'CMDR_NAME'
+    assert api.get_case(num='7').nick == 'CMDRNAME'
 
 
 @pytest.mark.parametrize('msg, highlighted_msg', [
