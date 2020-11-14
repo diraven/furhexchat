@@ -32,7 +32,7 @@ def init(api: API):
 
     # noinspection PyUnusedLocal
     @api.hook_print(priority=api.Priority.lowest)
-    def highlight(
+    def process_case(
         author: str, text: str, mode: str, event: api.Event, **kwargs,
     ):
         # For original message. Otherwise context gets switched.
@@ -65,12 +65,32 @@ def init(api: API):
             author = f'{api.Color.tailed}{author}{api.Color.default}'
         else:
             author = f'{api.Color.untailed}{author}{api.Color.default}'
-        # Provide case info
+
         if case:
-            if api.strip(author) == case.nick:
-                author = str(case)
-            else:
-                text = f'{case} > {text}'
+            # Provide case info.
+            text = f'{case} > {text}'
+            # Colorize client name.
+            text = text.replace(
+                case.nick,
+                f'{api.Color.client}{case.nick}{api.Color.default}',
+            )
+            # Also in author if they are the author.
+            author = author.replace(
+                case.nick,
+                f'{api.Color.client}{case.nick}{api.Color.default}',
+            )
+
+            # Process calls.
+            normalized = text.lower()
+            for call_type in case.CallType:
+                if f'{call_type}+' in normalized:
+                    case.called(
+                        caller=author, call_type=call_type, state=True,
+                    )
+                if f'{call_type}-' in normalized:
+                    case.called(
+                        caller=author, call_type=call_type, state=False,
+                    )
 
         # Highlight whatever we can find.
         bits = []
@@ -120,6 +140,18 @@ def init(api: API):
         case = api.get_case(num=query, nick=query, cmdr=query)
         if case and api.delete_case(num=case.num):
             api.log(f'case #{case.num} nick association was removed')
+
+    # noinspection PyUnusedLocal
+    @api.hook_print(
+        match_text=re.compile(
+            r'!(?:assign|go)\s+#?(?P<query>[^\s]+)\s+(?P<rats>.*)'),
+    )
+    def assign_rats(matches: t.Match, **kwargs):
+        query = matches['query']
+        case = api.get_case(num=query, nick=query, cmdr=query)
+        if case:
+            for rat in matches['rats'].strip().split():
+                case.put_rat(rat)
 
     # noinspection PyUnusedLocal
     @api.hook_print(

@@ -10,7 +10,13 @@ class _StrEnum(enum.Enum):
 
 
 class _Case:
-    __slots__ = ['cmdr', 'num', '_nick']
+    __slots__ = ['cmdr', 'num', '_nick', '_rats', '_calls']
+
+    @enum.unique
+    class CallType(_StrEnum):
+        FR = 'fr'
+        WR = 'wr'
+        BC = 'bc'
 
     def __init__(
         self,
@@ -22,6 +28,10 @@ class _Case:
         self.cmdr = api.strip(cmdr) if cmdr else cmdr
         self.num = api.strip(num) if num else num
         self._nick = api.strip(nick) if nick else nick
+        self._calls = {}
+        self._rats = set()
+
+        self.reset_calls()
 
     @property
     def nick(self):
@@ -35,9 +45,31 @@ class _Case:
     def nick(self, v):
         self._nick = v
 
+    def put_rat(self, nick):
+        self._rats.add(nick)
+
     def __str__(self):
-        return f'{API.Color.default}({API.Color.client}{self.nick}' \
-               f'{API.Color.info}#{self.num}{API.Color.default})'
+        state = ''
+        for call_type in self.CallType:
+            if self._calls[call_type]:
+                state = f'|{call_type.value.upper()}+' \
+                        f'({len(self._calls[call_type])}/' \
+                        f'{len(self._rats)})'
+
+        return f'({self.nick} #{self.num}{state})'
+
+    def called(self, *, caller: str, call_type: CallType, state: bool):
+        if state:
+            self._calls[call_type].add(caller)
+        else:
+            try:
+                self._calls[call_type].remove(caller)
+            except KeyError:
+                pass
+
+    def reset_calls(self):
+        for call_type in self.CallType:
+            self._calls[call_type] = set()
 
 
 class API:
