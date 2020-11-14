@@ -35,6 +35,7 @@ def init(api: API):
     def highlight(
         author: str, text: str, mode: str, event: api.Event, **kwargs,
     ):
+        # For original message. Otherwise context gets switched.
         original_text = text
         original_author = author
 
@@ -64,12 +65,12 @@ def init(api: API):
             author = f'{api.Color.tailed}{author}{api.Color.default}'
         else:
             author = f'{api.Color.untailed}{author}{api.Color.default}'
-
-        # Replace case and author references.
+        # Provide case info
         if case:
-            text = re.sub(f'(?:{case.nick}|#{case.num})', str(case), text)
             if api.strip(author) == case.nick:
                 author = str(case)
+            else:
+                text = f'{case} > {text}'
 
         # Highlight whatever we can find.
         bits = []
@@ -82,11 +83,7 @@ def init(api: API):
         # Output processed text.
         api.print_info(text, prefix=author)
 
-        # Output original text.
-        api.log(
-            original_text, prefix=original_author, event=event,
-        )
-
+        api.log(original_text, prefix=original_author, event=event)
         return api.Eat.all
 
     # noinspection PyUnusedLocal
