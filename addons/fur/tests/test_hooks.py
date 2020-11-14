@@ -101,21 +101,23 @@ def test_highlights(api: API, msg, highlighted_msg):
     author = 'SomeRat'
     api.hc.send_print(msg, author=author)
     prefix = f'{API.Color.untailed}{author}{API.Color.default}'
-    assert api.hc.prnt.call_args[0][0] == f'{prefix}\t{highlighted_msg}'
+    assert api.hc.prnt.call_args[0][0] == f'{prefix}\t-\n{highlighted_msg}'
 
 
 def test_calls(api: API):
     case = api.put_case(num='0', cmdr='some client')
+    case.put_rat('Rat1')
+    case.put_rat('Rat2')
     api.hc.send_print('#0 fr+', author='Rat1')
     api.hc.send_print('#0 fr+', author='Rat2')
-    assert 'FR(2/0)' in str(case)
+    assert 'FR(2/2)' in str(case)
 
 
 def test_failed_calls(api: API):
     case = api.put_case(num='0', cmdr='some client')
     api.hc.send_print('#0 fr+', author='Rat1')
     api.hc.send_print('#0 fr-', author='Rat2')
-    assert 'FR(1/0)' in str(case)
+    assert 'FR' not in str(case)
 
 
 def test_retracted_calls(api: API):
@@ -127,10 +129,11 @@ def test_retracted_calls(api: API):
 
 def test_retracted_lower_level_calls(api: API):
     case = api.put_case(num='0', cmdr='some client')
+    case.put_rat('Rat1')
     api.hc.send_print('#0 fr+', author='Rat1')
     api.hc.send_print('#0 wr+', author='Rat1')
     api.hc.send_print('#0 fr-', author='Rat1')
-    assert 'WR(1/0)' in str(case)
+    assert 'WR(1/1)' in str(case)
 
 
 def test_assign_rats(api: API):
@@ -142,24 +145,25 @@ def test_assign_rats(api: API):
 def test_calls_with_assigned_rats(api: API):
     case = api.put_case(num='0', cmdr='some client')
     api.hc.send_print('!go 0 rat1 rat2')
-    api.hc.send_print('#0 fr+', author='Rat1')
-    api.hc.send_print('#0 wr+', author='Rat2')
+    api.hc.send_print('#0 fr+', author='rat1')
+    api.hc.send_print('#0 wr+', author='rat2')
     assert 'WR(1/2)' in str(case)
-    api.hc.send_print('#0 wr+', author='Rat1')
+    api.hc.send_print('#0 wr+', author='rat1')
     assert 'WR(2/2)' in str(case)
 
 
 @pytest.mark.parametrize('msg,author', (
     ('some text relating #0 case', 'not_rat'),
     ('some text relating #0 case', 'rat1'),
-    ('some text relating some case', 'rat1'),
+    ('some text relating some case', 'rat2'),
     ('some text relating some_client case', 'not_rat'),
     ('some text relating case 0', 'not_rat'),
 ))
 def test_case_detection(api: API, msg, author):
     case = api.put_case(num='0', cmdr='some client')
-    api.hc.send_print('!go 0 rat1 rat2')
+    case.put_rat('rat1')
+    case.put_rat('rat2')
     api.hc.send_print(msg, author=author)
     assert case.nick in api.hc.prnt.call_args[0][0]
     assert f'#{case.num}' in api.hc.prnt.call_args[0][0]
-    assert ' > ' in api.hc.prnt.call_args[0][0]
+    assert '\n' in api.hc.prnt.call_args[0][0]

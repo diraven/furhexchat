@@ -10,7 +10,7 @@ class _StrEnum(enum.Enum):
 
 
 class _Case:
-    __slots__ = ['cmdr', 'num', '_nick', '_rats', '_calls']
+    __slots__ = ['_api', 'cmdr', 'num', '_nick', '_rats', '_calls']
 
     @enum.unique
     class CallType(_StrEnum):
@@ -25,6 +25,7 @@ class _Case:
         num: str = None,
         nick: str = None,
     ):
+        self._api = api
         self.cmdr = api.strip(cmdr) if cmdr else cmdr
         self.num = api.strip(num) if num else num
         self._nick = api.strip(nick) if nick else nick
@@ -64,7 +65,7 @@ class _Case:
                f'{API.Color.default}{state}'
 
     def called(self, *, caller: str, call_type: CallType, state: bool):
-        if caller in self._rats:
+        if self._api.strip(caller) in self._rats:
             if state:
                 self._calls[call_type].add(caller)
             else:

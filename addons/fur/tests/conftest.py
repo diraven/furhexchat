@@ -30,6 +30,10 @@ class MockedHexchat:
 
     @staticmethod
     def strip(value):
+        for color in API.Color:
+            value = value.replace(color.value, '')
+        for fmt in API.Format:
+            value = value.replace(fmt.value, '')
         return value.strip()
 
     @staticmethod
