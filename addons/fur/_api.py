@@ -53,24 +53,25 @@ class _Case:
 
     def __str__(self):
         state = ''
-        # for call_type in self.CallType:
-        #     if self._calls[call_type]:
-        #         state = f'|{call_type.value.upper()}' \
-        #                 f'({len(self._calls[call_type])}/' \
-        #                 f'{len(self._rats)})'
+        for call_type in self.CallType:
+            if self._calls[call_type]:
+                state = f'|{call_type.value.upper()}' \
+                        f'({len(self._calls[call_type])}/' \
+                        f'{len(self._rats)})'
 
         return f'{API.Color.client}{self.nick}' \
                f'{API.Color.info}#{self.num}' \
                f'{API.Color.default}{state}'
 
     def called(self, *, caller: str, call_type: CallType, state: bool):
-        if state:
-            self._calls[call_type].add(caller)
-        else:
-            try:
-                self._calls[call_type].remove(caller)
-            except KeyError:
-                pass
+        if caller in self._rats:
+            if state:
+                self._calls[call_type].add(caller)
+            else:
+                try:
+                    self._calls[call_type].remove(caller)
+                except KeyError:
+                    pass
 
     def reset_calls(self):
         for call_type in self.CallType:
