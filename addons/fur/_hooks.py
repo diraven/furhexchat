@@ -32,7 +32,7 @@ def init(api: API):
 
     # noinspection PyUnusedLocal
     @api.hook_print(priority=api.Priority.lowest)
-    def handler(
+    def highlight(
         author: str, text: str, mode: str, event: api.Event, **kwargs,
     ):
         original_text = text
@@ -90,7 +90,7 @@ def init(api: API):
     @api.hook_print(
         match_text=re.compile(r'Incoming Client: (?P<cmdr>[^-]+) - System:'),
     )
-    def handler(text: str, matches: t.Dict, **kwargs):
+    def incoming_client(text: str, matches: t.Dict, **kwargs):
         cmdr = matches['cmdr']
         nick = None
         if 'IRC Nickname' in text:
@@ -103,7 +103,7 @@ def init(api: API):
 
     # noinspection PyUnusedLocal
     @api.hook_print(match_text='RATSIGNAL')
-    def handler(text: str, mode: str, **kwargs):
+    def ratsignal(text: str, mode: str, **kwargs):
         num = ratsignal_casenum_matcher.search(
             text,
         ).groupdict()['num']
@@ -115,7 +115,7 @@ def init(api: API):
         match_text=re.compile(
             r'!(?:close|clear|md|trash)\s+#?(?P<query>[^\s]+)'),
     )
-    def handler(matches: t.Match, **kwargs):
+    def delete_case(matches: t.Match, **kwargs):
         query = matches['query']
         case = api.get_case(num=query, nick=query, cmdr=query)
         if case and api.delete_case(num=case.num):
@@ -127,7 +127,7 @@ def init(api: API):
             r'!nick\s+#?(?P<query>[^\s]+)\s+(?P<nick>[^\s]+)',
         ),
     )
-    def handler(matches: t.Match, **kwargs):
+    def change_nick(matches: t.Match, **kwargs):
         query = matches['query']
         nick = matches['nick']
         case = api.get_case(num=query, nick=query, cmdr=query)
@@ -147,7 +147,7 @@ def init(api: API):
     @api.hook_print(
         match_text=re.compile(r'\d+ cases found'),
     )
-    def handler(text: str, **kwargs):
+    def mecha_list_cases(text: str, **kwargs):
         items = text.split(', ')
         if len(items) < 2:
             return
