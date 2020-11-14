@@ -53,11 +53,11 @@ class _Case:
 
     def __str__(self):
         state = ''
-        for call_type in self.CallType:
-            if self._calls[call_type]:
-                state = f'|{call_type.value.upper()}' \
-                        f'({len(self._calls[call_type])}/' \
-                        f'{len(self._rats)})'
+        # for call_type in self.CallType:
+        #     if self._calls[call_type]:
+        #         state = f'|{call_type.value.upper()}' \
+        #                 f'({len(self._calls[call_type])}/' \
+        #                 f'{len(self._rats)})'
 
         return f'({self.nick} #{self.num}{state})'
 
