@@ -72,11 +72,6 @@ def init(api: API):
         if case:
             # Provide case info.
             text = f'{case}\n{text}'
-            # Colorize client name.
-            text = text.replace(
-                case.nick,
-                f'{api.Color.client}{case.nick}{api.Color.default}',
-            )
             # Also in author if they are the author.
             author = author.replace(
                 case.nick,
