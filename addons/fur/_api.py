@@ -280,6 +280,7 @@ class API:
         Event.notice,
         Event.private_message,
         Event.private_message_to_dialog,
+        Event.your_message,
     )
     LOG_CONTEXT_NAME = 'log'
     LANGUAGES = ['', 'de', 'ru', 'es', 'fr', 'pt', 'cn', 'it']

@@ -9,7 +9,7 @@ def init(api: API):
     command_matcher = re.compile(
         r'(![\w-]+\s+(?P<query>[\w_-]+))', re.IGNORECASE,
     )
-    boundary = r'(?:[^\w]|$|^)'
+    boundary = r'([^\w]|$|^)'
 
     raw_highlighters: t.Dict[str, api.Color] = {
         r'(?:#|case ?)\d+': api.Color.info,
@@ -25,7 +25,7 @@ def init(api: API):
 
     highlighters = {
         re.compile(
-            r'(' + boundary + k + boundary + r')',
+            boundary + r'(' + k + r')' + boundary,
             re.IGNORECASE,
         ): v.value for k, v in raw_highlighters.items()
     }
@@ -74,7 +74,10 @@ def init(api: API):
         # Highlight whatever we can find.
         bits = []
         for highlighter, color in highlighters.items():
-            text = highlighter.sub(f'{color}\\1{api.Color.default}', text)
+            text = highlighter.sub(
+                f'\\1{color}\\2{api.Color.default}\\3',
+                text,
+            )
 
         # Output processed text.
         api.print_info(text, prefix=author)

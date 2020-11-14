@@ -75,3 +75,28 @@ def test_cases_found(api: API):
     assert api.get_case(num='3').nick == 'c_1NumberName'
     assert api.get_case(num='4').nick == 'Three_Words_Name'
     assert api.get_case(num='5').nick == 'Other_Name'
+
+
+@pytest.mark.parametrize('msg, highlighted_msg', [
+    (
+        'fr+',
+        f'{API.Color.success}fr+{API.Color.default}'),
+    (
+        'wr+',
+        f'{API.Color.success}wr+{API.Color.default}',
+    ),
+    (
+        '#1 sys-',
+        f'{API.Color.info}#1{API.Color.default} '
+        f'{API.Color.danger}sys-{API.Color.default}',
+    ),
+    (
+        'prep-',
+        f'{API.Color.danger}prep-{API.Color.default}',
+    ),
+])
+def test_highlights(api: API, msg, highlighted_msg):
+    author = 'SomeRat'
+    api.hc.send_print(msg, author=author)
+    prefix = f'{API.Color.untailed}{author}{API.Color.default}'
+    assert api.hc.prnt.call_args[0][0] == f'{prefix}\t{highlighted_msg}'
