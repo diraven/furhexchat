@@ -39,7 +39,13 @@ class _Case:
         if self._nick:
             return self._nick
         else:
-            nick = self.cmdr.replace(' ', '_').replace('.', '')
+            nick = self.cmdr.replace(
+                ' ', '_',
+            ).replace(
+                '.', '',
+            ).replace(
+                '-', '',
+            )
             return f'c_{nick}' if nick[0].isdigit() else nick
 
     @nick.setter
