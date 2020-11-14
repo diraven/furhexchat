@@ -118,7 +118,9 @@ def init(api: API):
         nick = None
         if 'IRC Nickname' in text:
             nick = text.split()[-1]
-        api.log(f'Case update: {str(api.put_case(cmdr=cmdr, nick=nick))}')
+        api.print_info(
+            f'Case update: {str(api.put_case(cmdr=cmdr, nick=nick))}',
+        )
 
     ratsignal_casenum_matcher = re.compile(r'Case #(?P<num>\d+)')
     ratsignal_cmdr_matcher = re.compile(
@@ -131,7 +133,7 @@ def init(api: API):
             text,
         ).groupdict()['num']
         cmdr = ratsignal_cmdr_matcher.search(text).groupdict()['cmdr']
-        api.log(f'Case update: {str(api.put_case(cmdr=cmdr, num=num))}')
+        api.print_info(f'Case update: {str(api.put_case(cmdr=cmdr, num=num))}')
 
     # noinspection PyUnusedLocal
     @api.hook_print(
@@ -142,7 +144,7 @@ def init(api: API):
         query = matches['query']
         case = api.get_case(num=query, nick=query, cmdr=query)
         if case and api.delete_case(num=case.num):
-            api.log(f'case #{case.num} nick association was removed')
+            api.print_info(f'case #{case.num} nick association was removed')
 
     # noinspection PyUnusedLocal
     @api.hook_print(
@@ -168,7 +170,9 @@ def init(api: API):
         case = api.get_case(num=query, nick=query, cmdr=query)
         if case:
             case.nick = nick
-            api.log(f'case #{case.num} nick association was updated: {nick}')
+            api.print_info(
+                f'case #{case.num} nick association was updated: {nick}',
+            )
         return
 
     _list_item_rexp = re.compile(
