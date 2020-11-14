@@ -16,7 +16,7 @@ def init(api: API):
         r'\w+\+': api.Color.success,
         r'\w+-': api.Color.danger,
         r'O2: NOT OK': api.Color.danger,
-        r'(not in galaxy database)': api.Color.danger,
+        r'\(not in galaxy database\)': api.Color.warning,
         r'\w+conf': api.Color.success,
         r'\d+\s?k?ls': api.Color.warning,
         r'\d+\s*j(?:umps?)?': api.Color.warning,
