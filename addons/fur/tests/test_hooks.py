@@ -67,14 +67,16 @@ def test_cases_found(api: API):
         '[2] (Weird Name#2) (PC)  , '
         '[3] 1NumberName (PC)  , '
         '[4] Three Words Name (PC)  , '
-        '[5] Other Name (PC)',
+        '[5] Other Name (PC)  , '
+        '[6] CMDR_NAME (PS4) (CR) ',
         author='MechaSqueak[BOT]',
     )
-    assert len(api.get_all_cases()) == 4
+    assert len(api.get_all_cases()) == 5
     assert api.get_case(num='2').nick == 'Weird_Name#2'
     assert api.get_case(num='3').nick == 'c_1NumberName'
     assert api.get_case(num='4').nick == 'Three_Words_Name'
     assert api.get_case(num='5').nick == 'Other_Name'
+    assert api.get_case(num='6').nick == 'CMDR_NAME'
 
 
 @pytest.mark.parametrize('msg, highlighted_msg', [
@@ -106,14 +108,14 @@ def test_calls(api: API):
     case = api.put_case(num='0', cmdr='some client')
     api.hc.send_print('#0 fr+', author='Rat1')
     api.hc.send_print('#0 fr+', author='Rat2')
-    assert 'FR+(2/0)' in str(case)
+    assert 'FR(2/0)' in str(case)
 
 
 def test_failed_calls(api: API):
     case = api.put_case(num='0', cmdr='some client')
     api.hc.send_print('#0 fr+', author='Rat1')
     api.hc.send_print('#0 fr-', author='Rat2')
-    assert 'FR+(1/0)' in str(case)
+    assert 'FR(1/0)' in str(case)
 
 
 def test_retracted_calls(api: API):
@@ -128,7 +130,7 @@ def test_retracted_lower_level_calls(api: API):
     api.hc.send_print('#0 fr+', author='Rat1')
     api.hc.send_print('#0 wr+', author='Rat1')
     api.hc.send_print('#0 fr-', author='Rat1')
-    assert 'WR+(1/0)' in str(case)
+    assert 'WR(1/0)' in str(case)
 
 
 def test_assign_rats(api: API):
@@ -142,9 +144,9 @@ def test_calls_with_assigned_rats(api: API):
     api.hc.send_print('!go 0 rat1 rat2')
     api.hc.send_print('#0 fr+', author='Rat1')
     api.hc.send_print('#0 wr+', author='Rat2')
-    assert 'WR+(1/2)' in str(case)
+    assert 'WR(1/2)' in str(case)
     api.hc.send_print('#0 wr+', author='Rat1')
-    assert 'WR+(2/2)' in str(case)
+    assert 'WR(2/2)' in str(case)
 
 
 @pytest.mark.parametrize('msg,author', (
