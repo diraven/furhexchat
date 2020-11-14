@@ -59,6 +59,9 @@ def init(api: API):
                     (c.nick or c.cmdr) in " ".join((author, text))))
             except StopIteration:
                 pass
+        if not case:
+            # Try to match by rat assignment.
+            case = api.get_case_by_rat(author)
 
         # Set color for author.
         if mode:

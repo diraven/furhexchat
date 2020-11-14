@@ -48,6 +48,9 @@ class _Case:
     def put_rat(self, nick):
         self._rats.add(nick)
 
+    def get_rats(self):
+        return self._rats
+
     def __str__(self):
         state = ''
         for call_type in self.CallType:
@@ -525,6 +528,12 @@ class API:
             )
         except StopIteration:
             return
+
+    def get_case_by_rat(self, nick):
+        for case in self.get_all_cases():
+            for rat in case.get_rats():
+                if self.match_nicks(nick, rat):
+                    return case
 
     def put_case(self, **kwargs):
         case = self.get_case(**kwargs)

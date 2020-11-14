@@ -134,7 +134,7 @@ def test_retracted_lower_level_calls(api: API):
 def test_assign_rats(api: API):
     case = api.put_case(num='0', cmdr='some client')
     api.hc.send_print('!go 0 rat1 rat2')
-    assert len(case._rats) == 2
+    assert len(case.get_rats()) == 2
 
 
 def test_calls_with_assigned_rats(api: API):
@@ -145,3 +145,19 @@ def test_calls_with_assigned_rats(api: API):
     assert 'WR+(1/2)' in str(case)
     api.hc.send_print('#0 wr+', author='Rat1')
     assert 'WR+(2/2)' in str(case)
+
+
+@pytest.mark.parametrize('msg,author', (
+    ('some text relating #0 case', 'not_rat'),
+    ('some text relating #0 case', 'rat1'),
+    ('some text relating some case', 'rat1'),
+    ('some text relating some_client case', 'not_rat'),
+    ('some text relating case 0', 'not_rat'),
+))
+def test_case_detection(api: API, msg, author):
+    case = api.put_case(num='0', cmdr='some client')
+    api.hc.send_print('!go 0 rat1 rat2')
+    api.hc.send_print(msg, author=author)
+    assert case.nick in api.hc.prnt.call_args[0][0]
+    assert f'#{case.num}' in api.hc.prnt.call_args[0][0]
+    assert ' > ' in api.hc.prnt.call_args[0][0]

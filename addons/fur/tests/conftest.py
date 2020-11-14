@@ -25,6 +25,10 @@ class MockedHexchat:
         self.hooked_prints = []
 
     @staticmethod
+    def nickcmp(n1, n2):
+        return n1 == n2
+
+    @staticmethod
     def strip(value):
         return value.strip()
 
