@@ -71,7 +71,7 @@ def init(api: API):
 
         if case:
             # Provide case info.
-            text = f'{case} > {text}'
+            text = f'{case}\n{text}'
             # Colorize client name.
             text = text.replace(
                 case.nick,
@@ -94,6 +94,8 @@ def init(api: API):
                     case.called(
                         caller=author, call_type=call_type, state=False,
                     )
+        else:
+            text = f'-\n{text}'
 
         # Highlight whatever we can find.
         bits = []

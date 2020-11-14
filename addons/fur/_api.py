@@ -59,7 +59,9 @@ class _Case:
         #                 f'({len(self._calls[call_type])}/' \
         #                 f'{len(self._rats)})'
 
-        return f'({self.nick} #{self.num}{state})'
+        return f'{API.Color.client}{self.nick}' \
+               f'{API.Color.info}#{self.num}' \
+               f'{API.Color.default}{state}'
 
     def called(self, *, caller: str, call_type: CallType, state: bool):
         if state:
