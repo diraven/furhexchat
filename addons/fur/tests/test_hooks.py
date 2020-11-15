@@ -103,7 +103,7 @@ def test_highlights(api: API, msg, highlighted_msg):
     author = 'SomeRat'
     api.hc.send_print(msg, author=author)
     prefix = f'{API.Color.untailed}{author}{API.Color.default}'
-    assert api.hc.prnt.call_args[0][0] == f'{prefix}\t-\n{highlighted_msg}'
+    assert api.hc.prnt.call_args[0][0] == f'{prefix}\t{highlighted_msg}'
 
 
 def test_calls(api: API):
@@ -168,4 +168,4 @@ def test_case_detection(api: API, msg, author):
     api.hc.send_print(msg, author=author)
     assert case.nick in api.hc.prnt.call_args[0][0]
     assert f'#{case.num}' in api.hc.prnt.call_args[0][0]
-    assert '\n' in api.hc.prnt.call_args[0][0]
+    assert '> ' in api.hc.prnt.call_args[0][0]

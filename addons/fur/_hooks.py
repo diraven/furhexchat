@@ -73,7 +73,7 @@ def init(api: API):
 
         if case:
             # Provide case info.
-            text = f'{case}\n{text}'
+            text = f'{str(case).ljust(16)}> {text}'
             # Also in author if they are the author.
             author = author.replace(
                 case.nick,
@@ -92,7 +92,7 @@ def init(api: API):
                         caller=author, call_type=call_type, state=False,
                     )
         else:
-            text = f'-\n{text}'
+            text = f'{text}'
 
         # Highlight whatever we can find.
         bits = []
