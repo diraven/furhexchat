@@ -73,7 +73,7 @@ def init(api: API):
 
         if case:
             # Provide case info.
-            text = f'{str(case).ljust(16)}> {text}'
+            text = f'{str(case)}> {text}'
             # Also in author if they are the author.
             author = author.replace(
                 case.nick,
