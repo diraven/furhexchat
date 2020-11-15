@@ -67,7 +67,7 @@ class _Case:
                         f'{len(self._rats)})'
 
         return f'{API.Color.client}{self.nick}' \
-               f'{API.Color.info}#{self.num}' \
+               f'{API.Color.case}#{self.num}' \
                f'{API.Color.default}{state}'
 
     def called(self, *, caller: str, call_type: CallType, state: bool):
@@ -307,6 +307,7 @@ class API:
         tailed = orange
         untailed = yellow
         client = teal
+        case = royal_blue
 
     @enum.unique
     class Format(_StrEnum):

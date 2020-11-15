@@ -12,7 +12,7 @@ def init(api: API):
     boundary = r'([^\w]|$|^)'
 
     raw_highlighters: t.Dict[str, api.Color] = {
-        r'(?:#|case ?)\d+': api.Color.info,
+        r'(?:#|case ?)\d+': api.Color.case,
         r'\w+\+': api.Color.success,
         r'\w+-': api.Color.danger,
         r'O2: NOT OK': api.Color.danger,
@@ -22,7 +22,8 @@ def init(api: API):
         r'\d+\s*j(?:umps?)?': api.Color.warning,
         r'(?:open|pg|mm|ez|solo)': api.Color.warning,
         r'stdn': api.Color.danger,
-        r'(?:RATSIGNAL|Incoming Client)': api.Color.royal_blue,
+        r'(?:RATSIGNAL|Incoming Client)': api.Color.case,
+        r'(?:Language: [^\s]+)': api.Color.info,
     }
 
     highlighters = {
