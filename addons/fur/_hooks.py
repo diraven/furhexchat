@@ -203,3 +203,16 @@ def init(api: API):
         for case in api.get_all_cases():
             if case.num not in nums:
                 api.delete_case(num=case.num)
+
+    # noinspection PyUnusedLocal
+    @api.hook_print(match_events=[api.Event.change_nick])
+    def mecha_list_cases(text: str, author: str, **kwargs):
+        old_nick = author
+        new_nick = text
+        case = api.get_case(nick=old_nick)
+        if case:
+            case.nick = new_nick
+            api.print_info(
+                f'case #{case.num} nick association was updated: '
+                f'{old_nick} -> {new_nick}',
+            )

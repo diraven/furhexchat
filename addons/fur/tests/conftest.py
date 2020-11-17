@@ -99,15 +99,17 @@ class MockedHexchat:
         text: str, *,
         author: str = '',
         mode: str = '',
+        event: API.Event = API.Event.channel_message,
     ):
         word_eol = None
         for handler in self.hooked_prints:
-            userdata = handler['userdata']
-            result = handler['callback'](
-                [author, text, mode], word_eol, userdata,
-            )
-            if result is not None and result > 0:
-                return
+            if not event or event.value == handler['name']:
+                userdata = handler['userdata']
+                result = handler['callback'](
+                    [author, text, mode], word_eol, userdata,
+                )
+                if result is not None and result > 0:
+                    return
 
 
 @pytest.fixture()

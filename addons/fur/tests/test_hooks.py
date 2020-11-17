@@ -91,7 +91,7 @@ def test_cases_found(api: API):
     ),
     (
         '#1 sys-',
-        f'{API.Color.info}#1{API.Color.default} '
+        f'{API.Color.case}#1{API.Color.default} '
         f'{API.Color.danger}sys-{API.Color.default}',
     ),
     (
@@ -169,3 +169,13 @@ def test_case_detection(api: API, msg, author):
     assert case.nick in api.hc.prnt.call_args[0][0]
     assert f'#{case.num}' in api.hc.prnt.call_args[0][0]
     assert '> ' in api.hc.prnt.call_args[0][0]
+
+
+def test_nick_change(api: API):
+    case = api.put_case(num='0', cmdr='old_nick')
+    api.hc.send_print(
+        'new_nick',
+        author='old_nick',
+        event=api.Event.change_nick,
+    )
+    assert case.nick == 'new_nick'
