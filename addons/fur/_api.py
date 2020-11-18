@@ -500,7 +500,7 @@ class API:
         self,
         name: str, *,
         command: str = None,
-        template: t.Union[str, t.Dict[str, str]] = None,
+        templates: t.Union[str, t.Dict[str, str]] = None,
         arguments: t.List[str] = None,
         translated=False,
     ):
@@ -508,8 +508,10 @@ class API:
 
         for language in languages:
             # Get message template.
-            if isinstance(template, dict):
-                template = template.get(language) or template.get('')
+            if isinstance(templates, dict):
+                template = templates.get(language) or templates.get('')
+            else:
+                template = templates
 
             userdata = (
                 name,

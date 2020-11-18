@@ -41,7 +41,7 @@ def init(api: API):
     api.register_alias('bc', command='beacon', translated=True)
     api.register_alias('i', command='inject', arguments=['case', 'text'])
 
-    api.register_alias('hello', template={
+    api.register_alias('hello', templates={
         '': 'Welcome to the Fuel rats, {first_arg}. Please tell us once '
             'you\'ve '
             'powered down all of your modules EXCEPT life support, need help '
@@ -86,7 +86,7 @@ def init(api: API):
     }, translated=True)
     api.register_alias(
         'qeng',
-        template={
+        templates={
             '': '{first_arg}: Do you speak English?',
             'de': '{first_arg}: sprechen Sie Englisch?',
             'ru': '{first_arg}: ты говоришь по-английски',
@@ -100,46 +100,46 @@ def init(api: API):
     )
     api.register_alias(
         'qmodules',
-        template='{first_arg}: how are those modules coming up? :) Would you '
+        templates='{first_arg}: how are those modules coming up? :) Would you '
                  'like '
                  'additional instructions?'
     )
     api.register_alias(
         'qfr',
-        template='{first_arg}: how are those friend requests coming along? :) '
+        templates='{first_arg}: how are those friend requests coming along? :) '
                  'Would '
                  'you like additional instructions?'
     )
     api.register_alias(
         'open',
-        template='{first_arg}: please exit to the main menu and log back in '
+        templates='{first_arg}: please exit to the main menu and log back in '
                  'to '
                  'OPEN '
                  'play, then re-disable your thrusters.'
     )
     api.register_alias(
         'qwr',
-        template='{first_arg}: how are those wing requests coming along, '
+        templates='{first_arg}: how are those wing requests coming along, '
                  'are there '
                  'any issues? :)'
     )
     api.register_alias(
         'qbc',
-        template='{first_arg}: how is that wing beacon coming along, '
+        templates='{first_arg}: how is that wing beacon coming along, '
                  'are there '
                  'any '
                  'issues? :)',
     )
     api.register_alias(
         'qo2',
-        template='{first_arg}: do you see an "oxygen depleted in ..." timer '
+        templates='{first_arg}: do you see an "oxygen depleted in ..." timer '
                  'in '
                  'the '
                  'top right of your HUD?',
     )
     api.register_alias(
         'qsys',
-        template='{first_arg}: please, look in the left panel in the '
+        templates='{first_arg}: please, look in the left panel in the '
                  'navigation '
                  'tab '
                  'and give me the full system name under "System" in the top '
@@ -149,14 +149,14 @@ def init(api: API):
 
     api.register_alias(
         'bcalt',
-        template='{first_arg}: please go to the Comms Menu on the top left, '
+        templates='{first_arg}: please go to the Comms Menu on the top left, '
                  'and from the third tab (where you invited your rats to the '
                  'wing) under Options use "Enable Wing Beacon".',
     )
 
     api.register_alias(
         'mm',
-        template='{first_arg}: from THIS point onwards, remain logged out in '
+        templates='{first_arg}: from THIS point onwards, remain logged out in '
                  'the '
                  'MAIN MENU please! Do NOT login until I give you the "GO GO '
                  'GO" '
@@ -164,13 +164,13 @@ def init(api: API):
     )
     api.register_alias(
         'qmm',
-        template='{first_arg}: please confirm that you\'ve quit to MAIN MENU '
+        templates='{first_arg}: please confirm that you\'ve quit to MAIN MENU '
                  'where '
                  'you can see your ship in the hangar.',
     )
     api.register_alias(
         'qmmsys',
-        template='{first_arg}: staying in the MAIN MENU, can you confirm your '
+        templates='{first_arg}: staying in the MAIN MENU, can you confirm your '
                  'full '
                  'system name including any sector name? Look in the upper '
                  'right '
@@ -178,13 +178,13 @@ def init(api: API):
     )
     api.register_alias(
         'qmmo2',
-        template='{first_arg}: staying in the MAIN MENU, do you remember how '
+        templates='{first_arg}: staying in the MAIN MENU, do you remember how '
                  'much '
                  'O2 you had left?',
     )
     api.register_alias(
         'qmmo2alt',
-        template='{first_arg}: staying in the MAIN MENU, do you remember if '
+        templates='{first_arg}: staying in the MAIN MENU, do you remember if '
                  'the '
                  'game asked you to wait for 15 seconds before letting you '
                  'exit '
@@ -192,7 +192,7 @@ def init(api: API):
     )
     api.register_alias(
         'qmmpos',
-        template='{first_arg}: staying in the MAIN MENU, can you remember '
+        templates='{first_arg}: staying in the MAIN MENU, can you remember '
                  'WHERE '
                  'in '
                  'the system you were? By the star, a planet or station or '
@@ -201,14 +201,14 @@ def init(api: API):
     )
     api.register_alias(
         'mmfr',
-        template='{first_arg}: staying in the MAIN MENU, select SOCIAL, '
+        templates='{first_arg}: staying in the MAIN MENU, select SOCIAL, '
                  'and search '
                  'for a friend in the upper right. Click them, then click ADD '
                  'FRIEND.?',
     )
     api.register_alias(
         'crplan',
-        template='{first_arg}: please, STAY in the MAIN MENU. Overall plan '
+        templates='{first_arg}: please, STAY in the MAIN MENU. Overall plan '
                  'will '
                  'be: '
                  '1. Login to OPEN - 2. light your beacon - 3. invite your '
@@ -219,12 +219,12 @@ def init(api: API):
     )
     api.register_alias(
         'crvideo',
-        template='{first_arg}: here is a short video on how to do it: '
+        templates='{first_arg}: here is a short video on how to do it: '
                  'https://fuelrats.cloud/s/YYzSy2K2QKPfr4X',
     )
     api.register_alias(
         'gogogo',
-        template='{first_arg}: GO GO GO! 1. Login to OPEN - 2. light your '
+        templates='{first_arg}: GO GO GO! 1. Login to OPEN - 2. light your '
                  'beacon '
                  '- '
                  '3. invite your rat(s) your wing: {rest_args} - 4. report '
@@ -236,7 +236,7 @@ def init(api: API):
 
     api.register_alias(
         'ls',
-        template='{first_arg}: please turn your Life Support on immediately: '
+        templates='{first_arg}: please turn your Life Support on immediately: '
                  'go '
                  'to '
                  'the right menu -> Modules tab, select Life Support and '
@@ -245,14 +245,14 @@ def init(api: API):
     )
     api.register_alias(
         'sr',
-        template='{first_arg}: please disable Silent Running Immediately!  '
+        templates='{first_arg}: please disable Silent Running Immediately!  '
                  'Default '
                  'key: Delete, or in the Right side Holo Panel > SHIP tab > '
                  'Functions Screen - Middle Right',
     )
     api.register_alias(
         'sc',
-        template='{first_arg}: looks like you\'re too close to a stellar '
+        templates='{first_arg}: looks like you\'re too close to a stellar '
                  'body or '
                  'a '
                  'fleet carrier. Please, reactivate your thrusters and '
@@ -265,7 +265,7 @@ def init(api: API):
     )
     api.register_alias(
         'eta',
-        template='{first_arg}: your rats will be with you in about {'
+        templates='{first_arg}: your rats will be with you in about {'
                  'rest_args}, '
                  'if you see a blue oxygen timer pop up at any time tell me '
                  'immediately.',
@@ -273,7 +273,7 @@ def init(api: API):
     )
     api.register_alias(
         'scdrop',
-        template='{first_arg}: to drop from supercruise slow down to 30km/s, '
+        templates='{first_arg}: to drop from supercruise slow down to 30km/s, '
                  'open your left menu, navigation tab and select the main '
                  'star in '
                  'your current system (will be the first entry in the list), '
@@ -281,7 +281,7 @@ def init(api: API):
     )
     api.register_alias(
         'bounce',
-        template='{first_arg}: if you are using a mobile device or table for '
+        templates='{first_arg}: if you are using a mobile device or table for '
                  'this '
                  'chat, could you try and make sure the screen stays on so '
                  'that '
@@ -289,7 +289,7 @@ def init(api: API):
     )
     api.register_alias(
         'sorry',
-        template='{first_arg}: sorry we couldn\'t get to you in time today, '
+        templates='{first_arg}: sorry we couldn\'t get to you in time today, '
                  'your rats will be there for you after you respawn to help '
                  'you '
                  'with some tips and tricks, so please stick with them for a '
@@ -297,7 +297,7 @@ def init(api: API):
     )
     api.register_alias(
         'fuel',
-        template='{first_arg}: you should be receiving fuel now. Please '
+        templates='{first_arg}: you should be receiving fuel now. Please '
                  'remain '
                  'with '
                  'your rats for some quick and helpful tips on fuel '
@@ -305,7 +305,7 @@ def init(api: API):
     )
     api.register_alias(
         'welcome',
-        template='You are most welcome, {first_arg}! Thank you for calling '
+        templates='You are most welcome, {first_arg}! Thank you for calling '
                  'us. '
                  'Let the fuel be with you and fly safe, commander! o7',
     )
