@@ -1,3 +1,4 @@
+# noinspection PyShadowingBuiltins
 """
 Rename hexchat.pyi and add to your IDEs (e.g. PyCharm) Project to get
 autocomplete for hexchat API.
@@ -121,6 +122,7 @@ def strip(text: str, length: int = -1, flags: int = 3) -> str:
     pass
 
 
+# noinspection PyShadowingBuiltins
 def get_info(type: str) -> t.Union[str, None]:
     pass
 
@@ -129,6 +131,7 @@ def get_prefs(name: str) -> t.Union[str, int]:
     pass
 
 
+# noinspection PyShadowingBuiltins
 def get_list(type: str) -> t.Union[
     ChannelList, DccList, UserList, IgnoreList, NotifyList]:
     pass
@@ -147,9 +150,11 @@ class Context:
     def command(self, string: str) -> None:
         pass
 
+    # noinspection PyShadowingBuiltins
     def get_info(self, type: str) -> t.Union[str, None]:
         pass
 
+    # noinspection PyShadowingBuiltins
     def get_list(self, type: str) -> \
         t.Union[ChannelList, DccList, UserList, IgnoreList, NotifyList]:
         pass
@@ -159,30 +164,35 @@ class HookHandler(int):
     pass
 
 
+# noinspection PyShadowingBuiltins
 def hook_command(name: str, callback: t.Callable, userdata: t.Any = None,
                  priority: _Priority = PRI_NORM,
                  help: str = None) -> HookHandler:
     pass
 
 
+# noinspection PyShadowingBuiltins
 def hook_print(name: str, callback: t.Callable, userdata: t.Any = None,
                priority: _Priority = PRI_NORM,
                help: str = None) -> HookHandler:
     pass
 
 
+# noinspection PyShadowingBuiltins
 def hook_print_attrs(name: str, callback: t.Callable, userdata: t.Any = None,
                      priority: _Priority = PRI_NORM,
                      help: str = None) -> HookHandler:
     pass
 
 
+# noinspection PyShadowingBuiltins
 def hook_server(name: str, callback: t.Callable, userdata: t.Any = None,
                 priority: _Priority = PRI_NORM,
                 help: str = None) -> HookHandler:
     pass
 
 
+# noinspection PyShadowingBuiltins
 def hook_server_attrs(name: str, callback: t.Callable, userdata: t.Any = None,
                       priority: _Priority = PRI_NORM,
                       help: str = None) -> HookHandler:
@@ -222,5 +232,8 @@ def get_context() -> Context:
     pass
 
 
-def find_context(server: str = None, channel: str = None):
+def find_context(
+    server: str = None,
+    channel: str = None,
+) -> t.Optional[Context]:
     pass

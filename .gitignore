@@ -3,10 +3,11 @@
 
 !addons
 !addons/**
-!hexchat.pyi
+!addons/hexchat.pyi
 !.gitignore
 !pevents.conf
 !commands.conf
+!colors.conf
 
 addons/**/.*
 
