@@ -26,7 +26,7 @@ class MockedHexchat:
 
     @staticmethod
     def nickcmp(n1, n2):
-        return n1 == n2
+        return 0 if n1 == n2 else -1
 
     @staticmethod
     def strip(value):
