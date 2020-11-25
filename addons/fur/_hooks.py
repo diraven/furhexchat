@@ -62,9 +62,6 @@ def init(api: API):
                     (c.nick or c.cmdr) in " ".join((author, text))))
             except StopIteration:
                 pass
-        if not case:
-            # Try to match by rat assignment.
-            case = api.get_case_by_rat(author)
 
         # Set color for author.
         if mode:
@@ -80,18 +77,6 @@ def init(api: API):
                 case.nick,
                 f'{api.Color.client}{case.nick}{api.Color.default}',
             )
-
-            # Process calls.
-            normalized = text.lower()
-            for call_type in case.CallType:
-                if f'{call_type}+' in normalized:
-                    case.called(
-                        caller=author, call_type=call_type, state=True,
-                    )
-                if f'{call_type}-' in normalized:
-                    case.called(
-                        caller=author, call_type=call_type, state=False,
-                    )
         else:
             text = f'{text}'
 
@@ -149,18 +134,6 @@ def init(api: API):
     # noinspection PyUnusedLocal
     @api.hook_print(
         match_text=re.compile(
-            r'!(?:assign|go)\s+#?(?P<query>[^\s]+)\s+(?P<rats>.*)'),
-    )
-    def assign_rats(matches: t.Match, **kwargs):
-        query = matches['query']
-        case = api.get_case(num=query, nick=query, cmdr=query)
-        if case:
-            for rat in matches['rats'].strip().split():
-                case.put_rat(rat)
-
-    # noinspection PyUnusedLocal
-    @api.hook_print(
-        match_text=re.compile(
             r'!nick\s+#?(?P<query>[^\s]+)\s+(?P<nick>[^\s]+)',
         ),
     )
@@ -194,7 +167,10 @@ def init(api: API):
         items = items[1:]
         nums = []
         for item in items:
-            matches: t.Dict = _list_item_rexp.match(item).groupdict()
+            try:
+                matches: t.Dict = _list_item_rexp.match(item).groupdict()
+            except AttributeError:
+                continue
             nums.append(matches.get('num'))
             api.put_case(
                 cmdr=matches.get('cmdr'),
@@ -206,7 +182,7 @@ def init(api: API):
 
     # noinspection PyUnusedLocal
     @api.hook_print(match_events=[api.Event.change_nick])
-    def mecha_list_cases(text: str, author: str, **kwargs):
+    def on_nick_changed(text: str, author: str, **kwargs):
         old_nick = author
         new_nick = text
         case = api.get_case(nick=old_nick)

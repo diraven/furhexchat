@@ -10,13 +10,7 @@ class _StrEnum(enum.Enum):
 
 
 class _Case:
-    __slots__ = ['_api', 'cmdr', 'num', '_nick', '_rats', '_calls']
-
-    @enum.unique
-    class CallType(_StrEnum):
-        FR = 'fr'
-        WR = 'wr'
-        BC = 'bc'
+    __slots__ = ['_api', 'cmdr', 'num', '_nick']
 
     def __init__(
         self,
@@ -29,10 +23,6 @@ class _Case:
         self.cmdr = api.strip(cmdr) if cmdr else cmdr
         self.num = api.strip(num) if num else num
         self._nick = api.strip(nick) if nick else nick
-        self._calls = {}
-        self._rats = set()
-
-        self.reset_calls()
 
     @property
     def nick(self):
@@ -52,37 +42,10 @@ class _Case:
     def nick(self, v):
         self._nick = v
 
-    def put_rat(self, nick):
-        self._rats.add(nick)
-
-    def get_rats(self):
-        return self._rats
-
     def __str__(self):
-        state = ''
-        for call_type in self.CallType:
-            if self._calls[call_type]:
-                state = f'|{call_type.value.upper()}' \
-                        f'({len(self._calls[call_type])}/' \
-                        f'{len(self._rats)})'
-
         return f'{API.Color.client}{self.nick}' \
                f'{API.Color.case}#{self.num}' \
-               f'{API.Color.default}{state}'
-
-    def called(self, *, caller: str, call_type: CallType, state: bool):
-        if self._api.strip(caller) in self._rats:
-            if state:
-                self._calls[call_type].add(caller)
-            else:
-                try:
-                    self._calls[call_type].remove(caller)
-                except KeyError:
-                    pass
-
-    def reset_calls(self):
-        for call_type in self.CallType:
-            self._calls[call_type] = set()
+               f'{API.Color.default}'
 
 
 class API:
@@ -541,12 +504,6 @@ class API:
             )
         except StopIteration:
             return
-
-    def get_case_by_rat(self, nick):
-        for case in self.get_all_cases():
-            for rat in case.get_rats():
-                if self.match_nicks(nick, rat):
-                    return case
 
     def put_case(self, **kwargs):
         case = self.get_case(**kwargs)
