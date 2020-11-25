@@ -112,7 +112,10 @@ def init(api: API):
         r'CMDR (?P<cmdr>.*) - Reported System:')
 
     # noinspection PyUnusedLocal
-    @api.hook_print(match_text='RATSIGNAL')
+    @api.hook_print(
+        match_author='MechaSqueak[BOT]',
+        match_text='RATSIGNAL',
+    )
     def ratsignal(text: str, mode: str, **kwargs):
         num = ratsignal_casenum_matcher.search(
             text,
