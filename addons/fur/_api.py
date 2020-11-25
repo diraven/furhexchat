@@ -432,6 +432,7 @@ class API:
                     name=name,
                     callback=wrapper,
                     userdata=userdata,
+                    priority=self.Priority.high.value,
                     help=description,
                 )
 
@@ -467,19 +468,19 @@ class API:
         arguments: t.List[str] = None,
         translated=False,
     ):
-        languages = self.LANGUAGES if translated else ['']
+        languages = self.LANGUAGES if (translated or templates) else ['']
 
         for language in languages:
             # Get message template.
-            if isinstance(templates, dict):
+            if templates:
                 template = templates.get(language) or templates.get('')
             else:
-                template = templates
+                template = '!{command} {first_arg} {rest_args}'
 
             userdata = (
                 name,
                 f'{command or name}{f"-{language}" if language else ""}',
-                template or '!{command} {first_arg} {rest_args}',
+                template,
                 arguments or ['nick'],
             )
 
