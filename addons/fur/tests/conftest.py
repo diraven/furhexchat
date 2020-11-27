@@ -7,16 +7,21 @@ from .. import API, init
 
 
 class MockedHexchatContext:
-    def __init__(self, server: str, channel: str):
+    def __init__(self, hc: 'MockedHexchat', server: str, channel: str):
         self.info = {
             'server': server,
             'channel': channel,
         }
+        self.hc = hc
 
     emit_print = Mock()
 
     def get_info(self, key):
         return self.info[key]
+
+    def command(self, *args, **kwargs):
+        # noinspection PyUnresolvedReferences
+        return self.hc.command(*args, **kwargs)
 
 
 class MockedHexchat:
@@ -36,17 +41,14 @@ class MockedHexchat:
             value = value.replace(fmt.value, '')
         return value.strip()
 
-    @staticmethod
-    def get_context():
-        return MockedHexchatContext('FuelRats', '#fuelrats')
+    def get_context(self):
+        return MockedHexchatContext(self, 'FuelRats', '#fuelrats')
 
-    @staticmethod
-    def find_context(server: str = '', channel: str = ''):
-        return MockedHexchatContext(server, channel)
+    def find_context(self, server: str = '', channel: str = ''):
+        return MockedHexchatContext(self, server, channel)
 
-    @staticmethod
-    def get_info(key):
-        return MockedHexchat.get_context().get_info(key)
+    def get_info(self, key):
+        return MockedHexchat.get_context(self).get_info(key)
 
     # noinspection PyShadowingBuiltins
     def hook_command(

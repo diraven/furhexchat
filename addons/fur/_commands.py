@@ -32,5 +32,5 @@ def init(api: API):
     # noinspection PyUnusedLocal
     @api.hook_command(names=('cs', 'casesync'))
     def sync_cases(args: t.List[str], **kwargs) -> t.Optional[api.Eat]:
-        api.send_message('!list', target='MechaSqueak[BOT]')
+        api.send_command('MSG MechaSqueak[BOT] !list')
         return api.Eat.all

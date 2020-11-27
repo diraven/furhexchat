@@ -14,3 +14,8 @@ from .. import API
 def test_aliases(api: API, sent_cmd, actual_cmd):
     api.hc.send_command(sent_cmd)
     api.hc.command.assert_called_once_with(actual_cmd)
+
+
+def test_multiline(api: API):
+    api.hc.send_command('gogogo client rat1 rat2 rat3')
+    assert api.hc.command.call_count == 3

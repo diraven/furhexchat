@@ -320,15 +320,8 @@ class API:
         ctx = self.hc.find_context(server=self.LOG_CONTEXT_NAME)
         ctx.emit_print(event.value, prefix, text, mode)
 
-    def send_command(self, text: str):
-        self.hc.command(text)
-
-    def send_message(self, text: str, *, target: str):
-        self.send_command(f'MSG {target} {text}')
-
-    def send_reply(self, text: str):
-        ctx = self.hc.get_context()
-        self.send_message(text, target=ctx.get_info("channel"))
+    def send_command(self, text: str, *, ctx=None):
+        ctx.command(text) if ctx else self.hc.command(text)
 
     def match_nicks(self, n1, n2) -> bool:
         return self.hc.nickcmp(n1, n2) == 0
@@ -455,8 +448,12 @@ class API:
         )
 
         # Send the message.
+        ctx = self.hc.get_context()
         for line in message.splitlines():
-            self.send_reply(line.strip())
+            self.send_command(
+                f'MSG {ctx.get_info("channel")} {line.strip()}',
+                ctx=ctx,
+            )
 
         return self.Eat.all
 

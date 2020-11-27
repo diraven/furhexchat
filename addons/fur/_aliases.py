@@ -188,10 +188,14 @@ def init(api: API):
     api.register_alias('gogogo', templates={
         '': '{first_arg}: GO GO GO! 1. OPEN GAME | 2. light BEACON | 3. '
             'invite to WING: {rest_args} | 4. REPORT O2, be ready to '
-            'logout if asked.',
+            'logout if asked.\n'
+            '!beacon {first_arg}\n'
+            '!wing {first_arg}',
         'ru': '{first_arg}: ВПЕРЁД! 1. ОТКРЫТАЯ ИГРА | 2. зажечь МАЯК | 3. '
               'пригласить в КРЫЛО: {rest_args} | 4. Сообщить ОСТАТОК '
-              'КИСЛОРОДА, быть готовым выйти в главное меню если попросят.',
+              'КИСЛОРОДА, быть готовым выйти в главное меню если попросят.\n'
+              '!beacon-ru {first_arg}\n'
+              '!wing-ru {first_arg}',
     })
     api.register_alias('ls', templates={
         '': '{first_arg}: please turn your Life Support on immediately: go '
