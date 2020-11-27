@@ -172,12 +172,16 @@ def init(api: API):
         '': '{first_arg}: please, STAY in the MAIN MENU. Overall plan will '
             'be: 1. Login to OPEN | 2. light your BEACON | 3. invite your '
             'rats to a WING | 4. REPORT O2 time in this chat and be '
-            'ready to logout if I tell you to.',
-        'ru': '{first_arg}: пожалуйста, ОСТАВАЙТЕСЬ в ГЛАВНОМ МЕНЮ. В целом, '
-              'план будет такой: 1. войти в ОТКРЫТУЮ ИГРУ | 2. включить МАЯК '
+            'ready to logout if I tell you to.\n'
+            '!beacon {first_arg}\n'
+            '!wing {first_arg}',
+        'ru': '{first_arg}: пожалуйста, ОСТАВАЙТЕСЬ в ГЛАВНОМ МЕНЮ. План: '
+              '1. войти в ОТКРЫТУЮ ИГРУ | 2. включить МАЯК '
               '| 3. пригласить крыс КРЫЛО | 4. сообщить время на таймере '
               'кислорода и быть готовым выйти в главное меню если я об этом '
-              'попрошу.',
+              'попрошу.\n'
+              '!beacon-ru {first_arg}\n'
+              '!wing-ru {first_arg}',
     })
     api.register_alias('crvideo', templates={
         '': '{first_arg}: here is a short video on how to do it: '
