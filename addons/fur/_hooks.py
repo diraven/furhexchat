@@ -68,6 +68,8 @@ def init(api: API):
         # Set color for author.
         if mode:
             author = f'{api.Color.tailed}{author}{api.Color.default}'
+        elif author == api.hc.get_info(api.Info.nick.value):
+            author = f'{api.Color.gray}{author}{api.Color.default}'
         else:
             author = f'{api.Color.untailed}{author}{api.Color.default}'
 
