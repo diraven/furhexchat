@@ -8,7 +8,6 @@ def init(api: API):
         'multi',
         'go', 'gofr',
         'grab', 'active', 'cr', 'cmdr', 'sys', 'ircnick', 'inject', 'sub',
-        'clear',
         'pg', 'invite',
     ]:
         api.register_alias(alias)
@@ -264,6 +263,16 @@ def init(api: API):
         'ru': '{first_arg}: вас должны были заправить. Пожалуйста, '
               'оставайтесь с вашими крысами для несолькоих полезных '
               'советов по менеджменту топлива.',
+    })
+    api.register_alias('clear', templates={
+        '': '{first_arg}: you should be receiving fuel now. Please remain '
+            'with your rats for some quick and helpful tips on fuel '
+            'management.\n'
+            '!close {first_arg} {rest_args}',
+        'ru': '{first_arg}: вас должны были заправить. Пожалуйста, '
+              'оставайтесь с вашими крысами для несолькоих полезных '
+              'советов по менеджменту топлива.\n'
+              '!close {first_arg} {rest_args}',
     })
     api.register_alias('welcome', templates={
         '': 'You are most welcome, {first_arg}! Thank you for calling us. '
