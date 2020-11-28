@@ -8,6 +8,7 @@
 !pevents.conf
 !commands.conf
 !colors.conf
+!README.md
 
 addons/**/.*
 
