@@ -92,11 +92,11 @@ def init(api: API):
         if case and case.num is not None and api.get_mode() != api.Mode.all:
             case_num = int(case.num)
             if api.get_mode() == api.Mode.odd and (case_num % 2) == 1:
-                api.print(f'odd {author}\t{text}')
+                api.print(f'{author}\t{text}')
             elif api.get_mode() == api.Mode.even and (case_num % 2) == 0:
-                api.print(f'even {author}\t{text}')
+                api.print(f'{author}\t{text}')
         else:
-            api.print(f'all {author}\t{text}')
+            api.print(f'{author}\t{text}')
 
         api.log(original_text, prefix=original_author, event=event)
         return api.Eat.all
