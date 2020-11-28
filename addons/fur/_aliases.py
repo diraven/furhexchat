@@ -168,6 +168,14 @@ def init(api: API):
               'где вы находились в системе, у звезды, планеты, или на пути '
               'куда-нибудь?',
     })
+    api.register_alias('crpre', templates={
+        '': '{first_arg}: I will now send you a set of instructions. DO NOT '
+            'DO any of it just yet please. Please just read and let me know '
+            'if everything is clear. Ok?',
+        'ru': '{first_arg}: я сейчас отправлю вам несколько инструкций. НЕ '
+              'ВЫПОЛНЯЙТЕ ИХ пожалуйста. Просто прочитайте и дайте знать всё '
+              'ли понятно. Хорошо?',
+    })
     api.register_alias('crplan', templates={
         '': '{first_arg}: please, STAY in the MAIN MENU. Overall plan will '
             'be: 1. Login to OPEN | 2. light your BEACON | 3. invite your '
