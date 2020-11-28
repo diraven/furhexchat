@@ -24,6 +24,7 @@ def init(api: API):
         r'stdn': api.Color.danger,
         r'has left!': api.Color.danger,
         r'belongs to existing': api.Color.success,
+        r'has joined': api.Color.success,
         r'(?:RATSIGNAL|Incoming Client)': api.Color.case,
         r'(?:\(\w\w-\w\w\))': api.Color.info,
     }
