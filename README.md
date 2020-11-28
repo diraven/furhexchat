@@ -1,5 +1,7 @@
 # FUR HexChat addons
 
+![screenshot](https://cdn.discordapp.com/attachments/517064835389718554/782160746733502464/unknown.png)
+
 Plugin tries to remember case number and which case given client belongs to. Then plugin will annotate each chat line with the respective client name and case number if it can figure out which case does the message belong to.
 
 Allows filtering by odd/even cases.
