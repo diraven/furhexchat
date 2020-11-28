@@ -43,8 +43,9 @@ class _Case:
         self._nick = v
 
     def __str__(self):
-        return f'{API.Color.client}{self.nick}' \
-               f'{API.Color.case}#{self.num}' \
+        return f'{API.Color.case}#{self.num:0>2}' \
+               f'{API.Color.default}|' \
+               f'{API.Color.client}{self.nick}' \
                f'{API.Color.default}'
 
 
