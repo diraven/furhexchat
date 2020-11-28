@@ -89,7 +89,7 @@ def init(api: API):
             )
 
         # Output processed text.
-        api.print_info(text, prefix=author)
+        api.print(f'{author}\t{text}')
 
         api.log(original_text, prefix=original_author, event=event)
         return api.Eat.all

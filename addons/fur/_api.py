@@ -50,6 +50,12 @@ class _Case:
 
 class API:
     @enum.unique
+    class Mode(enum.Enum):
+        normal = 0
+        odd = 1
+        even = 2
+
+    @enum.unique
     class Eat(enum.Enum):
         none = 0
         hexchat = 1
@@ -297,15 +303,25 @@ class API:
 
     def __init__(self, hexchat):
         self.hc = hexchat
+        self._mode = self.Mode.normal
         self._cases: t.List[_Case] = []
 
-    def print_info(self, text: str, *, prefix: str = '*', context=None):
-        text = f'{prefix}\t{text}' if prefix else text
-        context.prnt(text) if context else self.hc.prnt(text)
+    def get_mode(self):
+        return str(self._mode)
 
-    def print_error(self, text: str):
-        ctx = self.hc.get_context()
-        ctx.prnt(f'{self.Color.red}{text}')
+    def set_mode(self, mode: str):
+        self._mode = self.Mode(mode)
+
+    def print(self, text: str, *, ctx=None):
+        ctx.prnt(text) if ctx else self.hc.prnt(text)
+
+    def print_info(self, text: str, *, ctx=None):
+        text = f'{self.Color.info}info>{self.Color.default}\t{text}'
+        self.print(text, ctx=ctx)
+
+    def print_error(self, text: str, *, ctx=None):
+        text = f'{self.Color.error}error>{self.Color.default}\t{text}'
+        self.print(text, ctx=ctx)
 
     def log(
         self,
