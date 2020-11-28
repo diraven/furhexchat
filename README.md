@@ -29,8 +29,8 @@ Does not rely on bot/api functioning, can be used independently as long as assoc
 Plugin can filter messages based on odd-even case number.
 
 * `/fmode all` - will show all messages.
-* `/fmode odd` - will output messages with odd case numbers only, or those with undetected case.
-* `/fmode even` - will output messages with even case numbers only, or those with undetected case.
+* `/fmode odd` - will output messages with odd case numbers only and those with undetected case.
+* `/fmode even` - will output messages with even case numbers only and those with undetected case.
 
 ## Log
 
