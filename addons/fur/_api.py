@@ -51,9 +51,9 @@ class _Case:
 class API:
     @enum.unique
     class Mode(enum.Enum):
-        normal = 0
-        odd = 1
-        even = 2
+        all = 'all'
+        odd = 'odd'
+        even = 'even'
 
     @enum.unique
     class Eat(enum.Enum):
@@ -303,14 +303,14 @@ class API:
 
     def __init__(self, hexchat):
         self.hc = hexchat
-        self._mode = self.Mode.normal
+        self._mode = self.Mode.all
         self._cases: t.List[_Case] = []
 
     def get_mode(self):
-        return str(self._mode)
+        return self._mode
 
-    def set_mode(self, mode: str):
-        self._mode = self.Mode(mode)
+    def set_mode(self, mode: 'API.Mode'):
+        self._mode = mode
 
     def print(self, text: str, *, ctx=None):
         ctx.prnt(text) if ctx else self.hc.prnt(text)
