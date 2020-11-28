@@ -39,7 +39,7 @@ def init(api: API):
     @api.hook_command(names=('fmode', 'furmode'))
     def set_mode(args: t.List[str], **kwargs) -> t.Optional[api.Eat]:
         if not args:
-            api.print_info(api.get_mode())
+            api.print_info(f'Mode is {api.get_mode()!s}')
         else:
             try:
                 api.set_mode(api.Mode(args[0]))
