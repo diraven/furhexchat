@@ -25,7 +25,7 @@ def init(api: API):
         r'has left!': api.Color.danger,
         r'belongs to existing': api.Color.success,
         r'(?:RATSIGNAL|Incoming Client)': api.Color.case,
-        r'(?:Language: [^\s]+)': api.Color.info,
+        r'(?:\(\w\w-\w\w\))': api.Color.info,
     }
 
     highlighters = {
