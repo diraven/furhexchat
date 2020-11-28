@@ -22,6 +22,7 @@ def init(api: API):
         r'\d+\s*j(?:umps?)?': api.Color.warning,
         r'(?:open|pg|mm|ez|solo)': api.Color.warning,
         r'stdn': api.Color.danger,
+        r'has left!': api.Color.danger,
         r'(?:RATSIGNAL|Incoming Client)': api.Color.case,
         r'(?:Language: [^\s]+)': api.Color.info,
     }
