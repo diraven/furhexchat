@@ -31,3 +31,7 @@ Plugin can filter messages based on odd-even case number.
 * `/fmode all` - will show all messages.
 * `/fmode odd` - will output messages with odd case numbers only, or those with undetected case.
 * `/fmode even` - will output messages with even case numbers only, or those with undetected case.
+
+## Log
+
+Sometimes filtering and/or highlighting can go wrong. All the messages are pasted as is into the "Log" tab of the hexchat, without any modifications. Please, remember to post relevant part of the log along with the issue.
