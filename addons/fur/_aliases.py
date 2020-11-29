@@ -274,9 +274,3 @@ def init(api: API):
               'советов по менеджменту топлива.\n'
               '!close {first_arg} {rest_args}',
     })
-    api.register_alias('welcome', templates={
-        '': 'You are most welcome, {first_arg}! Thank you for calling us. '
-            'Let the fuel be with you and fly safe, commander! o7',
-        'ru': '{first_arg}: рады помочь! Спасибо что обратились к нам. '
-              'Безопасных полётов и да пребует с вами топливо! o7',
-    })
