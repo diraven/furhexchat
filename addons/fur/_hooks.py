@@ -141,6 +141,17 @@ def init(api: API):
     # noinspection PyUnusedLocal
     @api.hook_print(
         match_text=re.compile(
+            r'!(?:close|clear|md|trash)\s+#?(?P<query>[^\s]+)'),
+    )
+    def delete_case(matches: t.Match, **kwargs):
+        query = matches['query']
+        case = api.get_case(num=query, nick=query, cmdr=query)
+        if case and api.delete_case(num=case.num):
+            api.print_info(f'case #{case.num} was closed')
+
+    # noinspection PyUnusedLocal
+    @api.hook_print(
+        match_text=re.compile(
             r'!nick\s+#?(?P<query>[^\s]+)\s+(?P<nick>[^\s]+)',
         ),
     )
