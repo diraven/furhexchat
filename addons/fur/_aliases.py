@@ -6,7 +6,7 @@ def init(api: API):
     for alias in [
         'pc', 'xb', 'ps',
         'multi',
-        'go', 'gofr',
+        'go',
         'grab', 'active', 'cr', 'cmdr', 'sys', 'ircnick', 'inject', 'sub',
         'pg', 'invite',
     ]:
@@ -18,6 +18,7 @@ def init(api: API):
         'quit',
         'modules',
         'fr',
+        'gofr',
         'crinst',
     ]:
         api.register_alias(alias, translated=True)
