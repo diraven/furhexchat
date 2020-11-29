@@ -264,7 +264,7 @@ def init(api: API):
               'оставайтесь с вашими крысами для несолькоих полезных '
               'советов по менеджменту топлива.',
     })
-    api.register_alias('clear', templates={
+    api.register_alias('done', templates={
         '': '{first_arg}: you should be receiving fuel now. Please remain '
             'with your rats for some quick and helpful tips on fuel '
             'management.\n'
