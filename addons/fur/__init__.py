@@ -1,10 +1,9 @@
-from . import _aliases, _hooks, _commands
+from . import _hooks, _commands
 from ._api import API
 
 
 # noinspection PyShadowingNames
 def init(api):
-    _aliases.init(api)
     _hooks.init(api)
     _commands.init(api)
 

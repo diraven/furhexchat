@@ -11,6 +11,7 @@ class MockedHexchatContext:
         self.info = {
             'server': server,
             'channel': channel,
+            'nick': 'test-nick',
         }
         self.hc = hc
 

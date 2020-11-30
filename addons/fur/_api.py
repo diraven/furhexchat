@@ -448,66 +448,6 @@ class API:
 
         return factory
 
-    def _alias_handler(self, args: t.List[str], data):
-        (name, command, template, arguments) = data
-
-        # Enforce correct command usage.
-        if len(args) < len(arguments):
-            self.print_error(
-                f'\00304Usage: {name}'
-                f'{" ".join(a.upper() for a in arguments)}',
-            )
-
-        message = template.format(
-            first_arg=args[0],
-            rest_args=' '.join(args[1:]) if len(args) > 0 else '',
-            command=command,
-        )
-
-        # Send the message.
-        ctx = self.hc.get_context()
-        for line in message.splitlines():
-            self.send_command(
-                f'MSG {ctx.get_info("channel")} {line.strip()}',
-                ctx=ctx,
-            )
-
-        return self.Eat.all
-
-    def register_alias(
-        self,
-        name: str, *,
-        command: str = None,
-        templates: t.Union[str, t.Dict[str, str]] = None,
-        arguments: t.List[str] = None,
-        translated=False,
-    ):
-        languages = self.LANGUAGES if (translated or templates) else ['']
-
-        for language in languages:
-            # Get message template.
-            if templates:
-                template = templates.get(language) or templates.get('')
-            else:
-                template = '!{command} {first_arg} {rest_args}'
-
-            userdata = (
-                name,
-                f'{command or name}{f"-{language}" if language else ""}',
-                template,
-                arguments or ['nick'],
-            )
-
-            description = f'{name} '
-            f'{" ".join(a for a in arguments or ["nick"])}'
-            self.hook_command(
-                names=[
-                    f'{name}{f"-{language}" if language else ""}',
-                ],
-                description=description,
-                userdata=userdata,
-            )(self._alias_handler)
-
     def get_case(self, **kwargs) -> t.Optional[_Case]:
         try:
             return next(
